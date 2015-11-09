@@ -1,4 +1,4 @@
 # Sales Manager
 
 Laravel API
-BOOTSTRAP Fron
+Angular Front
