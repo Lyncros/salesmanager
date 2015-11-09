@@ -58,7 +58,7 @@
 		      "firstname":"Charlie",
 		      "lastname":"Watts",
 		      "company": "Rolling Stones S.A.",
-		      "phone": "5555-",
+		      "phone": "5555-3333",
 		      "skype": "charlie.watts",
 		      "email": "charlie@rollingstones.com",
 		      "position": "Drums",
