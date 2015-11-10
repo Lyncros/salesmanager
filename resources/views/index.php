@@ -18,10 +18,10 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="index.php">Contactos</a></li>
+                    <li><a href="#">Contactos</a></li>
                 </ul>
-                <form class="navbar-form pull-right">
-                    <input type="text" class="form-control" placeholder="Busqueda rapida...">
+                <form class="navbar-form pull-right" ng-submit="vm.updateSearchKey(searchText)">
+                    <input type="text" class="form-control" ng-model="searchText" placeholder="Busqueda rapida...">
                 </form>
                 <a href="nuevo-contacto.php" class="btn-fix" data-toggle="tooltip" data-placement="left" title="Nuevo contacto">Nuevo contacto</a>
             </div>
@@ -32,25 +32,43 @@
         <!-- Sidebar -->
         <div id="sidebar-wrapper">
             <div class="sidebar">
+                <div class="active-filters">
+                    <h5 ng-show="vm.hasFilters()">Filtrado por:</h5>
+                    <ul ng-show="vm.hasSearchKeyFilters()">
+                        <li>
+                            <a ng-click="vm.resetSearchKey()"><span class="glyphicon glyphicon-remove"></span></a>
+                            {{vm.searchKeys.join(' ')}}
+                        </li>
+                    </ul>
+                    <ul>
+                        <li ng-repeat="type in vm.filterContactType">
+                            <a ng-click="vm.updateFilterContactType(type)"><span class="glyphicon glyphicon-remove"></span></a>
+                            {{type.description}}
+                        </li>
+                        <li ng-repeat="ga in vm.filterGroupArea">
+                            <a ng-click="vm.updateFilterGroupArea(ga)"><span class="glyphicon glyphicon-remove"></span></a>
+                            {{ga.description}}
+                        </li>
+                    </ul>
+                </div>
                 <form class="navbar-form">
                     <ul class="filters">
                         <li>
-                            <a class="btn" data-toggle="collapse"><span class="icon icon-tie"></span>Tipo de socio</a>
-                            <div class="collapse in" id="contactType">
+                            <a class="btn" ng-click="vm.doFilter()"><span class="glyphicon glyphicon-chevron-up"></span>Tipo de socio</a>
+                            <div class="" id="contactType">
                                 <ul class="nav nav-sidebar">
                                     <li class="checkbox" ng-repeat="type in vm.contactTypes">
-                                        <input class="styled" type="checkbox">
-                                        <label>{{type}}</label>
+                                        <a ng-click="vm.updateFilterContactType(type)">{{type.description}}</a>
                                     </li>
                                 </ul>
                             </div>
                         </li>
                         <li>
-                            <a class="btn" data-toggle="collapse"><span class="icon icon-boy"></span>Area agrupada</a>
-                            <div class="collapse in" id="groupArea">
-                                <ul class="nav nav-sidebar" ng-repeat="area in vm.groupAreas">
-                                    <li class="checkbox">
-                                        <input class="styled" type="checkbox"><label>{{area}}</label>
+                            <a class="btn" data-toggle=""><span class="glyphicon glyphicon-chevron-up"></span>Area agrupada</a>
+                            <div class=" in" id="groupArea">
+                                <ul class="nav nav-sidebar">
+                                    <li class="checkbox" ng-repeat="area in vm.groupAreas">
+                                        <a ng-click="vm.updateFilterGroupArea(area)">{{area.description}}</a>
                                     </li>
                                 </ul>
                             </div>
@@ -67,20 +85,16 @@
                 <div class="col-sm-12 col-md-12 main">
                     <div class="row relative">
                         <aside class="contact-list col-sm-12 col-md-6 col-lg-4 infinite-scroll">
-                            <article class="task panel" ng-repeat="contact in vm.contacts">
+                            <article class="task panel" ng-repeat="contact in vm.contacts  | filter:vm.doFilter">
                                 <a href="#" ng-click="vm.selectContact(contact)">
                                     <header class="panel-heading">
-                                        <div class="row">
-                                            <div class="col-md-8">
-                                                <h4><span class="icon icon-star"></span>{{contact.firstname}} {{contact.lastname}}</h4>
-                                            </div>
+                                        <div class="col-md-8">
+                                            <h4><span class="icon icon-star"></span>{{contact.firstname}} {{contact.lastname}}</h4>
+                                        </div>
+                                        <div class="row panel-subtitle">
+                                            <h4 class="col-md-4">{{contact.company}}</h4>
                                         </div>
                                     </header>
-                                    <div class="panel-body">
-                                        <div class="row panel-subtitle">
-                                            <h4 class="col-md-6">{{contact.company}}</h4>
-                                        </div>
-                                    </div>
                                 </a>
                             </article>
                         </aside>
@@ -110,7 +124,7 @@
                                                 <p><strong>{{vm.contactSelected.company}}</strong></p>
                                             </div>
                                             <div class="col-sm-6 col-md-6 col-lg-6 panel-data pull-right text-right">
-                                                <p><strong>{{vm.contactSelected.sapCode}}</strong></p>
+                                                <p><strong>{{vm.contactSelected.consolidatedCode}}</strong></p>
                                                 <p><strong>{{vm.contactSelected.market}}</strong></p>
                                             </div>
                                         </div>

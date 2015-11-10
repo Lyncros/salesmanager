@@ -40,10 +40,21 @@ h3{font-family:'AvenirLTStd-Medium'}
 .sidebar{background-color:#353b3a;border-right:none}
 .sidebar h4{  margin:0 -20px;padding:10px 5px}
 .sidebar ul.filters{ margin:20px -10px 0 -10px}.sidebar ul.filters li{ padding:0 5px 20px 5px; position:relative; margin-bottom:20px; border-bottom:1px solid #444;}
-.sidebar ul.filters li a.btn:after{content:"▾"; position:absolute; top:2px; right:10px;  color:#bcbec0;transform:rotate(180deg); font-size:.9em; }
+.sidebar ul.filters li a.btn:after {
+	position:absolute; 
+	top:2px; 
+	right:10px;
+	color:#bcbec0;
+	transform:rotate(180deg);
+	font-size:.9em;
+}
 .sidebar ul.filters li a.btn.collapsed:after{ transform:rotate(0);}
 .sidebar ul.filters li a.btn{ padding:0; text-align:left; background:none; box-shadow:none; border:none;font-family:'AvenirLTStd-Black'; font-size:.9em; letter-spacing:2px; margin-bottom:10px; text-transform:uppercase;color:#fff; width:100%;}
-.nav-sidebar > li, .nav-sidebar > li a{ padding:5px !important;color:#fff;}
+.nav-sidebar > li, .nav-sidebar > li a {
+	padding:5px !important;
+	color:#fff;
+	cursor: pointer;
+}
 .nav-sidebar > li{ margin-bottom:0 !important; padding:0 !important; display:block !important; border-bottom:none !important}
 .sidebar .collapse ul.nav-sidebar{ width:100%; margin:0; padding:0;}
 .sidebar .collapsing ul.nav-sidebar{ opacity:0}
@@ -51,8 +62,28 @@ h3{font-family:'AvenirLTStd-Medium'}
 
 .sidebar .navbar-form .checkbox label, .sidebar .navbar-form .radio label{ width:100%;}
 .sidebar .checkbox label:after, .sidebar .checkbox label:before{ right:0; left:auto}
-.navbar-form .checkbox input[type="checkbox"], .navbar-form .radio input[type="radio"]{ display:none;}
+.navbar-form .checkbox input[type="checkbox"], .navbar-form .radio input[type="radio"] { 
+	/* display:none; */
+}
 .navbar-form input[type="search"]{ width:100%;}
+
+.sidebar .active-filters h5 {
+	margin-left: 10px;
+    text-transform: uppercase;
+    color: #fff;
+}
+
+.sidebar .active-filters li {
+    color: black;
+    background-color: #E9E9E9;
+    border-radius: 5px;
+    padding: 4px;
+    text-align: center;
+    margin: 2px;
+}
+.sidebar .active-filters li a {
+	cursor: pointer;
+}
 
 /*contact list*/
 
