@@ -26,7 +26,11 @@ h3{font-family:'AvenirLTStd-Medium'}
 /*navbar*/
 .navbar-header{ width:320px;box-sizing:border-box; position:absolute; left:0; top:0; height:50px;}
 .navbar-collapse { float:left; width:40.8%; left:305px; position:relative}
-.navbar-collapse .navbar-form{ padding-left:0; padding-right:0; margin-right:0}
+.navbar-collapse .navbar-form {
+	padding-left: 0;
+	padding-right: 0;
+	margin-right: 0;
+}
 .btn-fix{ position:fixed; display:block; bottom:50px; right:50px; background:#444; border-radius:100%; width:75px; height:75px; text-indent:-9999px !important; -webkit-box-shadow: 5px 3px 10px 5px rgba(100,100,100,0.25);box-shadow: 5px 3px 10px 5px rgba(100,100,100,0.25); color:transparent; font-size:-10px;-webkit-transition: all 0.25s ease-in-out;
 -moz-transition: all 0.25s ease-in-out;-ms-transition: all 0.25s ease-in-out;-o-transition: all 0.25s ease-in-out;transition: all 0.25s ease-in-out;}
 .btn-fix:hover{color:transparent; font-size:-10px; background-color:#bcbec0}

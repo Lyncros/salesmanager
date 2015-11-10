@@ -20,7 +20,7 @@
                 <ul class="nav navbar-nav">
                     <li><a href="#">Contactos</a></li>
                 </ul>
-                <form class="navbar-form pull-right" ng-submit="vm.updateSearchKey(searchText)">
+                <form class="navbar-form" ng-submit="vm.updateSearchKey(searchText)">
                     <input type="text" class="form-control" ng-model="searchText" placeholder="Busqueda rapida...">
                 </form>
                 <a href="nuevo-contacto.php" class="btn-fix" data-toggle="tooltip" data-placement="left" title="Nuevo contacto">Nuevo contacto</a>
