@@ -105,9 +105,11 @@
                                     <header class="panel-heading">
                                         <div class="panel-title pull-left">
                                             <h3>
-                                                <span class="icon icon-star"></span>
-                                                <a href="#" data-toggle="tooltip" title="Tooltip on top">
+                                                <span>
                                                     {{vm.contactSelected.honorific}} {{vm.contactSelected.firstname}} {{vm.contactSelected.lastname}}
+                                                </span>
+                                                <a ng-show="vm.contactSelected.linkedin" href="{{vm.contactSelected.linkedinProfile}}">
+                                                    <span class="icon-linkedin"></span>
                                                 </a>
                                             </h3>
                                         </div>
@@ -119,13 +121,23 @@
                                     </header>
                                     <div class="panel-body">
                                         <div class="col-sm-12 col-md-12 col-lg-12 panel-data">
-                                            <div class="col-sm-6 col-md-6 col-lg-6 panel-data pull-left">
-                                                <p><strong>{{vm.contactSelected.position}}</strong></p>
-                                                <p><strong>{{vm.contactSelected.company}}</strong></p>
-                                            </div>
-                                            <div class="col-sm-6 col-md-6 col-lg-6 panel-data pull-right text-right">
+                                            <div class="col-sm-12 col-md-7 col-lg-7 panel-data pull-left">
+                                                <p>
+                                                    <strong ng-show="vm.contactSelected.position">{{vm.contactSelected.position}} en</strong>
+                                                    <strong>{{vm.contactSelected.company}}</strong>
+                                                </p>
                                                 <p><strong>{{vm.contactSelected.consolidatedCode}}</strong></p>
                                                 <p><strong>{{vm.contactSelected.market}}</strong></p>
+                                            </div>
+                                            <div class="col-sm-12 col-md-5 col-lg-5 panel-data pull-right text-right">
+                                                <p><span class="contact-type">{{vm.contactSelected.contactType.description}}</span></p>
+                                                <div class="progress" ng-if="vm.contactSelected">
+                                                    <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" 
+                                                        aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" 
+                                                        style="width: {{vm.calculateCompletenessPercentage(vm.contactSelected)}}">
+                                                        {{vm.calculateCompletenessPercentage(vm.contactSelected)}}
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-sm-12 col-md-12 col-lg-12 panel-data v-card pull-left">
@@ -137,8 +149,8 @@
                                             <a href="#address" data-toggle="collapse" class="btn">Direccion
                                                 <span class="glyphicon glyphicon-plus"></span></a>
                                             <div id="address" class="collapse">
-                                                <p>{{vm.contactSelected.address}}</p>
-                                                <p>{{vm.contactSelected.city}}</p>
+                                                <p>{{vm.contactSelected.street}}</p>
+                                                <p>{{vm.contactSelected.city}} {{vm.contactSelected.postalCode}}</p>
                                                 <p>{{vm.contactSelected.country}}</p>
                                             </div>
                                         </div>
@@ -146,11 +158,9 @@
                                 </div>
                                 <div class="col-sm-12 col-md-12 panel">
                                     <header class="panel-title">
-                                        <div class="panel-title pull-left">
+                                        <div class="panel-title">
                                             <h5>segmentacion</h5>
-                                        </div>
-                                        <div class="panel-actions text-right pull-right">
-                                            <a href="#segmentation" data-toggle="collapse" class="btn">
+                                            <a href="#segmentation" data-toggle="collapse" class="btn pull-right">
                                                 <span class="glyphicon glyphicon-plus"></span>
                                             </a>
                                         </div>
@@ -185,10 +195,8 @@
                             <div class="col-md-12 panel">
                                 <header class="panel-title">
                                     <header class="panel-title">
-                                        <div class="panel-title pull-left">
+                                        <div class="panel-title">
                                             <h5>informacion adicional</h5>
-                                        </div>
-                                        <div class="panel-actions text-right pull-right">
                                             <a href="#additional-information" data-toggle="collapse" class="btn" style="float:right">
                                                 <span class="glyphicon glyphicon-plus"></span>
                                             </a>
