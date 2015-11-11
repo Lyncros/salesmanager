@@ -159,7 +159,7 @@ span.icon-linkedin { background: url(../img/linkedin.svg) no-repeat center botto
 .contact-detail .v-card p:last-child, .contact-detail .v-card p:nth-child(4){ border:none; padding-right:0; }
 .contact-detail div.comment{ margin:10px 0; display:table; width:100%}.contact-detail div.comment p{ font-size:.9em; margin-bottom:0;}
 .contact-detail span.contact-type {font-weight: bold; color: #FE1256; border: 1px solid #FE1256; border-radius: 3px; padding: 3px;}
-.contact-detail .progress { margin: 5px 0px 5px 0px; width: 75%; float: right; }
+.contact-detail .progress { margin: 10px 0px 5px 0px; width: 75%; float: right; }
 .contact-detail div.alert-estatus{background-color:#ffb6b6; border:none; color:#353b3a; padding:15px 15px 10px 15px; margin-bottom:10px;}
 .contact-detail div.alert-estatus p{margin-top:10px; color:#353b3a; font-size:1.25em}
 .contact-detail div.alert-estatus h4 strong{font-family:'AvenirLTStd-Black'; font-size:.8em; letter-spacing:2px; text-transform:uppercase;color:#bf6464; }
