@@ -1,7 +1,12 @@
 /* scripts/controllers/Contacts.js */
 'use strict';
 
-angular.module('salesManager').controller('Contacts', Contacts);
+angular.module('salesManager')
+    .filter('contacts', function() {
+        return contactsFilter;
+    })
+    .controller('Contacts', Contacts);
+
 
 function Contacts() {
 
@@ -186,13 +191,15 @@ function Contacts() {
     }
 
     vm.updateSearchKey = function(key) {
-    	vm.searchKeys = key.split(' ');
-        vm.resetContactSelected();
+        if (key) {
+    	    vm.searchKeys = key.split(' ');
+            vm.resetContactSelected();
+        }
     }
 
     vm.resetFilters = function() {
-    	vm.filterContactType = [];
-    	vm.filterGroupArea = [];
+    	vm.contactTypeFilters = [];
+    	vm.groupAreaFilters = [];
     	vm.resetSearchKey();
     }
 
@@ -201,11 +208,11 @@ function Contacts() {
     }
 
     vm.hasContactTypeFilters = function() {
-    	return vm.filterContactType.length > 0;
+    	return vm.contactTypeFilters.length > 0;
     }
 
     vm.hasGroupAreaFilters = function() {
-    	return vm.filterGroupArea.length > 0;
+    	return vm.groupAreaFilters.length > 0;
     }
 
     vm.hasSearchKeyFilters = function() {
@@ -213,45 +220,13 @@ function Contacts() {
     }
 
     vm.updateFilterContactType = function(type) {
-    	updateFilter(type, vm.filterContactType);
+    	updateFilter(type, vm.contactTypeFilters);
         vm.resetContactSelected();
     }
 
     vm.updateFilterGroupArea = function(ga) {
-    	updateFilter(ga, vm.filterGroupArea);
+    	updateFilter(ga, vm.groupAreaFilters);
         vm.resetContactSelected();
-    }
-
-    vm.doFilter = function(contact) {
-    	if (!vm.hasFilters()) {
-    		return contact;
-    	}
-
-    	var contactTypePass = !vm.hasContactTypeFilters();
-    	var groupAreaPass = !vm.hasGroupAreaFilters();
-    	var searchKeyPass = !vm.hasSearchKeyFilters();
-
-		for (var i = 0; i < vm.filterContactType.length ; i++) {
-			var type = vm.filterContactType[i];
-			contactTypePass = contactTypePass || contact.contactType.id == type.id;
-		}
-
-    	for (var i = 0; i < vm.filterGroupArea.length; i++) {
-        	var ga = vm.filterGroupArea[i];
-			groupAreaPass = groupAreaPass || contact.groupArea.id == ga.id;
-    	}
-
-    	for (var i = 0; i < vm.searchKeys.length; i++) {
-    		var key = vm.searchKeys[i];
-
-    		searchKeyPass = searchKeyPass || contact.firstname.indexOf(key) > -1 || 
-    			contact.lastname.indexOf(key) > -1 ||
-    			contact.company.indexOf(key) > -1 ||
-    			contact.skype.indexOf(key) > -1 ||
-    			contact.email.indexOf(key) > -1;
-    	}
-
-    	return contactTypePass && groupAreaPass && searchKeyPass ? contact : null;
     }
 
     vm.calculateCompletenessPercentage = function(contact) {

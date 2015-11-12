@@ -20,7 +20,7 @@
                 <ul class="nav navbar-nav">
                     <li><a href="#">Contactos</a></li>
                 </ul>
-                <form class="navbar-form" ng-submit="vm.updateSearchKey(searchText)">
+                <form class="navbar-form" ng-submit="vm.updateSearchKey(searchText); searchText = null;">
                     <input type="text" class="form-control" ng-model="searchText" placeholder="Busqueda rapida...">
                 </form>
                 <a ng-click="vm.newContact()" class="btn-add-contact" data-toggle="tooltip" data-placement="left" title="Nuevo contacto">
@@ -43,11 +43,11 @@
                         </li>
                     </ul>
                     <ul>
-                        <li ng-repeat="type in vm.filterContactType">
+                        <li ng-repeat="type in vm.contactTypeFilters">
                             <a ng-click="vm.updateFilterContactType(type)"><span class="glyphicon glyphicon-remove"></span></a>
                             {{type.description}}
                         </li>
-                        <li ng-repeat="ga in vm.filterGroupArea">
+                        <li ng-repeat="ga in vm.groupAreaFilters">
                             <a ng-click="vm.updateFilterGroupArea(ga)"><span class="glyphicon glyphicon-remove"></span></a>
                             {{ga.description}}
                         </li>
@@ -56,24 +56,20 @@
                 <form class="navbar-form">
                     <ul class="filters">
                         <li>
-                            <a class="btn" ng-click="vm.doFilter()">Tipo de socio</a>
-                            <div class="" id="contactType">
-                                <ul class="nav nav-sidebar">
-                                    <li class="checkbox" ng-repeat="type in vm.contactTypes">
-                                        <a ng-click="vm.updateFilterContactType(type)">{{type.description}}</a>
-                                    </li>
-                                </ul>
-                            </div>
+                            <a class="btn" href="#contactTypeFilterList" data-toggle="collapse">Tipo de socio</a>
+                            <ul id="contactTypeFilterList"  class="nav nav-sidebar collapse in">
+                                <li class="checkbox" ng-repeat="type in vm.contactTypes">
+                                    <a ng-click="vm.updateFilterContactType(type)">{{type.description}}</a>
+                                </li>
+                            </ul>
                         </li>
                         <li>
-                            <a class="btn" data-toggle="">Area agrupada</a>
-                            <div class=" in" id="groupArea">
-                                <ul class="nav nav-sidebar">
-                                    <li class="checkbox" ng-repeat="area in vm.groupAreas">
-                                        <a ng-click="vm.updateFilterGroupArea(area)">{{area.description}}</a>
-                                    </li>
-                                </ul>
-                            </div>
+                            <a class="btn" href="#groupAreaFilterList" data-toggle="collapse">Area agrupada</a>
+                            <ul id="groupAreaFilterList" class="nav nav-sidebar collapse in">
+                                <li class="checkbox" ng-repeat="area in vm.groupAreas">
+                                    <a ng-click="vm.updateFilterGroupArea(area)">{{area.description}}</a>
+                                </li>
+                            </ul>
                         </li>
                     </ul>
                 </form>
@@ -86,27 +82,25 @@
             <div class="container-fluid">
                 <div class="col-sm-12 col-md-12 main">
                     <div class="row relative">
-                        <aside class="contact-list col-sm-12 col-md-6 col-lg-4 infinite-scroll">
-                            <article class="task panel" ng-repeat="contact in vm.contacts  | filter:vm.doFilter">
+                        <aside class="contact-list col-sm-12 col-md-5 col-lg-5 infinite-scroll">
+                            <article class="task panel" ng-repeat="contact in vm.contacts | contacts:vm">
                                 <a href="#" ng-click="vm.showContactDetails(contact)">
                                     <header class="panel-heading">
                                         <div class="row">
-                                            <div class="col-sm-12 col-md-12">
+                                            <div class="col-sm-12 col-md-6">
                                                 <h4></span>{{contact.firstname}} {{contact.lastname}}</h4>
+                                            </div>
+                                            <div class="col-sm-12 col-md-6 panel-subtitle">
+                                                <h4>{{contact.company}}</h4>
                                             </div>
                                         </div>
                                     </header>
-                                    <div class="panel-body">
-                                        <div class="row panel-subtitle">
-                                            <h4 class="col-sm-12 col-md-12">{{contact.company}}</h4>
-                                        </div>
-                                    </div>
                                 </a>
                             </article>
                         </aside>
 
                         <!-- Display contact section -->
-                        <section class="col-sm-12 col-md-8 col-lg-8 panel contact-detail pull-right" ng-show="vm.isContactDetailsVisible()">
+                        <section class="col-sm-12 col-md-7 col-lg-7 panel contact-detail pull-right" ng-show="vm.isContactDetailsVisible()">
                             <div class="col-sm-12 col-md-12">
                                 <header class="panel-heading">
                                     <div class="panel-title pull-left">
@@ -161,7 +155,7 @@
                                     <h5>
                                         <span>direccion
                                             <a href="#address" data-toggle="collapse">
-                                                <span>More</span>
+                                                <span>M&aacute;s</span>
                                             </a>
                                         </span>
                                     </h5>
@@ -177,7 +171,7 @@
                                     <h5>
                                         <span>segmentacion
                                             <a href="#segmentation" data-toggle="collapse">
-                                                <span>More</span>
+                                                <span>M&aacute;s</span>
                                             </a>
                                         </span>
                                     </h5>
@@ -198,7 +192,7 @@
                                     <h5>
                                         <span>intereses
                                             <a href="#intereses" data-toggle="collapse">
-                                                <span>More</span>
+                                                <span>M&aacute;s</span>
                                             </a>
                                         </span>
                                     </h5>
@@ -219,7 +213,7 @@
                                     <h5>
                                         <span>informacion adicional
                                             <a href="#additional-information" data-toggle="collapse">
-                                                <span>More</span>
+                                                <span>M&aacute;s</span>
                                             </a>
                                         </span>
                                     </h5>
@@ -238,8 +232,8 @@
                         </section>
 
                         <!-- Edit contact section -->
-                        <section class="col-sm-12 col-md-8 col-lg-8 panel contact-detail pull-right" ng-show="vm.isContactEditionVisible()">
-                            <div class="col-sm-12 col-md-6" style="padding-left: 0px">
+                        <section class="col-sm-12 col-md-7 col-lg-7 panel contact-detail pull-right" ng-show="vm.isContactEditionVisible()">
+                            <div class="col-sm-12 col-md-7" style="padding-left: 0px">
                                 <div class="col-sm-12 col-md-12 panel">
                                     <h2>Editar contacto {{vm.contactSelected.firstname}} {{vm.contactSelected.lastname}}</h2>
                                     <form>
@@ -311,4 +305,5 @@
 <!-- Application Scripts -->
 <script type="text/javascript" src="scripts/app.js"></script>
 <script type="text/javascript" src="scripts/controllers/Contacts.js"></script>
+<script type="text/javascript" src="scripts/filters/contactsFilter.js"></script>
 </html>
