@@ -1,15 +1,11 @@
-.sub-header{padding-bottom:10px;border-bottom:1px solid #eee}
-.navbar-fixed-top{border:0}
-.sidebar{
-	padding:20px;overflow-x:hidden;overflow-y:auto;border-right:1px solid #eee; height: 100%;
-}
-.nav-sidebar{margin-right:-21px;margin-bottom:20px;margin-left:-20px}
-.nav-sidebar>li>a{padding-right:20px;padding-left:20px}
-.nav-sidebar>.active>a,.nav-sidebar>.active>a:focus,.nav-sidebar>.active>a:hover{color:#fff;background-color:#428bca}
-.main{padding:20px}
-.main .page-header{margin-top:0}
-.placeholders{margin-bottom:30px;text-align:center}
-.placeholders h4{margin-bottom:0}.placeholder{margin-bottom:20px}.placeholder img{display:inline-block;border-radius:50%}
+/*general settings*/
+body{color:#353b3a; background-color:#f1f2f2; font-family:'AvenirLTStd-Medium';padding-top:50px}
+a, p{color:#808285;}a:hover, a:active, a:focus{color:#353b3a;}
+ul, ul li, ol, ol li{ margin:0; padding:0; list-style:none;}
+b, strong{ font-weight:normal;font-family:'AvenirLTStd-Black';}
+h1{font-family:'AvenirLTStd-Light';}
+h2{font-family:'AvenirLTStd-Black';}
+h3{font-family:'AvenirLTStd-Medium'}
 
 @font-face{
 	font-family:'AvenirLTStd-Light';
@@ -44,18 +40,25 @@
 	unicode-range:U+0020-25CA
 }
 
-/*general settings*/
-body{color:#353b3a; background-color:#f1f2f2; font-family:'AvenirLTStd-Medium';padding-top:50px}
-a, p{color:#808285;}a:hover, a:active, a:focus{color:#353b3a;}
-ul, ul li, ol, ol li{ margin:0; padding:0; list-style:none;}
-b, strong{ font-weight:normal;font-family:'AvenirLTStd-Black';}
-h1{font-family:'AvenirLTStd-Light';}
-h2{font-family:'AvenirLTStd-Black';}
-h3{font-family:'AvenirLTStd-Medium'}
+.main{padding:20px}
+.main .page-header{margin-top:0}
+.sub-header{padding-bottom:10px;border-bottom:1px solid #eee}
+.navbar-fixed-top{border:0}
+.nav-sidebar{margin-right:-21px;margin-bottom:20px;margin-left:-20px}
+.nav-sidebar>li>a{padding-right:20px;padding-left:20px}
+.nav-sidebar>.active>a,.nav-sidebar>.active>a:focus,.nav-sidebar>.active>a:hover{color:#fff;background-color:#428bca}
+.placeholders{margin-bottom:30px;text-align:center}
+.placeholders h4{margin-bottom:0}.placeholder{margin-bottom:20px}.placeholder img{display:inline-block;border-radius:50%}
+.sidebar{
+	padding:20px;overflow-x:hidden;overflow-y:auto;border-right:1px solid #eee; height: 100%;
+}
+
+
 /*colores*/
 .vok{color:#007b3c}.nok{color:#e9580c}.vok_bg{background-color:#007b3c}.nok_bg{background-color:#e9580c}
 .light_bg{background-color:#f1f2f2}.default_bg{background-color:#bcbec0}.dark_bg{background-color:#353b3a}
 .operacion{ color:#6dc7e3} .operacion_bg{ background-color:#6dc7e3;} .operacion_border{ box-shadow:0 4px 0 0 #366472}
+
 /*navbar*/
 .navbar-header{ width:320px;box-sizing:border-box; position:absolute; left:0; top:0; height:50px;}
 .navbar-collapse { float:left; width:40.8%; left:305px; position:relative}
@@ -64,12 +67,26 @@ h3{font-family:'AvenirLTStd-Medium'}
 	padding-right: 0;
 	margin-right: 0;
 }
+.nav > li > a:focus, .nav > li > a:hover, .nav > li.active a{background-color:#353b3a; color:#fff}
+.navbar-toggle{background-color:#353b3a; color:#fff}.navbar-nav{ padding:0; background-color:#fff;}
+.navbar { background-color:#fff;}
+.navbar-brand{ 
+	background: url(../img/logo.png) no-repeat center center;
+    background-size: 49%;
+    width: 265px;
+    text-indent: -9999px;
+    height: 50px;
+    padding: 0;
+}
+.nav > li > a.selected{background-color: #EEE;color:#353b3a}
+
+/* add contact button */
 .btn-add-contact {
 	position:fixed; 
 	display:block; 
 	bottom:50px; 
 	right:50px; 
-	background:#444; 
+	background:#0B0; 
 	border-radius:100%; 
 	width:75px; 
 	height:75px; 
@@ -85,19 +102,9 @@ h3{font-family:'AvenirLTStd-Medium'}
 }
 .btn-add-contact span { color: white; position: relative; top: 19px; left: 21px; font-size: 2.5em; }
 .btn-add-contact:hover{color:transparent; font-size:-10px; background-color:#bcbec0}
-.nav > li > a:focus, .nav > li > a:hover, .nav > li.active a{background-color:#353b3a; color:#fff}
-.navbar-toggle{background-color:#353b3a; color:#fff}.navbar-nav{ padding:0; background-color:#fff;}
-.navbar { background-color:#fff;}
-.navbar-brand{ 
-background: url(../img/logo.png) no-repeat center center;
-    background-size: 49%;
-    width: 265px;
-    text-indent: -9999px;
-    height: 50px;
-    padding: 0;
-}
-.nav > li > a.selected{background-color: #EEE;color:#353b3a}
 .sidebar .nav > li > a:focus, .sidebar .nav > li > a:hover{ background-color:#8A3003}
+
+/* sidebar */
 .sidebar{background-color:#8A3003;border-right:none}
 .sidebar h4{  margin:0 -20px;padding:10px 5px}
 .sidebar ul.filters{ margin:20px -10px 0 -10px}
@@ -134,12 +141,8 @@ background: url(../img/logo.png) no-repeat center center;
 .sidebar .collapse ul.nav-sidebar{ width:100%; margin:0; padding:0;}
 .sidebar .collapsing ul.nav-sidebar{ opacity:0}
 .sidebar ul.filters li a span{ font-size:1.5em; float:left; margin-right:5px; }
-
 .sidebar .navbar-form .checkbox label, .sidebar .navbar-form .radio label{ width:100%;}
-.sidebar .checkbox label:after, .sidebar .checkbox label:before{ right:0; left:auto}
-.navbar-form .checkbox input[type="checkbox"], .navbar-form .radio input[type="radio"] { 
-	/* display:none; */
-}
+
 .navbar-form input[type="search"]{ width:100%;}
 
 .sidebar .active-filters h5 {
@@ -199,6 +202,7 @@ background: url(../img/logo.png) no-repeat center center;
 
 /*contact detail*/
 .contact-detail .panel-heading{ margin-bottom:10px; padding-left:0; padding-right:0; padding-bottom:0}
+.contact-detail .subpanel-heading {margin-top: 20px;}
 .contact-detail .subpanel-heading h5 {
 	width:100%; 
 	text-align:right; 
@@ -213,9 +217,7 @@ background: url(../img/logo.png) no-repeat center center;
 	font-style: italic;
 	padding:0 10px;
 }
-.contact-detail .subpanel-heading h5 a:hover {
-	text-decoration: none;
-}
+.contact-detail .subpanel-heading h5 a:hover {text-decoration: none;}
 .contact-detail .subpanel-heading h5 a span {
 	color: #444444;
 	background: #EEEEEE;
@@ -225,19 +227,13 @@ background: url(../img/logo.png) no-repeat center center;
 	border-radius: 2px;
 	text-decoration: none;
 }
-.contact-detail .subpanel-heading h5 a:hover span {
-	background: #BBBBBB;
-	border: 1px solid #BBBBBB;
-}
-.contact-detail .subpanel-heading h5 a span:after {
-	padding-left: 5px;
-	content: "▾";
-}
-.contact-detail .panel-actions { margin-top:10px}
+.contact-detail .subpanel-heading h5 a:hover span {	background: #BBBBBB;border: 1px solid #BBBBBB;}
+.contact-detail .subpanel-heading h5 a span:after {	padding-left: 5px;content: "▾";}
+.contact-detail .panel-actions { margin-top:4px}
 .contact-detail .panel-actions a { padding:0 0 0 10px}
 .contact-detail .panel-actions a:hover { text-decoration:none; cursor: pointer; }
 .contact-detail .panel-actions a span { font-size:1.5em}
-.contact-detail .panel-title { margin-top:10px; margin-bottom:15px}
+.contact-detail .panel-title { margin-top:10px; padding: 0px }
 .contact-detail .panel-title h3 { color:#353b3a; margin:0;font-family:'AvenirLTStd-Black';}
 .contact-detail .panel-title h3 a { color:#353b3a; }
 .contact-detail .panel-title h5 {
@@ -247,16 +243,17 @@ background: url(../img/logo.png) no-repeat center center;
 	padding-bottom: 5px;
 	border-bottom:#ccc solid 1px;
 }
-.contact-detail .panel-data{ margin-bottom: 5px; padding: 0px}
+.contact-detail .panel-data{ padding: 0px}
 .contact-detail .panel-data p{ margin: 0px; padding: 0px}
 .contact-detail .v-card p{color:#353b3a; margin-right:10px; padding-right:10px; font-size:.9em}
+a.mailto {color: #337ab7;}
 span.icon-email{ background: url(../img/email.png) no-repeat center bottom; width:17px; height:17px; background-size:cover; display:inline-block; vertical-align:middle; margin-right: 5px;}
 span.icon-phone{ background: url(../img/phone.png) no-repeat center bottom; width:17px; height:17px; background-size:cover; display:inline-block; vertical-align:middle; margin-right: 5px;}
 span.icon-skype{ background: url(../img/skype.png) no-repeat center bottom; width:17px; height:17px; background-size:cover; display:inline-block; vertical-align:middle; margin-right: 5px;}
 span.icon-linkedin { background: url(../img/linkedin.png) no-repeat center bottom; width: 20px; height: 20px; background-size: cover; display: inline-block; vertical-align: middle; }
 .contact-detail .v-card p:last-child, .contact-detail .v-card p:nth-child(4){ border:none; padding-right:0; }
 .contact-detail div.comment{ margin:10px 0; display:table; width:100%}.contact-detail div.comment p{ font-size:.9em; margin-bottom:0;}
-.contact-detail span.contact-type {font-weight: bold; color: #FE1256; border: 1px solid #FE1256; border-radius: 3px; padding: 3px;}
+.contact-detail span.contact-type {font-weight: bold; color: #FE1256;}
 .contact-detail .progress { margin: 10px 0px 5px 0px; width: 100%; float: right; }
 .contact-detail div.alert-estatus{background-color:#ffb6b6; border:none; color:#353b3a; padding:15px 15px 10px 15px; margin-bottom:10px;}
 .contact-detail div.alert-estatus p{margin-top:10px; color:#353b3a; font-size:1.25em}
@@ -337,7 +334,6 @@ a:focus{ outline:none}
 
 /*fixed height main panels*/
 .relative{ position:relative;}
-.contact-list{ left:-1%}
 .contact-new, .contact-detail.solo, .contact-edit.solo{ left:0}
 .contact-list, .contact-edit, .contact-detail, .contact-new{ overflow-x:hidden; overflow-y:auto;}
 .contact-edit form .form-group, .contact-new form .form-group, .contact-detail.solo form .form-group{ width:75%}

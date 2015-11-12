@@ -83,7 +83,7 @@
                 <div class="col-sm-12 col-md-12 main">
                     <div class="row relative">
                         <aside class="contact-list col-sm-12 col-md-5 col-lg-5 infinite-scroll">
-                            <article class="task panel" ng-repeat="contact in vm.contacts | contacts:vm">
+                            <article class="task panel" ng-repeat="contact in vm.contacts | contacts:vm | orderBy:'lastname'">
                                 <a href="#" ng-click="vm.showContactDetails(contact)">
                                     <header class="panel-heading">
                                         <div class="row">
@@ -100,10 +100,10 @@
                         </aside>
 
                         <!-- Display contact section -->
-                        <section class="col-sm-12 col-md-7 col-lg-7 panel contact-detail pull-right" ng-show="vm.isContactDetailsVisible()">
+                        <section class="col-sm-12 col-md-7 col-lg-7 panel contact-detail" ng-show="vm.isContactDetailsVisible()">
                             <div class="col-sm-12 col-md-12">
                                 <header class="panel-heading">
-                                    <div class="panel-title pull-left">
+                                    <div class="col-sm-6 col-md-6 col-lg-6 panel-title">
                                         <h3>
                                             <span>
                                                 {{vm.contactSelected.honorific}} {{vm.contactSelected.firstname}} {{vm.contactSelected.lastname}}
@@ -113,7 +113,16 @@
                                             </a>
                                         </h3>
                                     </div>
-                                    <div class="panel-actions text-right pull-right">
+                                    <div class="col-sm-5 col-md-5 col-lg-5 panel-actions">
+                                        <div class="progress" ng-if="vm.isCompletenessBarVisible()">
+                                            <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" 
+                                                aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" 
+                                                style="width: {{vm.calculateCompletenessPercentage(vm.contactSelected)}}">
+                                                {{vm.calculateCompletenessPercentage(vm.contactSelected)}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-1 col-md-1 col-lg-1 panel-actions">
                                         <a ng-click="vm.showContactEdition()" data-toggle="tooltip" title="Editar contacto">
                                             <span class="glyphicon glyphicon-pencil"></span>
                                         </a>
@@ -126,27 +135,18 @@
                                                 <strong ng-show="vm.contactSelected.position">{{vm.contactSelected.position}} en</strong>
                                                 <strong>{{vm.contactSelected.company}}</strong>
                                             </p>
-                                            <p><strong>{{vm.contactSelected.consolidatedCode}}</strong></p>
-                                            <p><strong>{{vm.contactSelected.market}}</strong></p>
+                                            <p>
+                                                <span class="icon icon-email"></span>
+                                                <a class="mailto" href="mailto:{{vm.contactSelected.email}}">{{vm.contactSelected.email}}</a>
+                                            </p>
+                                            <p><span class="icon icon-phone"></span>{{vm.contactSelected.phone}}</p>
+                                            <p><span class="icon icon-skype"></span>{{vm.contactSelected.skype}}</p>
                                         </div>
                                         <div class="col-sm-12 col-md-5 col-lg-5 panel-data pull-right text-right">
                                             <p><span class="contact-type">{{vm.contactSelected.contactType.description}}</span></p>
-                                            <div class="progress" ng-if="vm.contactSelected">
-                                                <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" 
-                                                    aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" 
-                                                    style="width: {{vm.calculateCompletenessPercentage(vm.contactSelected)}}">
-                                                    {{vm.calculateCompletenessPercentage(vm.contactSelected)}}
-                                                </div>
-                                            </div>
+                                            <p><strong>{{[vm.contactSelected.market, vm.contactSelected.language].join(' | ')}}</strong></p>
+                                            <p><strong>{{vm.contactSelected.consolidatedCode}}</strong></p>
                                         </div>
-                                    </div>
-                                    <div class="col-sm-12 col-md-12 col-lg-12 panel-data v-card pull-left">
-                                        <p>
-                                            <span class="icon icon-email"></span>
-                                            <a href="mailto:{{vm.contactSelected.email}}">{{vm.contactSelected.email}}</a>
-                                        </p>
-                                        <p><span class="icon icon-phone"></span>{{vm.contactSelected.phone}}</p>
-                                        <p><span class="icon icon-skype"></span>{{vm.contactSelected.skype}}</p>
                                     </div>
                                 </div>
                             </div>
@@ -232,10 +232,10 @@
                         </section>
 
                         <!-- Edit contact section -->
-                        <section class="col-sm-12 col-md-7 col-lg-7 panel contact-detail pull-right" ng-show="vm.isContactEditionVisible()">
+                        <section class="col-sm-12 col-md-7 col-lg-7 panel contact-detail" ng-show="vm.isContactEditionVisible()">
                             <div class="col-sm-12 col-md-7" style="padding-left: 0px">
                                 <div class="col-sm-12 col-md-12 panel">
-                                    <h2>Editar contacto {{vm.contactSelected.firstname}} {{vm.contactSelected.lastname}}</h2>
+                                    <h2>Editar contacto {{vm.contactSelceted.firstname}} {{vm.contactSelected.lastname}}</h2>
                                     <form>
                                         <div class="form-group">
                                             <label for="honorific">Sr./ Sra</label>

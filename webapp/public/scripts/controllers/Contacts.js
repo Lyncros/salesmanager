@@ -229,6 +229,13 @@ function Contacts() {
         vm.resetContactSelected();
     }
 
+    vm.isCompletenessBarVisible = function() {
+        //TODO: FIXME! Saar este hardcodeo .-jarias
+        return vm.contactSelected != null && 
+            vm.contactSelected.contactType && 
+            (vm.contactSelected.contactType.id == 1 || vm.contactSelected.contactType.id == 2 || vm.contactSelected.contactType.id == 3);
+    }
+
     vm.calculateCompletenessPercentage = function(contact) {
         var percentage = 0;
 
