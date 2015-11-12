@@ -44,7 +44,7 @@ function contactPassGroupAreaFilter(contact, controller) {
     }
 
     var groupAreaPass = false;
-    controller.froupAreaFilters.forEach(function(ga) {
+    controller.groupAreaFilters.forEach(function(ga) {
         groupAreaPass = groupAreaPass || contact.groupArea.id == ga.id;
     });
     return groupAreaPass;
