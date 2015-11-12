@@ -67,7 +67,7 @@ background: url(../img/logo.png) no-repeat center center;
 .sidebar .nav > li > a:focus, .sidebar .nav > li > a:hover{ background-color:#282c2c}
 .sidebar{background-color:#8A3003;border-right:none}
 .sidebar h4{  margin:0 -20px;padding:10px 5px}
-.sidebar ul.filters{ margin:20px -10px 0 -10px}.sidebar ul.filters li{ padding:0 5px 20px 5px; position:relative; margin-bottom:20px; border-bottom:1px solid #8A3003;}
+.sidebar ul.filters{ margin:20px -10px 0 -10px}.sidebar ul.filters li{ padding:0 5px 20px 5px; position:relative; margin-bottom:20px; border-bottom:1px solid #712A06;}
 .sidebar ul.filters li a.btn:after {
 	position:absolute; 
 	top:2px; 
