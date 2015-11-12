@@ -31,10 +31,27 @@ h3{font-family:'AvenirLTStd-Medium'}
 	padding-right: 0;
 	margin-right: 0;
 }
-.btn-fix{ position:fixed; display:block; bottom:50px; right:50px; background:#444; border-radius:100%; width:75px; height:75px; text-indent:-9999px !important; -webkit-box-shadow: 5px 3px 10px 5px rgba(100,100,100,0.25);box-shadow: 5px 3px 10px 5px rgba(100,100,100,0.25); color:transparent; font-size:-10px;-webkit-transition: all 0.25s ease-in-out;
--moz-transition: all 0.25s ease-in-out;-ms-transition: all 0.25s ease-in-out;-o-transition: all 0.25s ease-in-out;transition: all 0.25s ease-in-out;}
-.btn-fix:hover{color:transparent; font-size:-10px; background-color:#bcbec0}
-.btn-fix:before{ display:block; width:100%; height:100%; text-indent:0;font-family:Helium;content:"\e649"; color:#fff; font-size:2em; text-align:center; line-height:75px;}
+.btn-add-contact {
+	position:fixed; 
+	display:block; 
+	bottom:50px; 
+	right:50px; 
+	background:#444; 
+	border-radius:100%; 
+	width:75px; 
+	height:75px; 
+	-webkit-box-shadow: 5px 3px 10px 5px rgba(100,100,100,0.25);
+	box-shadow: 5px 3px 10px 5px rgba(100,100,100,0.25); 
+	color:transparent; 
+	font-size:-10px;
+	-webkit-transition: all 0.25s ease-in-out;
+	-moz-transition: all 0.25s ease-in-out;
+	-ms-transition: all 0.25s ease-in-out;
+	-o-transition: all 0.25s ease-in-out;
+	transition: all 0.25s ease-in-out;
+}
+.btn-add-contact span { color: white; position: relative; top: 19px; left: 21px; font-size: 2.5em; }
+.btn-add-contact:hover{color:transparent; font-size:-10px; background-color:#bcbec0}
 .nav > li > a:focus, .nav > li > a:hover, .nav > li.active a{background-color:#353b3a; color:#fff}
 .navbar-toggle{background-color:#353b3a; color:#fff}.navbar-nav{ padding:0; background-color:#fff;}
 .navbar { background-color:#fff;}
@@ -113,6 +130,7 @@ h3{font-family:'AvenirLTStd-Medium'}
 .task .panel-title{ padding:10px 0 5px 0;} .task .panel-heading .panel-title h4{color:#353b3a}
 .task .panel-title p{ margin:0; display:inline-block; font-size:.9em;}
 .task .panel-subtitle{width:100%; margin:5px auto 5px auto;color:#353b3a; position:relative;}
+/*.task .panel-subtitle {border-top: #ddd solid 1px;width: 100%;margin: 10px auto 0 auto;color: #353b3a;position: relative;padding-bottom: 5px;}*/
 .task .panel-subtitle h4, .task .panel-subtitle h5{ margin:0 !important; line-height:30px !important; font-size:1em !important}
 .task .panel-subtitle h4 small{ text-transform:uppercase; letter-spacing:2px; font-size:.6em}
 .task .panel-subtitle h5{ border-left:1px solid #fff; padding-right:0; color:#808285}.task .panel-subtitle h4{ padding-left:0; color:#808285}
@@ -127,27 +145,53 @@ h3{font-family:'AvenirLTStd-Medium'}
 .icon-alpha-desc:before{ content:''; background:url(../img/alpha.svg) no-repeat center center; width:18px; height:20px; display:block }
 
 /*contact detail*/
-.contact-detail .panel {
-	border: 1px solid #D7D7D7;
-	margin: 10px 0px 10px 0px;
-}
 .contact-detail .panel-heading{ margin-bottom:10px; padding-left:0; padding-right:0; padding-bottom:0}
-.contact-detail .panel-actions{ margin-top:10px}
-.contact-detail .panel-actions a{ padding:0 0 0 10px}.contact-detail .panel-actions a:hover{ text-decoration:none}
-.contact-detail .panel-actions a span{ font-size:1.5em}
-.contact-detail .panel-title{ margin-top:10px; margin-bottom:15px}
-.contact-detail .panel-title h3{color:#353b3a; margin:0;font-family:'AvenirLTStd-Black';}.contact-detail .panel-title h3 a{color:#353b3a; }
+.contact-detail .subpanel-heading h5 {
+	width:100%; 
+	text-align:right; 
+	border-bottom: 1px solid #DDDDDD;
+	line-height:0.1em; 
+	margin:10px 0 20px; 
+} 
+.contact-detail .subpanel-heading h5 span {
+	color: #999999;
+	background: #FFFFFF; 
+	text-transform: capitalize;
+	font-style: italic;
+	padding:0 10px;
+}
+.contact-detail .subpanel-heading h5 a:hover {
+	text-decoration: none;
+}
+.contact-detail .subpanel-heading h5 a span {
+	color: #444444;
+	background: #EEEEEE;
+	padding: 3px 10px; 
+	font-style: normal;
+	border: 1px solid #DDDDDD;
+	border-radius: 2px;
+	text-decoration: none;
+}
+.contact-detail .subpanel-heading h5 a:hover span {
+	background: #BBBBBB;
+}
+.contact-detail .subpanel-heading h5 a span:after {
+	padding-left: 5px;
+	content: "▾";
+}
+.contact-detail .panel-actions { margin-top:10px}
+.contact-detail .panel-actions a { padding:0 0 0 10px}
+.contact-detail .panel-actions a:hover { text-decoration:none; cursor: pointer; }
+.contact-detail .panel-actions a span { font-size:1.5em}
+.contact-detail .panel-title { margin-top:10px; margin-bottom:15px}
+.contact-detail .panel-title h3 { color:#353b3a; margin:0;font-family:'AvenirLTStd-Black';}
+.contact-detail .panel-title h3 a { color:#353b3a; }
 .contact-detail .panel-title h5 {
 	color:#353b3a; 
 	font-family: 'AvenirLTStd-Black'; 
 	text-transform: uppercase;
 	padding-bottom: 5px;
 	border-bottom:#ccc solid 1px;
-}
-.contact-detail .panel-title a {
-	position: absolute;
-    top: 0px;
-    right: 0px;
 }
 .contact-detail .panel-data{ margin-bottom: 5px; padding: 0px}
 .contact-detail .panel-data p{ margin: 0px; padding: 0px}
@@ -159,7 +203,7 @@ span.icon-linkedin { background: url(../img/linkedin.svg) no-repeat center botto
 .contact-detail .v-card p:last-child, .contact-detail .v-card p:nth-child(4){ border:none; padding-right:0; }
 .contact-detail div.comment{ margin:10px 0; display:table; width:100%}.contact-detail div.comment p{ font-size:.9em; margin-bottom:0;}
 .contact-detail span.contact-type {font-weight: bold; color: #FE1256; border: 1px solid #FE1256; border-radius: 3px; padding: 3px;}
-.contact-detail .progress { margin: 10px 0px 5px 0px; width: 75%; float: right; }
+.contact-detail .progress { margin: 10px 0px 5px 0px; width: 100%; float: right; }
 .contact-detail div.alert-estatus{background-color:#ffb6b6; border:none; color:#353b3a; padding:15px 15px 10px 15px; margin-bottom:10px;}
 .contact-detail div.alert-estatus p{margin-top:10px; color:#353b3a; font-size:1.25em}
 .contact-detail div.alert-estatus h4 strong{font-family:'AvenirLTStd-Black'; font-size:.8em; letter-spacing:2px; text-transform:uppercase;color:#bf6464; }
