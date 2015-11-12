@@ -55,13 +55,24 @@ h3{font-family:'AvenirLTStd-Medium'}
 .nav > li > a:focus, .nav > li > a:hover, .nav > li.active a{background-color:#353b3a; color:#fff}
 .navbar-toggle{background-color:#353b3a; color:#fff}.navbar-nav{ padding:0; background-color:#fff;}
 .navbar { background-color:#fff;}
-.navbar-brand{ background:url(../img/logo.png) no-repeat 0 center; background-size:80%;width:200px; text-indent:-9999px; margin-left:30px !important; height:42px; padding:0 }
+.navbar-brand{ 
+background: url(../img/logo.png) no-repeat center center;
+    background-size: 49%;
+    width: 265px;
+    text-indent: -9999px;
+    height: 50px;
+    padding: 0;
+}
 .nav > li > a.selected{background-color: #EEE;color:#353b3a}
 .sidebar .nav > li > a:focus, .sidebar .nav > li > a:hover{ background-color:#282c2c}
-.sidebar{background-color:#353b3a;border-right:none}
+.sidebar{background-color:#8A3003;border-right:none}
 .sidebar h4{  margin:0 -20px;padding:10px 5px}
+<<<<<<< HEAD
 .sidebar ul.filters{ margin:20px -10px 0 -10px}
 .sidebar ul.filters li{ padding:0 5px 20px 5px; position:relative; margin-bottom:20px; }
+=======
+.sidebar ul.filters{ margin:20px -10px 0 -10px}.sidebar ul.filters li{ padding:0 5px 20px 5px; position:relative; margin-bottom:20px; border-bottom:1px solid #712A06;}
+>>>>>>> 24bfb67bc756b5a656b7bb670404eeba3dd16375
 .sidebar ul.filters li a.btn:after {
 	position:absolute; 
 	top:2px; 
