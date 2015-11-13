@@ -1,19 +1,18 @@
-/* scripts/controllers/Contacts.js */
+// scripts/controllers/ContactsController.js
 'use strict';
 
 angular.module('salesManager')
     .filter('contacts', function() {
         return contactsFilter;
     })
-    .controller('Contacts', Contacts);
+    .directive('tabs', TabDirective)
+    .directive('pane', PaneDirective)
+    .controller('ContactsController', ContactsController);
 
 
-function Contacts() {
+function ContactsController() {
 
-    // vm is our capture variable
-    var vm = this;
-
-    vm.contactTypes = [
+    this.contactTypes = [
     	{'id': 1, 'description': 'Solicitante'}, 
     	{'id': 2, 'description': 'Cliente indirecto'}, 
     	{'id': 3, 'description': 'Cliente potencial'}, 
@@ -22,7 +21,7 @@ function Contacts() {
     	{'id': 6, 'description': 'Otro'}
 	];
     
-    vm.groupAreas = [
+    this.groupAreas = [
     	{'id': 1, 'description': 'Compras'}, 
     	{'id': 2, 'description': 'Gerencia'}, 
     	{'id': 3, 'description': 'Mercadeo'}, 
@@ -32,7 +31,7 @@ function Contacts() {
     	{'id': 7, 'description': 'Calidad'}
 	];
 
-    vm.propertiesWeights = [
+    this.propertiesWeights = [
         {'name': 'email', 'weight': 15},
         {'name': 'firstname', 'weight': 8},
         {'name': 'lastname', 'weight': 8},
@@ -56,7 +55,7 @@ function Contacts() {
         {'name': 'Segmentacion Tipo Producto', 'weight': 2},
         {'name': 'Segmentacion Relacion FNC', 'weight': 1},
         {'name': 'Segmentacion Potencial a Futuro', 'weight': 1},
-        {'name': 'Profesion', 'weight': 2.8},
+        {'name': 'career', 'weight': 2.8},
         {'name': 'position', 'weight': 10},
         {'name': 'area', 'weight': 5},
         {'name': 'linkedinProfile', 'weight': 5},
@@ -70,7 +69,7 @@ function Contacts() {
         {'name': 'ageRank', 'weight': 2.2}
     ];
 
-    vm.contacts = [{
+    this.contacts = [{
 	      'id': 1,
 	      'consolidatedCode': '#11111111',
           'code10digits': '1111111111',
@@ -90,6 +89,7 @@ function Contacts() {
 	      'language': 'English',
 	      'contactType': {'id': 1, 'description': 'Solicitante'},
 	      'groupArea': {'id': 1, 'description': 'Compras'},
+          'career': 'singer, vocals',
           'linkedinProfile': 'https://ar.linkedin.com/in/mick-jagger-40446313',
           
 	    },
@@ -111,7 +111,8 @@ function Contacts() {
           'postalCode': '14280',
 	      'language': 'English',
 	      'contactType': {'id': 2, 'description': 'Cliente indirecto'},
-	      'groupArea': {'id': 2, 'description': 'Gerencia'}
+	      'groupArea': {'id': 2, 'description': 'Gerencia'},
+          'career': 'guitar and melodiy'
 	    },
 	    {
 	      'id': 3,
@@ -131,7 +132,8 @@ function Contacts() {
           'postalCode': '14280',
 	      'language': 'English',
 	      'contactType': {'id': 3, 'description': 'Cliente potencial'},
-	      'groupArea': {'id': 3, 'description': 'Mercadeo'}
+	      'groupArea': {'id': 3, 'description': 'Mercadeo'},
+          'career': 'rithm'
 	    },
 	    {
 	      'id': 4,
@@ -151,96 +153,108 @@ function Contacts() {
           'postalCode': '14280',
 	      'language': 'English',
 	      'contactType': {'id': 6, 'description': 'Otro'},
-	      'groupArea': {'id': 4, 'description': 'Comercial'}
+	      'groupArea': {'id': 4, 'description': 'Comercial'},
+          'career': 'melodic guitar'
 	    }
     ];
 
-    vm.isContactDetailsVisible = function() {
-    	return vm.contactSelected != null && !vm.isContactEditionVisible();
+    this.isContactDetailsVisible = function() {
+    	return this.contactSelected != null && !this.isContactEditionVisible();
     }
 
-    vm.showContactDetails = function(contact) {
-        vm.hideContactEdition();
-        vm.contactSelected = contact;
+    this.showContactDetails = function(contact) {
+        this.hideContactEdition();
+        this.contactSelected = contact;
     }
 
-    vm.resetContactSelected = function() {
-        vm.contactSelected = null;
+    this.resetContactSelected = function() {
+        this.contactSelected = null;
     }
 
-    vm.newContact = function() {
-        vm.contactSelected = {};
-        vm.contacts.push(vm.contactSelected);
-        vm.showContactEdition();
+    this.newContact = function() {
+        this.contactSelected = {};
+        this.showContactEdition();
     }
 
-    vm.showContactEdition = function() {
-        vm.editingContact = true;
+    this.showContactEdition = function() {
+        this.editingContact = true;
     }
 
-    vm.isContactEditionVisible = function() {
-        return vm.contactSelected != null && vm.editingContact;
+    this.isContactEditionVisible = function() {
+        return this.contactSelected != null && this.editingContact;
     }
 
-    vm.hideContactEdition = function() {
-        vm.editingContact = false;
+    this.hideContactEdition = function() {
+        this.resetContactSelected();
+        this.editingContact = false;
     }
 
-    vm.resetSearchKey = function() {
-    	vm.searchKeys = [];
+    this.saveContactEdition = function() {
+        if (this.contactSelected) {
+            this.contacts.push(this.contactSelected);
+        }
+        this.hideContactEdition();
     }
 
-    vm.updateSearchKey = function(key) {
+    this.cancelContactEdition = function() {
+        this.hideContactEdition();
+    }
+
+    this.resetSearchKey = function() {
+    	this.searchKeys = [];
+    }
+
+    this.updateSearchKey = function(key) {
         if (key) {
-    	    vm.searchKeys = key.split(' ');
-            vm.resetContactSelected();
+    	    this.searchKeys = key.split(' ');
+            this.resetContactSelected();
         }
     }
 
-    vm.resetFilters = function() {
-    	vm.contactTypeFilters = [];
-    	vm.groupAreaFilters = [];
-    	vm.resetSearchKey();
+    this.resetFilters = function() {
+    	this.contactTypeFilters = [];
+    	this.groupAreaFilters = [];
+    	this.resetSearchKey();
     }
 
-    vm.hasFilters = function() {
-    	return vm.hasContactTypeFilters() || vm.hasGroupAreaFilters() || vm.hasSearchKeyFilters();
+    this.hasFilters = function() {
+    	return this.hasContactTypeFilters() || this.hasGroupAreaFilters() || this.hasSearchKeyFilters();
     }
 
-    vm.hasContactTypeFilters = function() {
-    	return vm.contactTypeFilters.length > 0;
+    this.hasContactTypeFilters = function() {
+    	return this.contactTypeFilters.length > 0;
     }
 
-    vm.hasGroupAreaFilters = function() {
-    	return vm.groupAreaFilters.length > 0;
+    this.hasGroupAreaFilters = function() {
+    	return this.groupAreaFilters.length > 0;
     }
 
-    vm.hasSearchKeyFilters = function() {
-    	return vm.searchKeys.length > 0;
+    this.hasSearchKeyFilters = function() {
+    	return this.searchKeys.length > 0;
     }
 
-    vm.updateFilterContactType = function(type) {
-    	updateFilter(type, vm.contactTypeFilters);
-        vm.resetContactSelected();
+    this.updateFilterContactType = function(type) {
+    	updateFilter(type, this.contactTypeFilters);
+        this.resetContactSelected();
     }
 
-    vm.updateFilterGroupArea = function(ga) {
-    	updateFilter(ga, vm.groupAreaFilters);
-        vm.resetContactSelected();
+    this.updateFilterGroupArea = function(ga) {
+    	updateFilter(ga, this.groupAreaFilters);
+        this.resetContactSelected();
     }
 
-    vm.isCompletenessBarVisible = function() {
+    this.isCompletenessBarVisible = function() {
         //TODO: FIXME! Saar este hardcodeo .-jarias
-        return vm.contactSelected != null && 
-            vm.contactSelected.contactType && 
-            (vm.contactSelected.contactType.id == 1 || vm.contactSelected.contactType.id == 2 || vm.contactSelected.contactType.id == 3);
+        return this.contactSelected != null && 
+            this.contactSelected.contactType && 
+            (this.contactSelected.contactType.id == 1 || this.contactSelected.contactType.id == 2 || this.contactSelected.contactType.id == 3);
     }
 
-    vm.calculateCompletenessPercentage = function(contact) {
+    this.calculateCompletenessPercentage = function(contact) {
         var percentage = 0;
 
 
-        angular.forEach(vm.propertiesWeights, function(prop, i) {
+        angular.forEach(this.propertiesWeights, function(prop, i) {
             percentage = percentage + calculateFieldWeight(contact, prop.name, prop.weight);
         });
 
@@ -248,10 +262,10 @@ function Contacts() {
     }
 
     // Initialize controller.- jarias
-    vm.resetFilters();
-	vm.resetSearchKey();
-    vm.resetContactSelected();
-    vm.hideContactEdition();
+    this.resetFilters();
+	this.resetSearchKey();
+    this.resetContactSelected();
+    this.hideContactEdition();
 }
 
 function calculateFieldWeight(obj, field, weight) {

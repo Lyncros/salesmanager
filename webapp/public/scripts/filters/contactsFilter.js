@@ -1,4 +1,4 @@
-/* scripts/filters/contactsFitler.js */
+// scripts/filters/contactsFitler.js
 
 function contactsFilter(contactList, controller) {
     var out = [];

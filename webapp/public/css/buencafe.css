@@ -1,6 +1,8 @@
 /*general settings*/
 body{color:#353b3a; background-color:#f1f2f2; font-family:'AvenirLTStd-Medium';padding-top:50px}
 a, p{color:#808285;}a:hover, a:active, a:focus{color:#353b3a;}
+a:focus{ outline:none}
+a.mailto {color: #337ab7;}
 ul, ul li, ol, ol li{ margin:0; padding:0; list-style:none;}
 b, strong{ font-weight:normal;font-family:'AvenirLTStd-Black';}
 h1{font-family:'AvenirLTStd-Light';}
@@ -40,36 +42,36 @@ h3{font-family:'AvenirLTStd-Medium'}
 	unicode-range:U+0020-25CA
 }
 
-.main{padding:20px}
+.main{padding:20px 0px 20px 0px;}
 .main .page-header{margin-top:0}
 .sub-header{padding-bottom:10px;border-bottom:1px solid #eee}
-.navbar-fixed-top{border:0}
-.nav-sidebar{margin-right:-21px;margin-bottom:20px;margin-left:-20px}
-.nav-sidebar>li>a{padding-right:20px;padding-left:20px}
-.nav-sidebar>.active>a,.nav-sidebar>.active>a:focus,.nav-sidebar>.active>a:hover{color:#fff;background-color:#428bca}
 .placeholders{margin-bottom:30px;text-align:center}
 .placeholders h4{margin-bottom:0}.placeholder{margin-bottom:20px}.placeholder img{display:inline-block;border-radius:50%}
 .sidebar{
 	padding:20px;overflow-x:hidden;overflow-y:auto;border-right:1px solid #eee; height: 100%;
 }
 
-
 /*colores*/
 .vok{color:#007b3c}.nok{color:#e9580c}.vok_bg{background-color:#007b3c}.nok_bg{background-color:#e9580c}
 .light_bg{background-color:#f1f2f2}.default_bg{background-color:#bcbec0}.dark_bg{background-color:#353b3a}
 .operacion{ color:#6dc7e3} .operacion_bg{ background-color:#6dc7e3;} .operacion_border{ box-shadow:0 4px 0 0 #366472}
 
+/* nav-sidebar */
+.nav-sidebar{margin-right:-21px;margin-left:-20px}
+.nav-sidebar>li>a{padding-right:20px;padding-left:20px}
+.nav-sidebar>.active>a,.nav-sidebar>.active>a:focus,.nav-sidebar>.active>a:hover{color:#fff;background-color:#428bca}
+
 /*navbar*/
+.navbar { background-color:#fff;}
 .navbar-header{ width:320px;box-sizing:border-box; position:absolute; left:0; top:0; height:50px;}
+.navbar-fixed-top{border:0}
 .navbar-collapse { float:left; width:40.8%; left:305px; position:relative}
 .navbar-collapse .navbar-form {
 	padding-left: 0;
 	padding-right: 0;
 	margin-right: 0;
 }
-.nav > li > a:focus, .nav > li > a:hover, .nav > li.active a{background-color:#353b3a; color:#fff}
 .navbar-toggle{background-color:#353b3a; color:#fff}.navbar-nav{ padding:0; background-color:#fff;}
-.navbar { background-color:#fff;}
 .navbar-brand{ 
 	background: url(../img/logo.png) no-repeat center center;
     background-size: 49%;
@@ -78,7 +80,6 @@ h3{font-family:'AvenirLTStd-Medium'}
     height: 50px;
     padding: 0;
 }
-.nav > li > a.selected{background-color: #EEE;color:#353b3a}
 
 /* add contact button */
 .btn-add-contact {
@@ -90,6 +91,7 @@ h3{font-family:'AvenirLTStd-Medium'}
 	border-radius:100%; 
 	width:75px; 
 	height:75px; 
+	cursor: pointer;
 	-webkit-box-shadow: 5px 3px 10px 5px rgba(100,100,100,0.25);
 	box-shadow: 5px 3px 10px 5px rgba(100,100,100,0.25); 
 	color:transparent; 
@@ -133,7 +135,7 @@ h3{font-family:'AvenirLTStd-Medium'}
 	width:100%;
 }
 .nav-sidebar > li, .nav-sidebar > li a {
-	padding:5px !important;
+	padding:0px !important;
 	color:#FFFFFF;
 	cursor: pointer;
 }
@@ -171,28 +173,37 @@ h3{font-family:'AvenirLTStd-Medium'}
 .task:first-child, .home .task{ opacity:1}
 .task:hover{ background-color:#fafafa;box-shadow:0 4px 0 0 #ddd; opacity:1}
 .task.selected{ box-shadow:0 4px 0 0 #ddd; opacity:1}
-.task.no-task{background-color:#ddd;} .task.no-task .panel-subtitle{border-top:#ccc solid 1px;}
+.task.no-task{background-color:#ddd;} 
+.task.no-task .panel-subtitle{border-top:#ccc solid 1px;}
 .task .checkbox{ margin:0;}
 .task h4{ margin:0}
 .task .panel-body p.lead{ margin:10px 0 0 0; font-size:1.25em;line-height:20px;color:#353b3a;}
+.task .panel-body{ padding-top:0; padding-bottom:0;}
+.task .panel-heading {}
 .task .panel-heading h4{ color:#353b3a; font-family: 'AvenirLTStd-Black'; font-size:1.3em}
-.task .panel-heading .checkbox label::before{ margin-top:3px}.task .panel-heading .checkbox label::after{ top:3px}
-.task .panel-heading{ padding-bottom:0;}.task .panel-body{ padding-top:0; padding-bottom:0;}
+.task .panel-heading .checkbox label::before{ margin-top:3px}
+.task .panel-heading .checkbox label::after{ top:3px}
 .task .panel-heading .date{ position:absolute; right:0; padding:2px 10px; background-color:#808285; color:#fff; font-size:.8em}
 .task .panel-heading .date:after {left: 100%;top: 50%;border: solid transparent;content: " ";height: 0;width: 0;position: absolute;pointer-events: none;border-color: rgba(255, 102, 102, 0);border-left-color: #808285;border-width: 10px;margin-top: -10px;}
-.task .panel-heading .date.red{background-color:#ff6666;}.task .panel-heading .date.red:after{border-left-color:#ff6666;}
-.task .panel-heading .date.green{background-color:#66B08A;}.task .panel-heading .date.green:after{border-left-color:#66B08A;}
-.task .panel-heading .date.yellow{background-color:#ffcc7a;}.task .panel-heading .date.yellow:after{border-left-color:#ffcc7a;}
-.task .panel-heading .date.black{background-color:#353b3a;}.task .panel-heading .date.black:after{border-left-color:#353b3a;}
+.task .panel-heading .date.red{background-color:#ff6666;}
+.task .panel-heading .date.red:after{border-left-color:#ff6666;}
+.task .panel-heading .date.green{background-color:#66B08A;}
+.task .panel-heading .date.green:after{border-left-color:#66B08A;}
+.task .panel-heading .date.yellow{background-color:#ffcc7a;}
+.task .panel-heading .date.yellow:after{border-left-color:#ffcc7a;}
+.task .panel-heading .date.black{background-color:#353b3a;}
+.task .panel-heading .date.black:after{border-left-color:#353b3a;}
 .task .panel-title{ padding:10px 0 5px 0;} .task .panel-heading .panel-title h4{color:#353b3a}
 .task .panel-title p{ margin:0; display:inline-block; font-size:.9em;}
-.task .panel-subtitle { color:#353b3a; position:relative;}
-.task .panel-subtitle h4, .task .panel-subtitle h5{ margin:0 !important; line-height:30px !important; font-size:1em !important}
+.task .panel-subtitle { color:#353b3a; position:relative; padding: 0px;}
+.task .panel-subtitle h4, .task .panel-subtitle h5{ margin:0 !important; font-size:1em !important}
 .task .panel-subtitle h4 small{ text-transform:uppercase; letter-spacing:2px; font-size:.6em}
-.task .panel-subtitle h5{ border-left:1px solid #fff; padding-right:0; color:#808285}.task .panel-subtitle h4{ padding-left:0; color:#808285}
+.task .panel-subtitle h5{ border-left:1px solid #fff; padding-right:0; color:#808285}
+.task .panel-subtitle h4{ padding-left:0; color:#808285; line-height: inherit;}
 .task .panel-body{ margin-top:5px; padding-top:5px; border-top:1px solid #f1f2f2}
 .task .panel-body h4{line-height:20px; font-size:1.15em; margin:0; }
 .task a:hover{ text-decoration:none !important;}
+
 /*contact*/
 .task.contact .panel-body{ padding-bottom:5px; margin-top:0}
 .task.contact .panel-heading p{ margin-bottom:0}
@@ -246,7 +257,6 @@ h3{font-family:'AvenirLTStd-Medium'}
 .contact-detail .panel-data{ padding: 0px}
 .contact-detail .panel-data p{ margin: 0px; padding: 0px}
 .contact-detail .v-card p{color:#353b3a; margin-right:10px; padding-right:10px; font-size:.9em}
-a.mailto {color: #337ab7;}
 span.icon-email{ background: url(../img/email.png) no-repeat center bottom; width:17px; height:17px; background-size:cover; display:inline-block; vertical-align:middle; margin-right: 5px;}
 span.icon-phone{ background: url(../img/phone.png) no-repeat center bottom; width:17px; height:17px; background-size:cover; display:inline-block; vertical-align:middle; margin-right: 5px;}
 span.icon-skype{ background: url(../img/skype.png) no-repeat center bottom; width:17px; height:17px; background-size:cover; display:inline-block; vertical-align:middle; margin-right: 5px;}
@@ -286,7 +296,20 @@ span.icon-linkedin { background: url(../img/linkedin.png) no-repeat center botto
 .contact-detail .task .collapse{ position:relative; border:none !important;}
 .contact-detail .task .panel-body{ border:none !important; padding:0}
 .contact-detail .task-edit{ margin-left:10px}
-a:focus{ outline:none}
+
+.contact-edit .nav-tabs>li>a {
+	padding: 5px;
+}
+
+.contact-edit .btn-primary {
+	background-color: #00BB00;
+	border-color: #00A800;
+}
+
+.contact-edit .btn-primary:hover {
+	background-color: #00A800;
+}
+
 
 .op-list{ margin:20px 0; padding:10px 0; border-top:1px solid #ddd; border-bottom:1px solid #ddd}
 .op-list article.task{ background-color:#ddd; padding-left:10px; padding-right:10px; overflow:hidden;}
