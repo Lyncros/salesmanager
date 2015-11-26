@@ -109,7 +109,7 @@
                                             <span>
                                                 {{vm.contactSelected.honorific}} {{vm.contactSelected.firstname}} {{vm.contactSelected.lastname}}
                                             </span>
-                                            <a ng-show="vm.contactSelected.linkedinProfile" target="_blank" href="{{vm.contactSelected.linkedinProfile}}">
+                                            <a ng-show="vm.contactSelected.linkedin_profile" target="_blank" href="{{vm.contactSelected.linkedin_profile}}">
                                                 <span class="icon-linkedin"></span>
                                             </a>
                                         </h3>
@@ -144,9 +144,9 @@
                                             <p><span class="icon icon-skype"></span>{{vm.contactSelected.skype}}</p>
                                         </div>
                                         <div class="col-sm-12 col-md-5 col-lg-5 panel-data pull-right text-right">
-                                            <p><span class="contact-type">{{vm.contactSelected.contactType.description}}</span></p>
-                                            <p><strong>{{[vm.contactSelected.market, vm.contactSelected.language].join(' | ')}}</strong></p>
-                                            <p><strong>{{vm.contactSelected.consolidatedCode}}</strong></p>
+                                            <p><span class="contact-type">{{vm.contactSelected.contact_type.description}}</span></p>
+                                            <p><strong>{{[vm.contactSelected.market.name, vm.contactSelected.language].join(' | ')}}</strong></p>
+                                            <p><strong>{{vm.contactSelected.consolidated_code}}</strong></p>
                                         </div>
                                     </div>
                                 </div>
@@ -163,8 +163,8 @@
                                 </header>
                                 <div id="address" class="collapse">
                                     <p>{{vm.contactSelected.street}}</p>
-                                    <p>{{vm.contactSelected.city}} {{vm.contactSelected.postalCode}}</p>
-                                    <p>{{vm.contactSelected.country}}</p>
+                                    <p>{{vm.contactSelected.city}} {{vm.contactSelected.postal_code}}</p>
+                                    <p>{{vm.contactSelected.country.name}}</p>
                                 </div>
                             </div>
                             <div class="col-sm-12 col-md-12">
@@ -178,14 +178,11 @@
                                     </h5>
                                 </header>
                                 <div id="segmentation" class="collapse">
-                                    <p>Interes #</p>
-                                    <p>Interes #</p>
-                                    <p>Interes #</p>
-                                    <p>Interes #</p>
-                                    <p>Interes #</p>
-                                    <p>Interes #</p>
-                                    <p>Interes #</p>
-                                    <p>Interes #</p>
+                                    <p>{{vm.contactSelected.segmentationABC.description}}</p>
+                                    <p>{{vm.contactSelected.segmentationContactType.description}}</p>
+                                    <p>{{vm.contactSelected.segmentationFNCRelation.description}}</p>
+                                    <p>{{vm.contactSelected.segmentationPotential.description}}</p>
+                                    <p>{{vm.contactSelected.segmentationProductType.description}}</p>
                                 </div>
                             </div>
                             <div class="col-sm-12 col-md-12">
@@ -237,14 +234,9 @@
                             <div class="col-sm-12 col-md-12" style="padding-left: 0px">
                                 <div class="col-sm-12 col-md-12 panel">
                                     <h3>Editar contacto {{vm.contactSelected.firstname}} {{vm.contactSelected.lastname}}</h3>
-                                    <tabs>
-                                        <pane title="principal">
-                                            <form>
-                                                <div class="form-group">
-                                                    <label for="honorific">Sr./ Sra</label>
-                                                    <input ng-model="vm.contactSelected.honorific" type="text" class="form-control" 
-                                                        id="honorific" placeholder="Sr. / Sra.">
-                                                </div>
+                                    <form>
+                                        <tabs>
+                                            <pane title="principal">
                                                 <div class="form-group">
                                                     <label for="firstname">Nombre</label>
                                                     <input ng-model="vm.contactSelected.firstname" type="text" class="form-control" 
@@ -272,60 +264,181 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="market">Mercado</label>
-                                                    <input ng-model="vm.contactSelected.market" type="text" class="form-control" 
-                                                        id="market" placeholder="Mercado">
+                                                    <select ng-model="vm.contactSelected.market" class="form-control"
+                                                        ng-options="mkt as mkt.name for mkt in vm.markets track by mkt.id">
+                                                    </select>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="language">Idioma</label>
                                                     <input ng-model="vm.contactSelected.language" type="text" class="form-control" 
                                                         id="language" placeholder="Idioma">
                                                 </div>
-                                            </form>
-                                        </pane>
-                                        <pane title="laboral">
-                                            <form>
+                                            </pane>
+                                            <pane title="adicional">
+                                                <div class="form-group">
+                                                    <label for="honorific">Sr./ Sra</label>
+                                                    <input ng-model="vm.contactSelected.honorific" type="text" class="form-control" 
+                                                        id="honorific" placeholder="Sr. / Sra.">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="gender">Sexo</label>
+                                                    <select ng-model="vm.contactSelected.gender" class="form-control"
+                                                        ng-options="it as it.description for it in vm.genders track by it.id">
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="skype">Skype</label>
+                                                    <input ng-model="vm.contactSelected.skype" type="text" class="form-control" 
+                                                        id="skype" placeholder="Skype">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="linkedinProfile">Linked-In</label>
+                                                    <input ng-model="vm.contactSelected.linkedin_profile" type="text" class="form-control" 
+                                                        id="linkedinProfile" placeholder="Linked-In">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="contact_type">Tipo de socio</label>
+                                                    <select ng-model="vm.contactSelected.contact_type" class="form-control"
+                                                        ng-options="ct as ct.description for ct in vm.contactTypes track by ct.id">
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="phone">Tel&eacute;fono oficina</label>
+                                                    <input ng-model="vm.contactSelected.phone" type="text" class="form-control" 
+                                                        id="phone" placeholder="Telefono">
+                                                </div>
                                                 <div class="form-group">
                                                     <label for="area">Area</label>
                                                     <input ng-model="vm.contactSelected.area" type="text" class="form-control" 
                                                         id="area" placeholder="Area">
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="contactType">Tipo de socio</label>
-                                                    <select ng-model="vm.contactSelected.contactType" class="form-control"
-                                                        ng-options="item as item.description for item in vm.contactTypes track by item.id">
-                                                    </select>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="linkedinProfile">Linked-In</label>
-                                                    <input ng-model="vm.contactSelected.linkedinProfile" type="text" class="form-control" 
-                                                        id="linkedinProfile" placeholder="Linked-In">
-                                                </div>
-                                                <div class="form-group">
                                                     <label for="career">Profesi&oacute;n</label>
                                                     <input ng-model="vm.contactSelected.career" type="text" class="form-control" 
                                                         id="career" placeholder="Profesi&oacute;n">
                                                 </div>
-                                            </form>
-                                        </pane>
-                                        <pane title="segmentaci&oacute;n">
-                                            <form>
+                                            </pane>
+                                            <pane title="segmentaci&oacute;n">
                                                 <div class="form-group">
-                                                    <label for="position">Cargo</label>
-                                                    <input ng-model="vm.contactSelected.position" type="text" class="form-control" 
-                                                        id="position" placeholder="Cargo">
+                                                    <label for="position">Segmentaci&oacute;n A-B-C</label>
+                                                    <select ng-model="vm.contactSelected.segmentation_ABC" class="form-control"
+                                                        ng-options="seg as seg.description for seg in vm.segmentationsABC track by seg.id">
+                                                    </select>
                                                 </div>
-                                            </form>
-                                        </pane>
-                                        <pane title="informaci&oacute;n adicional">
-                                            <form>
                                                 <div class="form-group">
-                                                    <label for="position">Cargo</label>
-                                                    <input ng-model="vm.contactSelected.position" type="text" class="form-control" 
-                                                        id="position" placeholder="Cargo">
+                                                    <label for="position">Segmentaci&oacute;n Tipo Cliente</label>
+                                                    <select ng-model="vm.contactSelected.segmentation_client_type" class="form-control"
+                                                        ng-options="seg as seg.description for seg in vm.segmentationsClientType track by seg.id">
+                                                    </select>
                                                 </div>
-                                            </form>
-                                        </pane>
-                                    </tabs>
+                                                <div class="form-group">
+                                                    <label for="position">Segmentaci&oacute;n Tipo Producto</label>
+                                                    <select ng-model="vm.contactSelected.segmentation_product_type" class="form-control"
+                                                        ng-options="seg as seg.description for seg in vm.segmentationsProductType track by seg.id">
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="position">Segmentaci&oacute;n Relaci&oacute;n FNC</label>
+                                                    <select ng-model="vm.contactSelected.segmentation_FNC_relation" class="form-control"
+                                                        ng-options="seg as seg.description for seg in vm.segmentationsFNCRelation track by seg.id">
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="position">Segmentaci&oacute;n Potencial a Futuro</label>
+                                                    <select ng-model="vm.contactSelected.segmentation_potential" class="form-control"
+                                                        ng-options="seg as seg.description for seg in vm.segmentationsPotential track by seg.id">
+                                                    </select>
+                                                </div>
+                                            </pane>
+                                            <pane title="direcci&oacute;n">
+                                                <div class="form-group">
+                                                    <label for="street">Calle</label>
+                                                    <input ng-model="vm.contactSelected.street" type="text" class="form-control" 
+                                                        id="street" placeholder="Calle">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="city">Ciudad</label>
+                                                    <input ng-model="vm.contactSelected.city" type="text" class="form-control" 
+                                                        id="city" placeholder="Ciudad">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="country">Pa&iacute;s</label>
+                                                    <select ng-model="vm.contactSelected.country" class="form-control"
+                                                        ng-options="c as c.name for c in vm.countries track by c.id">
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="postal_code">C&oacute;digo postal</label>
+                                                    <input ng-model="vm.contactSelected.postal_code" type="text" class="form-control" 
+                                                        id="postal_code" placeholder="Codigo Postal">
+                                                </div>
+                                            </pane>
+                                            <pane title="otros">
+                                                <div class="form-group">
+                                                    <label for="business_origin">De d&oacute;nde proviene el negocio</label>
+                                                    <input ng-model="vm.contactSelected.business_origin" type="text" class="form-control" 
+                                                        id="business_origin" placeholder="De d&oacute;nde proviene el negocio">
+                                                </div>
+                                                <div class="checkbox">
+                                                    <label for="action">
+                                                        <input ng-model="vm.contactSelected.action" type="checkbox" id="action">
+                                                        Nos interesa realizar alguna acci&oacute;n
+                                                    </label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="education">Nivel educaci&oacute;n</label>
+                                                    <select ng-model="vm.contactSelected.education_level" class="form-control"
+                                                        ng-options="it as it.description for it in vm.educationLevels track by it.id">
+                                                    </select>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <label for="customerSince">
+                                                        <input ng-model="vm.contactSelected.customer_since" type="checkbox"  
+                                                            id="customerSince" placeholder="Desde cuando es cliente">
+                                                        Desde cuando es cliente
+                                                    </label>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <label for="christmasCards">
+                                                        <input ng-model="vm.contactSelected.christmas_cards" 
+                                                            type="checkbox" id="christmasCards">
+                                                        Tarjetas de Navidad
+                                                    </label>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <label for="christmasPresents">
+                                                        <input ng-model="vm.contactSelected.christmas_presents" 
+                                                            type="checkbox" id="christmasPresents">
+                                                        Regalos de Navidad
+                                                    </label>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <label for="newsletter">
+                                                        <input ng-model="vm.contactSelected.newsletter" type="checkbox" id="newsletter">
+                                                        Newsletter
+                                                    </label>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <label for="bulletinFNC">
+                                                    <input ng-model="vm.contactSelected.bulletinFNC" type="checkbox" id="bulletinFNC">
+                                                        Bolet&iacute;n FNC
+                                                    </label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="size">Talla</label>
+                                                    <select ng-model="vm.contactSelected.size" class="form-control"
+                                                        ng-options="it as it.description for it in vm.sizes track by it.id">
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="ageRange">Rango de edad</label>
+                                                    <select ng-model="vm.contactSelected.age_range" class="form-control"
+                                                        ng-options="it as it.description for it in vm.ageRanges track by it.id">
+                                                    </select>
+                                                </div>
+                                            </pane>
+                                        </tabs>
+                                    </form>
                                     <footer class="pull-right">
                                         <a class="btn btn-primary" ng-click="vm.saveContactEdition()">Guardar</a>
                                         <a class="btn btn-default" ng-click="vm.cancelContactEdition()">Cancelar</a>

@@ -1,21 +1,18 @@
 // scripts/filters/contactsFitler.js
 
-function contactsFilter(contactList, controller) {
-    var out = [];
+function ContactsFilter(contactList, controller) {
+    if (!controller.hasFilters()) {
+        return contactList;
+    }
+
     var fieldsToSearch = ['email', 'firstname', 'lastname', 'phone', 'skype', 'perfil', 'interes', 'company', 'market', 
         'language', 'city', 'country', 'consolidatedCode', 'segmentationContactType', 'profession', 'position', 'area'];
 
-    angular.forEach(contactList, function(contact) {
-        if (!controller.hasFilters()) {
-            out.push(contact)
-        } else if (contactPassContactTypeFilter(contact, controller) && 
+    return contactList.filter(function(contact) {
+        return contactPassContactTypeFilter(contact, controller) && 
             contactPassGroupAreaFilter(contact, controller) && 
-            contactPassSearchFilter(contact, controller, fieldsToSearch)) {
-            out.push(contact);
-        }
-    })
-
-    return out;
+            contactPassSearchFilter(contact, controller, fieldsToSearch);
+    });
 }
 
 function contactPassContactTypeFilter(contact, controller) {
@@ -23,15 +20,15 @@ function contactPassContactTypeFilter(contact, controller) {
         return true;
     }
 
-    if (!contact.contactType) {
+    if (!contact.contact_type) {
         return false;
     }
 
-    var contactTypePass = false;
+    var passFilter = false;
     controller.contactTypeFilters.forEach(function(type) {
-        contactTypePass = contactTypePass || contact.contactType.id == type.id;
+        passFilter = passFilter || contact.contact_type.id == type.id;
     });
-    return contactTypePass;
+    return passFilter;
 }
 
 function contactPassGroupAreaFilter(contact, controller) {

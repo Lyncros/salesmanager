@@ -56,6 +56,11 @@ h3{font-family:'AvenirLTStd-Medium'}
 .light_bg{background-color:#f1f2f2}.default_bg{background-color:#bcbec0}.dark_bg{background-color:#353b3a}
 .operacion{ color:#6dc7e3} .operacion_bg{ background-color:#6dc7e3;} .operacion_border{ box-shadow:0 4px 0 0 #366472}
 
+/* nav-tabs */
+.nav-tabs {
+	margin-bottom: 15px;
+}
+
 /* nav-sidebar */
 .nav-sidebar{margin-right:-21px;margin-left:-20px}
 .nav-sidebar>li>a{padding-right:20px;padding-left:20px}

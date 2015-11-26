@@ -3,160 +3,210 @@
 
 angular.module('salesManager')
     .filter('contacts', function() {
-        return contactsFilter;
+        return ContactsFilter;
     })
     .directive('tabs', TabDirective)
     .directive('pane', PaneDirective)
     .controller('ContactsController', ContactsController);
 
 
-function ContactsController() {
+function ContactsController($http) {
 
-    this.contactTypes = [
-    	{'id': 1, 'description': 'Solicitante'}, 
-    	{'id': 2, 'description': 'Cliente indirecto'}, 
-    	{'id': 3, 'description': 'Cliente potencial'}, 
-    	{'id': 4, 'description': 'Empleado'}, 
-    	{'id': 5, 'description': 'Contacto FNC'}, 
-    	{'id': 6, 'description': 'Otro'}
-	];
-    
-    this.groupAreas = [
-    	{'id': 1, 'description': 'Compras'}, 
-    	{'id': 2, 'description': 'Gerencia'}, 
-    	{'id': 3, 'description': 'Mercadeo'}, 
-    	{'id': 4, 'description': 'Comercial'}, 
-    	{'id': 5, 'description': 'I&D'}, 
-    	{'id': 6, 'description': 'Logistica'}, 
-    	{'id': 7, 'description': 'Calidad'}
-	];
+    this.contactTypes = [];
+    this.groupAreas = [];
+    this.propertiesWeights = [];
+    this.contacts = [];
+    this.countries = [];
+    this.markets = [];
+    this.segmentationsABC = [];
+    this.segmentationsClientType = [];
+    this.segmentationsProductType = [];
+    this.segmentationsFNCRelation = [];
+    this.segmentationsPotential = [];
+    this.educationLevels = [];
+    this.genders = [];
+    this.ageRanges = [];
+    this.sizes = [];
 
-    this.propertiesWeights = [
-        {'name': 'email', 'weight': 15},
-        {'name': 'firstname', 'weight': 8},
-        {'name': 'lastname', 'weight': 8},
-        {'name': 'phone', 'weight': 2},
-        {'name': 'skype', 'weight': 5},
-        {'name': 'company', 'weight': 5.5},
-        {'name': 'market', 'weight': 5},
-        {'name': 'language', 'weight': 5},
-        {'name': 'honorific', 'weight': 0.4},
-        {'name': 'street', 'weight': 0.4},
-        {'name': 'city', 'weight': 0.4},
-        {'name': 'country', 'weight': 0.4},
-        {'name': 'region', 'weight': 0.4},
-        {'name': 'postalCode', 'weight': 0.4},
-        {'name': 'sapCode', 'weight': 1},
-        {'name': 'code10digits', 'weight': 0.4},
-        {'name': 'De donde proviene el negocio', 'weight': 3.5},
-        {'name': 'Nos interesa realizar alguna accion?', 'weight': 1.5},
-        {'name': 'Tipo de Socio (ROL - FUNCION)', 'weight': 3.4},
-        {'name': 'Segmentacion Tipo Cliente', 'weight': 3.9},
-        {'name': 'Segmentacion Tipo Producto', 'weight': 2},
-        {'name': 'Segmentacion Relacion FNC', 'weight': 1},
-        {'name': 'Segmentacion Potencial a Futuro', 'weight': 1},
-        {'name': 'career', 'weight': 2.8},
-        {'name': 'position', 'weight': 10},
-        {'name': 'area', 'weight': 5},
-        {'name': 'linkedinProfile', 'weight': 5},
-        {'name': 'Nivel de educación', 'weight': 0.2},
-        {'name': 'Desde hace cuanto es cliente?', 'weight': 0.2},
-        {'name': 'Tarjetas de Navidad', 'weight': 0.2},
-        {'name': 'Regalos de Navidad', 'weight': 0.2},
-        {'name': 'newsletter', 'weight': 0.2},
-        {'name': 'Boletin FNC', 'weight': 0.2},
-        {'name': 'TALLA', 'weight': 0.2},
-        {'name': 'ageRank', 'weight': 2.2}
-    ];
+    this.getContacts = function () {
+        var controller = this;
 
-    this.contacts = [{
-	      'id': 1,
-	      'consolidatedCode': '#11111111',
-          'code10digits': '1111111111',
-	      'honorific': 'Mr.',
-	      'firstname':'Mick',
-	      'lastname':'Jagger',
-	      'company': 'Rolling Stones S.A.',
-	      'phone': '5555-1111',
-	      'skype': 'mick.jagger',
-	      'email': 'mick@rollingstones.com',
-	      'position': '',
-	      'market': 'Europe',
-	      'street': '321 Abbey Road',
-	      'city': 'Knebworth, London',
-	      'country': 'England',
-          'postalCode': '14280',
-	      'language': 'English',
-	      'contactType': {'id': 1, 'description': 'Solicitante'},
-	      'groupArea': {'id': 1, 'description': 'Compras'},
-          'career': 'singer, vocals',
-          'linkedinProfile': 'https://ar.linkedin.com/in/mick-jagger-40446313',
-          
-	    },
-	    {
-	      'id': 2,
-	      'consolidatedCode': '#22222222',
-	      'honorific': 'Mr.',
-	      'firstname':'Keith',
-	      'lastname':'Richards',
-	      'company': 'Rolling Stones S.A.',
-	      'phone': '5555-2222',
-	      'skype': 'keith.richards',
-	      'email': 'keith@rollingstones.com',
-	      'position': 'Lead guitar',
-	      'market': 'Europe',
-	      'street': '321 Abbey Road',
-          'city': 'Knebworth, London',
-          'country': 'England',
-          'postalCode': '14280',
-	      'language': 'English',
-	      'contactType': {'id': 2, 'description': 'Cliente indirecto'},
-	      'groupArea': {'id': 2, 'description': 'Gerencia'},
-          'career': 'guitar and melodiy'
-	    },
-	    {
-	      'id': 3,
-	      'consolidatedCode': '#33333333',
-	      'honorific': 'Mr.',
-	      'firstname':'Charlie',
-	      'lastname':'Watts',
-	      'company': 'Rolling Stones S.A.',
-	      'phone': '5555-3333',
-	      'skype': 'charlie.watts',
-	      'email': 'charlie@rollingstones.com',
-	      'position': 'Drums',
-	      'market': 'Europe',
-	      'street': '321 Abbey Road',
-          'city': 'Knebworth, London',
-          'country': 'England',
-          'postalCode': '14280',
-	      'language': 'English',
-	      'contactType': {'id': 3, 'description': 'Cliente potencial'},
-	      'groupArea': {'id': 3, 'description': 'Mercadeo'},
-          'career': 'rithm'
-	    },
-	    {
-	      'id': 4,
-	      'consolidatedCode': '#44444444',
-	      'honorific': 'Mr.',
-	      'firstname':'Ron',
-	      'lastname':'Wood',
-	      'company': 'Rolling Stones S.A.',
-	      'phone': '5555-4444',
-	      'skype': 'ron.wood',
-	      'email': 'ron@rollingstones.com',
-	      'position': 'Second guitar',
-	      'market': 'Europe',
-	      'street': '321 Abbey Road',
-          'city': 'Knebworth, London',
-          'country': 'England',
-          'postalCode': '14280',
-	      'language': 'English',
-	      'contactType': {'id': 6, 'description': 'Otro'},
-	      'groupArea': {'id': 4, 'description': 'Comercial'},
-          'career': 'melodic guitar'
-	    }
-    ];
+        $http.get('index.php/api/contacts').
+            success(function(data, status, headers, config) {
+                controller.contacts = data;
+            }).
+            error(function(data, status, headers, config) {
+                console.error('Error getting contacts!');
+            });
+    };
+
+    this.getPropertyWeights = function() {
+        var controller = this;
+
+        $http.get('index.php/api/propertyWeights').
+            success(function(data, status, headers, config) {
+                controller.propertiesWeights = data;
+            }).
+            error(function(data, status, headers, config) {
+                console.error('Error getting property weights!');
+            });
+    };
+
+    this.getCountries = function() {
+        var controller = this;
+
+        $http.get('index.php/api/countries').
+            success(function(data, status, headers, config) {
+                controller.countries = data;
+            }).
+            error(function(data, status, headers, config) {
+                console.error('Error getting countries!');
+            });
+    };
+
+    this.getContactTypes = function() {
+        var controller = this;
+
+        $http.get('index.php/api/contactTypes').
+            success(function(data, status, headers, config) {
+                controller.contactTypes = data;
+            }).
+            error(function(data, status, headers, config) {
+                console.error('Error getting contact types!');
+            });
+    };
+
+    this.getGroupAreas = function() {
+        var controller = this;
+
+        $http.get('index.php/api/groupAreas').
+            success(function(data, status, headers, config) {
+                controller.groupAreas = data;
+            }).
+            error(function(data, status, headers, config) {
+                console.error('Error getting group areas!');
+            });
+    };
+
+    this.getMarkets = function() {
+        var controller = this;
+
+        $http.get('index.php/api/markets').
+            success(function(data, status, headers, config) {
+                controller.markets = data;
+            }).
+            error(function(data, status, headers, config) {
+                console.error('Error getting markets!');
+            });
+    };
+
+    this.getSegmentationsABC = function() {
+        var controller = this;
+
+        $http.get('index.php/api/segmentationsABC').
+            success(function(data, status, headers, config) {
+                controller.segmentationsABC = data;
+            }).
+            error(function(data, status, headers, config) {
+                console.error('Error getting segmentations ABC!');
+            });
+    };
+
+    this.getSegmentationsClientType = function() {
+        var controller = this;
+
+        $http.get('index.php/api/segmentationsClientType').
+            success(function(data, status, headers, config) {
+                controller.segmentationsClientType = data;
+            }).
+            error(function(data, status, headers, config) {
+                console.error('Error getting segmentations Client Type!');
+            });
+    };
+
+    this.getSegmentationsProductType = function() {
+        var controller = this;
+
+        $http.get('index.php/api/segmentationsProductType').
+            success(function(data, status, headers, config) {
+                controller.segmentationsProductType = data;
+            }).
+            error(function(data, status, headers, config) {
+                console.error('Error getting segmentations Product Type!');
+            });
+    };
+
+    this.getSegmentationsFNCRelation = function() {
+        var controller = this;
+
+        $http.get('index.php/api/segmentationsFNCRelation').
+            success(function(data, status, headers, config) {
+                controller.segmentationsFNCRelation = data;
+            }).
+            error(function(data, status, headers, config) {
+                console.error('Error getting segmentations FNC relation!');
+            });
+    };
+
+    this.getSegmentationsPotential = function() {
+        var controller = this;
+
+        $http.get('index.php/api/segmentationsPotential').
+            success(function(data, status, headers, config) {
+                controller.segmentationsPotential = data;
+            }).
+            error(function(data, status, headers, config) {
+                console.error('Error getting segmentations potential!');
+            });
+    };
+
+    this.getEducationLevels = function() {
+        var controller = this;
+
+        $http.get('index.php/api/educationLevels').
+            success(function(data, status, headers, config) {
+                controller.educationLevels = data;
+            }).
+            error(function(data, status, headers, config) {
+                console.error('Error getting education levels!');
+            });
+    };
+
+    this.getGenders = function() {
+        var controller = this;
+
+        $http.get('index.php/api/genders').
+            success(function(data, status, headers, config) {
+                controller.genders = data;
+            }).
+            error(function(data, status, headers, config) {
+                console.error('Error getting genders!');
+            });
+    };
+
+    this.getAgeRanges = function() {
+        var controller = this;
+
+        $http.get('index.php/api/ageRanges').
+            success(function(data, status, headers, config) {
+                controller.ageRanges = data;
+            }).
+            error(function(data, status, headers, config) {
+                console.error('Error getting age ranges!');
+            });
+    };
+
+    this.getSizes = function() {
+        var controller = this;
+
+        $http.get('index.php/api/sizes').
+            success(function(data, status, headers, config) {
+                controller.sizes = data;
+            }).
+            error(function(data, status, headers, config) {
+                console.error('Error getting sizes!');
+            });
+    };
 
     this.isContactDetailsVisible = function() {
     	return this.contactSelected != null && !this.isContactEditionVisible();
@@ -244,15 +294,12 @@ function ContactsController() {
     }
 
     this.isCompletenessBarVisible = function() {
-        //TODO: FIXME! Saar este hardcodeo .-jarias
-        return this.contactSelected != null && 
-            this.contactSelected.contactType && 
-            (this.contactSelected.contactType.id == 1 || this.contactSelected.contactType.id == 2 || this.contactSelected.contactType.id == 3);
+        return this.contactSelected && this.contactSelected.contact_type &&
+            this.contactSelected.contact_type.completeness_measure;
     }
 
     this.calculateCompletenessPercentage = function(contact) {
         var percentage = 0;
-
 
         angular.forEach(this.propertiesWeights, function(prop, i) {
             percentage = percentage + calculateFieldWeight(contact, prop.name, prop.weight);
@@ -266,6 +313,21 @@ function ContactsController() {
 	this.resetSearchKey();
     this.resetContactSelected();
     this.hideContactEdition();
+    this.getPropertyWeights();
+    this.getCountries();
+    this.getContactTypes();
+    this.getGroupAreas();
+    this.getMarkets();
+    this.getSegmentationsABC();
+    this.getSegmentationsClientType();
+    this.getSegmentationsProductType();
+    this.getSegmentationsFNCRelation();
+    this.getSegmentationsPotential();
+    this.getEducationLevels();
+    this.getGenders();
+    this.getAgeRanges();
+    this.getSizes();
+    this.getContacts();
 }
 
 function calculateFieldWeight(obj, field, weight) {

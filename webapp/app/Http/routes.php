@@ -16,7 +16,22 @@ Route::get('/', function () {
 });
 
 // A route group allows us to have a prefix, in this case api
-Route::group(array('prefix' => 'api'), function()
-{
-    Route::resource('time', 'TimeEntriesController');
+Route::group(array('prefix' => 'api'), function() {
+
+    Route::resource('contacts', 'ContactsController');
+    Route::resource('countries', 'CountriesController');
+    Route::resource('contactTypes', 'ContactTypeController');
+    Route::resource('groupAreas', 'GroupAreaController');
+    Route::resource('markets', 'MarketsController');
+    Route::resource('segmentationsABC', 'SegmentationsABCController');
+    Route::resource('segmentationsClientType', 'SegmentationsClientTypeController');
+    Route::resource('segmentationsProductType', 'SegmentationsProductTypeController');
+    Route::resource('segmentationsFNCRelation', 'SegmentationsFNCRelationController');
+    Route::resource('segmentationsPotential', 'SegmentationsPotentialController');
+    Route::resource('educationLevels', 'EducationLevelsController');
+    Route::resource('genders', 'GendersController');
+    Route::resource('sizes', 'SizesController');
+    Route::resource('ageRanges', 'AgeRangesController');
+    Route::get('propertyWeights', 'ContactsController@propertyWeights');
+
 });
