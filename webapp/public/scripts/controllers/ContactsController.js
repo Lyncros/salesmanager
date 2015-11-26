@@ -247,7 +247,7 @@ function ContactsController($http) {
     }
 
     this.cancelContactEdition = function() {
-        this.hideContactEdition();
+        this.editingContact = false;
     }
 
     this.resetSearchKey = function() {

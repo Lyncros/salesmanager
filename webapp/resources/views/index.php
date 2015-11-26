@@ -165,6 +165,7 @@
                                     <p>{{vm.contactSelected.street}}</p>
                                     <p>{{vm.contactSelected.city}} {{vm.contactSelected.postal_code}}</p>
                                     <p>{{vm.contactSelected.country.name}}</p>
+                                    <p>{{vm.contactSelected.region.name}}</p>
                                 </div>
                             </div>
                             <div class="col-sm-12 col-md-12">
@@ -178,11 +179,11 @@
                                     </h5>
                                 </header>
                                 <div id="segmentation" class="collapse">
-                                    <p>{{vm.contactSelected.segmentationABC.description}}</p>
-                                    <p>{{vm.contactSelected.segmentationContactType.description}}</p>
-                                    <p>{{vm.contactSelected.segmentationFNCRelation.description}}</p>
-                                    <p>{{vm.contactSelected.segmentationPotential.description}}</p>
-                                    <p>{{vm.contactSelected.segmentationProductType.description}}</p>
+                                    <p>{{vm.contactSelected.segmentation_ABC.description}}</p>
+                                    <p>{{vm.contactSelected.segmentation_contact_type.description}}</p>
+                                    <p>{{vm.contactSelected.segmentation_FNC_relation.description}}</p>
+                                    <p>{{vm.contactSelected.segmentation_potential.description}}</p>
+                                    <p>{{vm.contactSelected.segmentation_product_type.description}}</p>
                                 </div>
                             </div>
                             <div class="col-sm-12 col-md-12">
@@ -209,6 +210,22 @@
                             <div class="col-sm-12 col-md-12">
                                 <header class="subpanel-heading">
                                     <h5>
+                                        <span>laboral
+                                            <a href="#work-information" data-toggle="collapse">
+                                                <span>M&aacute;s</span>
+                                            </a>
+                                        </span>
+                                    </h5>
+                                </header>
+                                <div id="work-information" class="collapse">
+                                    <p>{{vm.contactSelected.position}}</p>
+                                    <p>{{vm.contactSelected.company}}</p>
+                                    <p>{{vm.contactSelected.career}}</p>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-12">
+                                <header class="subpanel-heading">
+                                    <h5>
                                         <span>informacion adicional
                                             <a href="#additional-information" data-toggle="collapse">
                                                 <span>M&aacute;s</span>
@@ -217,14 +234,13 @@
                                     </h5>
                                 </header>
                                 <div id="additional-information" class="collapse">
-                                    <p>Interes #</p>
-                                    <p>Interes #</p>
-                                    <p>Interes #</p>
-                                    <p>Interes #</p>
-                                    <p>Interes #</p>
-                                    <p>Interes #</p>
-                                    <p>Interes #</p>
-                                    <p>Interes #</p>
+                                    <p>{{vm.contactSelected.honorific}}</p>
+                                    <p>{{vm.contactSelected.ten_digits_code}}</p>
+                                    <p>{{vm.contactSelected.sap_code}}</p>
+                                    <p>{{vm.contactSelected.education_level.description}}</p>
+                                    <p>{{vm.contactSelected.gender.description}}</p>
+                                    <p>{{vm.contactSelected.size.description}}</p>
+                                    <p>{{vm.contactSelected.age_range.description}}</p>
                                 </div>
                             </div>
                         </section>
@@ -391,12 +407,10 @@
                                                         ng-options="it as it.description for it in vm.educationLevels track by it.id">
                                                     </select>
                                                 </div>
-                                                <div class="checkbox">
-                                                    <label for="customerSince">
-                                                        <input ng-model="vm.contactSelected.customer_since" type="checkbox"  
-                                                            id="customerSince" placeholder="Desde cuando es cliente">
-                                                        Desde cuando es cliente
-                                                    </label>
+                                                <div class="form-group">
+                                                    <label for="customer_since">Desde cuando es cliente</label>
+                                                    <input ng-model="vm.contactSelected.customer_since" type="text" class="form-control" 
+                                                        id="customer_since" placeholder="Desde cuando es cliente">
                                                 </div>
                                                 <div class="checkbox">
                                                     <label for="christmasCards">

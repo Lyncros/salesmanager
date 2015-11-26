@@ -6,10 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Contact extends Model {
 
-	//protected $maps = [
-	//	'segmentation__a_b_c' => 'segmentationABC', 
-	//];
-
 	protected $hidden = [
 		'id_contact_type',
 		'id_group_area',
@@ -28,7 +24,10 @@ class Contact extends Model {
 		'id_creator',
 	];
 
-	//protected $appends = ['segmentationABC'];
+	protected $appends = [
+		'segmentation_ABC',
+		'segmentation_FNC_relation'
+	];
 
 	protected $casts = [
         'action' => 'boolean',
@@ -37,6 +36,14 @@ class Contact extends Model {
         'newsletter' => 'boolean',
         'bulletinFNC' => 'boolean',
     ];
+
+    public function getSegmentationABCAttribute() {
+    	return $this->relations['segmentation_ABC'];
+    }
+
+    public function getSegmentationFNCRelationAttribute() {
+    	return $this->relations['segmentation_FNC_relation'];
+    }
 
 	public function country() {
 		return $this->hasOne('App\Country', 'id', 'id_country');
@@ -59,7 +66,7 @@ class Contact extends Model {
 	}
 
 	public function segmentation_ABC() {
-		return $this->hasOne('App\SegmentationABC', 'id', 'id_segmentation_ABC');
+		return $this->hasOne('App\SegmentationABC', 'id', 'id_segmentation_abc');
 	}
 
 	public function segmentation_client_type() {

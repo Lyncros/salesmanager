@@ -18,6 +18,11 @@ class ContactsController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
+
+        //TODO: refactor code. Move relations into scope for Model.- jarias
+
+        //FIXME: do not retrieve all the relations for list. Only get all data when editing.- jarias
+
         return Contact::with('country')
             ->with('region')
             ->with('contact_type')
@@ -27,11 +32,11 @@ class ContactsController extends Controller {
             ->with('gender')
             ->with('size')
             ->with('age_range')
-            //->with('segmentation_ABC')
-            //->with('segmentation_client_type')
-            //->with('segmentation_FNC_Relation')
-            //->with('segmentation_potential')
-            //->with('segmentation_product_type')
+            ->with('segmentation_ABC')
+            ->with('segmentation_client_type')
+            ->with('segmentation_FNC_relation')
+            ->with('segmentation_potential')
+            ->with('segmentation_product_type')
             ->take(2)
             ->get();
     }
@@ -49,14 +54,14 @@ class ContactsController extends Controller {
     public function show($id) {
         return Contact::with('country')
             ->with('region')
-            ->with('contactType')
-            ->with('groupArea')
+            ->with('contact_type')
+            ->with('group_area')
             ->with('market')
-            ->with('segmentationABC')
-            ->with('segmentationClientType')
-            ->with('segmentationFNCRelation')
-            ->with('segmentationPotential')
-            ->with('segmentationProductType')
+            ->with('segmentation_ABC')
+            ->with('segmentation_client_type')
+            ->with('segmentation_FNC_relation')
+            ->with('segmentation_potential')
+            ->with('segmentation_product_type')
             ->findOrFail($id);
     }
 
