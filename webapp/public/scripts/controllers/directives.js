@@ -30,19 +30,37 @@ function TabDirective() {
           '<div class="tab-content" ng-transclude></div>' +
         '</div>',
       replace: true
-	};
+  };
 }
 
 function PaneDirective() {
-   	return {
-    	require: '^tabs',
-		restrict: 'E',
-		transclude: true,
-		scope: { title: '@' },
-		link: function(scope, element, attrs, tabsController) {
-			tabsController.addPane(scope);
-		},
-		template: '<div class="tab-pane" ng-class="{active: selected}" ng-transclude></div>',
-		replace: true
-	};
+    return {
+      require: '^tabs',
+      restrict: 'E',
+      transclude: true,
+      scope: { title: '@' },
+      link: function(scope, element, attrs, tabsController) {
+        tabsController.addPane(scope);
+      },
+      template: '<div class="tab-pane" ng-class="{active: selected}" ng-transclude></div>',
+      replace: true
+    };
+}
+
+function ResizeDirective($window) {
+  return function (scope, element) {
+      var w = angular.element($window);
+      scope.getWindowDimensions = function () {
+          return { 'h': w.height(), 'w': w.width() };
+      };
+      scope.$watch(scope.getWindowDimensions, function (newValue, oldValue) {
+        scope.windowHeight = newValue.h;
+        scope.windowWidth = newValue.w;
+
+      }, true);
+
+      w.bind('resize', function () {
+          scope.$apply();
+      });
+  }
 }

@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/buencafe.css">
     <link rel="stylesheet" href="css/simple-sidebar.css">
+    <link rel="stylesheet" href="css/animate.css">
 </head>
 
 <body class="home" ng-app="salesManager" ng-controller="ContactsController as vm">
@@ -83,8 +84,20 @@
             <div class="container-fluid">
                 <div class="col-sm-12 col-md-12 main">
                     <div class="row relative">
-                        <aside class="contact-list col-sm-12 col-md-5 col-lg-5 infinite-scroll">
-                            <article class="task panel" ng-repeat="contact in vm.contacts | contacts:vm | orderBy:'lastname'">
+                        <aside class="contact-list col-sm-12 col-md-5 col-lg-5" style="height: {{ windowHeight - 100 }}px;" resize>
+                            <article class="contact-list-actions text-right">
+                                <a href="" class="btn btn-default {{vm.getCssClassOrderByAZ()}}" title="Ordenar A-Z" ng-click="vm.orderByAZ()">
+                                    <span class="glyphicon glyphicon-sort-by-alphabet"></span>
+                                </a>
+                                <a href="" class="btn btn-default {{vm.getCssClassOrderByZA()}}" title="Ordenar Z-A" ng-click="vm.orderByZA()">
+                                    <span class="glyphicon glyphicon-sort-by-alphabet-alt"></span>
+                                </a>
+                                <a href="" class="btn btn-default {{vm.getCssClassOrderByRecent()}}" title="Ordenar m&aacute;s reciente" 
+                                    ng-click="vm.orderByRecent()">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </a>
+                            </article>
+                            <article class="task panel" ng-repeat="contact in vm.contacts | contacts:vm | orderBy:vm.orderByField:vm.orderByReverse">
                                 <a href="#" ng-click="vm.showContactDetails(contact)">
                                     <header class="panel-heading">
                                         <div class="row">
@@ -115,7 +128,7 @@
                                         </h3>
                                     </div>
                                     <div class="col-sm-5 col-md-5 col-lg-5 panel-actions">
-                                        <div class="progress" ng-if="vm.isCompletenessBarVisible()">
+                                        <div class="progress" ng-if="vm.isContactDetailsVisible()">
                                             <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" 
                                                 aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" 
                                                 style="width: {{vm.calculateCompletenessPercentage(vm.contactSelected)}}">
@@ -180,7 +193,7 @@
                                 </header>
                                 <div id="segmentation" class="collapse">
                                     <p>{{vm.contactSelected.segmentation_ABC.description}}</p>
-                                    <p>{{vm.contactSelected.segmentation_contact_type.description}}</p>
+                                    <p>{{vm.contactSelected.segmentation_client_type.description}}</p>
                                     <p>{{vm.contactSelected.segmentation_FNC_relation.description}}</p>
                                     <p>{{vm.contactSelected.segmentation_potential.description}}</p>
                                     <p>{{vm.contactSelected.segmentation_product_type.description}}</p>
@@ -251,6 +264,8 @@
                                 <div class="col-sm-12 col-md-12 panel">
                                     <h3>Editar contacto {{vm.contactSelected.firstname}} {{vm.contactSelected.lastname}}</h3>
                                     <form>
+                                        <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                                        <input type="hidden" name="id" ng-model="vm.contactSelected.id" />
                                         <tabs>
                                             <pane title="principal">
                                                 <div class="form-group">
@@ -292,7 +307,7 @@
                                             </pane>
                                             <pane title="adicional">
                                                 <div class="form-group">
-                                                    <label for="honorific">Sr./ Sra</label>
+                                                    <label for="honorific">Sr./ Sra.</label>
                                                     <input ng-model="vm.contactSelected.honorific" type="text" class="form-control" 
                                                         id="honorific" placeholder="Sr. / Sra.">
                                                 </div>
@@ -468,15 +483,19 @@
 </body>
 
 <!-- Application Dependencies -->
+<script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script> 
 <script type="text/javascript" src="bower_components/angular/angular.js"></script>
 <script type="text/javascript" src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
 <script type="text/javascript" src="bower_components/angular-resource/angular-resource.js"></script>
-<script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script> 
+<script type="text/javascript" src="bower_components/angular-animate/angular-animate.js"></script>
 <script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script> 
 
 <!-- Application Scripts -->
 <script type="text/javascript" src="scripts/app.js"></script>
 <script type="text/javascript" src="scripts/filters/contactsFilter.js"></script>
+<script type="text/javascript" src="scripts/services/commonService.js"></script>
+<script type="text/javascript" src="scripts/services/ContactsService.js"></script>
+<script type="text/javascript" src="scripts/services/EntitiesService.js"></script>
 <script type="text/javascript" src="scripts/controllers/directives.js"></script>
 <script type="text/javascript" src="scripts/controllers/ContactsController.js"></script>
 <script type="text/javascript" src="scripts/controllers/EditContactController.js"></script>

@@ -7,15 +7,18 @@ angular.module('salesManager')
     })
     .directive('tabs', TabDirective)
     .directive('pane', PaneDirective)
+    .directive('resize', ResizeDirective)
     .controller('ContactsController', ContactsController);
 
 
-function ContactsController($http) {
+function ContactsController($http, contactsService, entitiesService) {
 
+    this.contacts = [];
+    this.propertiesWeights = [];
+    this.contactSelected = null;
+    this.editingContact = false;
     this.contactTypes = [];
     this.groupAreas = [];
-    this.propertiesWeights = [];
-    this.contacts = [];
     this.countries = [];
     this.markets = [];
     this.segmentationsABC = [];
@@ -27,194 +30,36 @@ function ContactsController($http) {
     this.genders = [];
     this.ageRanges = [];
     this.sizes = [];
+    this.orderByField = '';
+    this.orderByReverse = false;
 
-    this.getContacts = function () {
-        var controller = this;
+    contactsService.getContacts().then(onResultAssignProperty(this, 'contacts'));
+    contactsService.getPropertyWeights().then(onResultAssignProperty(this, 'propertiesWeights'));
+    entitiesService.getCountries().then(onResultAssignProperty(this, 'countries'));
+    entitiesService.getContactTypes().then(onResultAssignProperty(this, 'contactTypes'));
+    entitiesService.getGroupAreas().then(onResultAssignProperty(this, 'groupAreas'));
+    entitiesService.getMarkets().then(onResultAssignProperty(this, 'markets'));
+    entitiesService.getSegmentationsABC().then(onResultAssignProperty(this, 'segmentationsABC'));
+    entitiesService.getSegmentationsClientType().then(onResultAssignProperty(this, 'segmentationsClientType'));
+    entitiesService.getSegmentationsProductType().then(onResultAssignProperty(this, 'segmentationsProductType'));
+    entitiesService.getSegmentationsFNCRelation().then(onResultAssignProperty(this, 'segmentationsFNCRelation'));
+    entitiesService.getSegmentationsPotential().then(onResultAssignProperty(this, 'segmentationsPotential'));
+    entitiesService.getEducationLevels().then(onResultAssignProperty(this, 'educationLevels'));
+    entitiesService.getGenders().then(onResultAssignProperty(this, 'genders'));
+    entitiesService.getAgeRanges().then(onResultAssignProperty(this, 'ageRanges'));
+    entitiesService.getSizes().then(onResultAssignProperty(this, 'sizes'));
 
-        $http.get('index.php/api/contacts').
-            success(function(data, status, headers, config) {
-                controller.contacts = data;
-            }).
-            error(function(data, status, headers, config) {
-                console.error('Error getting contacts!');
-            });
-    };
-
-    this.getPropertyWeights = function() {
-        var controller = this;
-
-        $http.get('index.php/api/propertyWeights').
-            success(function(data, status, headers, config) {
-                controller.propertiesWeights = data;
-            }).
-            error(function(data, status, headers, config) {
-                console.error('Error getting property weights!');
-            });
-    };
-
-    this.getCountries = function() {
-        var controller = this;
-
-        $http.get('index.php/api/countries').
-            success(function(data, status, headers, config) {
-                controller.countries = data;
-            }).
-            error(function(data, status, headers, config) {
-                console.error('Error getting countries!');
-            });
-    };
-
-    this.getContactTypes = function() {
-        var controller = this;
-
-        $http.get('index.php/api/contactTypes').
-            success(function(data, status, headers, config) {
-                controller.contactTypes = data;
-            }).
-            error(function(data, status, headers, config) {
-                console.error('Error getting contact types!');
-            });
-    };
-
-    this.getGroupAreas = function() {
-        var controller = this;
-
-        $http.get('index.php/api/groupAreas').
-            success(function(data, status, headers, config) {
-                controller.groupAreas = data;
-            }).
-            error(function(data, status, headers, config) {
-                console.error('Error getting group areas!');
-            });
-    };
-
-    this.getMarkets = function() {
-        var controller = this;
-
-        $http.get('index.php/api/markets').
-            success(function(data, status, headers, config) {
-                controller.markets = data;
-            }).
-            error(function(data, status, headers, config) {
-                console.error('Error getting markets!');
-            });
-    };
-
-    this.getSegmentationsABC = function() {
-        var controller = this;
-
-        $http.get('index.php/api/segmentationsABC').
-            success(function(data, status, headers, config) {
-                controller.segmentationsABC = data;
-            }).
-            error(function(data, status, headers, config) {
-                console.error('Error getting segmentations ABC!');
-            });
-    };
-
-    this.getSegmentationsClientType = function() {
-        var controller = this;
-
-        $http.get('index.php/api/segmentationsClientType').
-            success(function(data, status, headers, config) {
-                controller.segmentationsClientType = data;
-            }).
-            error(function(data, status, headers, config) {
-                console.error('Error getting segmentations Client Type!');
-            });
-    };
-
-    this.getSegmentationsProductType = function() {
-        var controller = this;
-
-        $http.get('index.php/api/segmentationsProductType').
-            success(function(data, status, headers, config) {
-                controller.segmentationsProductType = data;
-            }).
-            error(function(data, status, headers, config) {
-                console.error('Error getting segmentations Product Type!');
-            });
-    };
-
-    this.getSegmentationsFNCRelation = function() {
-        var controller = this;
-
-        $http.get('index.php/api/segmentationsFNCRelation').
-            success(function(data, status, headers, config) {
-                controller.segmentationsFNCRelation = data;
-            }).
-            error(function(data, status, headers, config) {
-                console.error('Error getting segmentations FNC relation!');
-            });
-    };
-
-    this.getSegmentationsPotential = function() {
-        var controller = this;
-
-        $http.get('index.php/api/segmentationsPotential').
-            success(function(data, status, headers, config) {
-                controller.segmentationsPotential = data;
-            }).
-            error(function(data, status, headers, config) {
-                console.error('Error getting segmentations potential!');
-            });
-    };
-
-    this.getEducationLevels = function() {
-        var controller = this;
-
-        $http.get('index.php/api/educationLevels').
-            success(function(data, status, headers, config) {
-                controller.educationLevels = data;
-            }).
-            error(function(data, status, headers, config) {
-                console.error('Error getting education levels!');
-            });
-    };
-
-    this.getGenders = function() {
-        var controller = this;
-
-        $http.get('index.php/api/genders').
-            success(function(data, status, headers, config) {
-                controller.genders = data;
-            }).
-            error(function(data, status, headers, config) {
-                console.error('Error getting genders!');
-            });
-    };
-
-    this.getAgeRanges = function() {
-        var controller = this;
-
-        $http.get('index.php/api/ageRanges').
-            success(function(data, status, headers, config) {
-                controller.ageRanges = data;
-            }).
-            error(function(data, status, headers, config) {
-                console.error('Error getting age ranges!');
-            });
-    };
-
-    this.getSizes = function() {
-        var controller = this;
-
-        $http.get('index.php/api/sizes').
-            success(function(data, status, headers, config) {
-                controller.sizes = data;
-            }).
-            error(function(data, status, headers, config) {
-                console.error('Error getting sizes!');
-            });
-    };
+    this.isContactSelected = function() {
+        return this.contactSelected != null;
+    }
 
     this.isContactDetailsVisible = function() {
-    	return this.contactSelected != null && !this.isContactEditionVisible();
+    	return this.isContactSelected() && !this.isContactEditionVisible();
     }
 
     this.showContactDetails = function(contact) {
         this.hideContactEdition();
-        this.contactSelected = contact;
+        contactsService.getContact(contact.id).then(onResultAssignProperty(this, 'contactSelected'));
     }
 
     this.resetContactSelected = function() {
@@ -231,7 +76,7 @@ function ContactsController($http) {
     }
 
     this.isContactEditionVisible = function() {
-        return this.contactSelected != null && this.editingContact;
+        return this.isContactSelected() && this.editingContact;
     }
 
     this.hideContactEdition = function() {
@@ -240,10 +85,13 @@ function ContactsController($http) {
     }
 
     this.saveContactEdition = function() {
-        if (this.contactSelected) {
-            this.contacts.push(this.contactSelected);
+        var result = contactsService.saveContact(this.contactSelected);
+        if (result) {
+            this.editingContact = false;
+            contactsService.getContacts().then(onResultAssignProperty(this, 'contacts'));
+        } else {
+            alert('Ocurrio un error al guardar el contacto.');
         }
-        this.hideContactEdition();
     }
 
     this.cancelContactEdition = function() {
@@ -293,11 +141,6 @@ function ContactsController($http) {
         this.resetContactSelected();
     }
 
-    this.isCompletenessBarVisible = function() {
-        return this.contactSelected && this.contactSelected.contact_type &&
-            this.contactSelected.contact_type.completeness_measure;
-    }
-
     this.calculateCompletenessPercentage = function(contact) {
         var percentage = 0;
 
@@ -308,26 +151,43 @@ function ContactsController($http) {
         return Math.round(percentage) + '%';
     }
 
+    this.orderByAZ = function() {
+        this.orderByField = 'lastname';
+        this.orderByReverse = false;
+    }
+
+    this.orderByZA = function() {
+        this.orderByField = 'lastname';
+        this.orderByReverse = true;
+    }
+
+    this.orderByRecent = function() {
+        this.orderByField = 'created_at';
+        this.orderByReverse = true;
+    }
+
+    this.getCssClassOrderByAZ = function() {
+        return this.isOrderedByLastname() && !this.orderByReverse ? 'disabled' : '';
+    }
+
+    this.getCssClassOrderByZA = function() {
+        return this.isOrderedByLastname() && this.orderByReverse ? 'disabled' : '';
+    }
+
+    this.isOrderedByLastname = function() {
+        return this.orderByField == 'lastname';
+    }
+
+    this.getCssClassOrderByRecent = function() {
+        return this.orderByField == 'created_at' && this.orderByReverse ? 'disabled' : '';
+    }
+
     // Initialize controller.- jarias
     this.resetFilters();
 	this.resetSearchKey();
     this.resetContactSelected();
     this.hideContactEdition();
-    this.getPropertyWeights();
-    this.getCountries();
-    this.getContactTypes();
-    this.getGroupAreas();
-    this.getMarkets();
-    this.getSegmentationsABC();
-    this.getSegmentationsClientType();
-    this.getSegmentationsProductType();
-    this.getSegmentationsFNCRelation();
-    this.getSegmentationsPotential();
-    this.getEducationLevels();
-    this.getGenders();
-    this.getAgeRanges();
-    this.getSizes();
-    this.getContacts();
+    this.orderByAZ();
 }
 
 function calculateFieldWeight(obj, field, weight) {

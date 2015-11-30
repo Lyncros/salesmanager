@@ -4,6 +4,6 @@
 
     'use strict';
 
-    angular.module('salesManager', ['ngResource', 'ui.bootstrap']);
+    angular.module('salesManager', ['ngResource', 'ui.bootstrap', 'ngAnimate']);
     
 })();

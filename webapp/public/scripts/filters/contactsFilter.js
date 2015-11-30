@@ -36,13 +36,13 @@ function contactPassGroupAreaFilter(contact, controller) {
         return true;
     }
 
-    if (!contact.groupArea) {
+    if (!contact.group_area) {
         return false;
     }
 
     var groupAreaPass = false;
     controller.groupAreaFilters.forEach(function(ga) {
-        groupAreaPass = groupAreaPass || contact.groupArea.id == ga.id;
+        groupAreaPass = groupAreaPass || contact.group_area.id == ga.id;
     });
     return groupAreaPass;
 }

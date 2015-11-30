@@ -17,21 +17,22 @@ Route::get('/', function () {
 
 // A route group allows us to have a prefix, in this case api
 Route::group(array('prefix' => 'api'), function() {
+    $params = [ 'except' => ['edit', 'create'] ];
 
-    Route::resource('contacts', 'ContactsController');
-    Route::resource('countries', 'CountriesController');
-    Route::resource('contactTypes', 'ContactTypeController');
-    Route::resource('groupAreas', 'GroupAreaController');
-    Route::resource('markets', 'MarketsController');
-    Route::resource('segmentationsABC', 'SegmentationsABCController');
-    Route::resource('segmentationsClientType', 'SegmentationsClientTypeController');
-    Route::resource('segmentationsProductType', 'SegmentationsProductTypeController');
-    Route::resource('segmentationsFNCRelation', 'SegmentationsFNCRelationController');
-    Route::resource('segmentationsPotential', 'SegmentationsPotentialController');
-    Route::resource('educationLevels', 'EducationLevelsController');
-    Route::resource('genders', 'GendersController');
-    Route::resource('sizes', 'SizesController');
-    Route::resource('ageRanges', 'AgeRangesController');
+    Route::resource('contacts', 'ContactsController', $params);
+    Route::resource('countries', 'CountriesController', $params);
+    Route::resource('contactTypes', 'ContactTypeController', $params);
+    Route::resource('groupAreas', 'GroupAreaController', $params);
+    Route::resource('markets', 'MarketsController', $params);
+    Route::resource('segmentationsABC', 'SegmentationsABCController', $params);
+    Route::resource('segmentationsClientType', 'SegmentationsClientTypeController', $params);
+    Route::resource('segmentationsProductType', 'SegmentationsProductTypeController', $params);
+    Route::resource('segmentationsFNCRelation', 'SegmentationsFNCRelationController', $params);
+    Route::resource('segmentationsPotential', 'SegmentationsPotentialController', $params);
+    Route::resource('educationLevels', 'EducationLevelsController', $params);
+    Route::resource('genders', 'GendersController', $params);
+    Route::resource('sizes', 'SizesController', $params);
+    Route::resource('ageRanges', 'AgeRangesController', $params);
     Route::get('propertyWeights', 'ContactsController@propertyWeights');
 
 });

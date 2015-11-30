@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+
+use Request;
 
 use App\Contact;
 use App\PropertyWeight;
@@ -13,36 +13,20 @@ use App\PropertyWeight;
 class ContactsController extends Controller {
 
     /**
-     * Display a listing of the resource.
+     *
+     */
+    public function propertyWeights() {
+        return PropertyWeight::all();
+    }
+    
+    /**
+     * Display a listing of contacts.
      *
      * @return \Illuminate\Http\Response
      */
     public function index() {
-
-        //TODO: refactor code. Move relations into scope for Model.- jarias
-
-        //FIXME: do not retrieve all the relations for list. Only get all data when editing.- jarias
-
-        return Contact::with('country')
-            ->with('region')
-            ->with('contact_type')
-            ->with('group_area')
-            ->with('market')
-            ->with('education_level')
-            ->with('gender')
-            ->with('size')
-            ->with('age_range')
-            ->with('segmentation_ABC')
-            ->with('segmentation_client_type')
-            ->with('segmentation_FNC_relation')
-            ->with('segmentation_potential')
-            ->with('segmentation_product_type')
-            ->take(2)
-            ->get();
-    }
-
-    public function propertyWeights() {
-        return PropertyWeight::all();
+        $with = array('contact_type', 'group_area');
+        return Contact::with($with)->get(array('id', 'firstname', 'lastname', 'company', 'id_contact_type', 'id_group_area'));
     }
 
     /**
@@ -52,26 +36,14 @@ class ContactsController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
-        return Contact::with('country')
-            ->with('region')
-            ->with('contact_type')
-            ->with('group_area')
-            ->with('market')
-            ->with('segmentation_ABC')
-            ->with('segmentation_client_type')
-            ->with('segmentation_FNC_relation')
-            ->with('segmentation_potential')
-            ->with('segmentation_product_type')
-            ->findOrFail($id);
-    }
+        //TODO: refactor code. Move relations into laravel 'scope' (inside Model).- jarias
+        $with = array(
+            'country', 'region', 'contact_type', 'group_area', 'market', 'gender',
+            'segmentation_ABC', 'segmentation_client_type', 'segmentation_FNC_relation', 
+            'segmentation_potential', 'segmentation_product_type'
+        );
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create() {
-        //
+        return Contact::with($with)->findOrFail($id);
     }
 
     /**
@@ -81,17 +53,14 @@ class ContactsController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
-        //
-    }
+        $input = Request::all();
+        $data = $this->translatePropertiesObjectToID($input);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id) {
-        //
+        if (Contact::create($data)) {
+            return 'true';
+        } else {
+            return 'false';
+        }
     }
 
     /**
@@ -102,7 +71,34 @@ class ContactsController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id) {
-        //
+        $input = Request::all();
+        $data = $this->translatePropertiesObjectToID($input);
+        $contact = new Contact();
+        $contact->fill($data);
+        $contact->exists =  true;
+        if ($contact->save()) {
+            return 'true';
+        } else {
+            return 'false';
+        }
+    }
+
+    private function translatePropertiesObjectToID($input) {
+        $complexEntities = ['market', 'country', 'region', 'gender', 'contact_type', 'education_level', 'size', 'age_range',
+            'group_area', 'segmentation_ABC', 'segmentation_potential', 'segmentation_FNC_relation', 'segmentation_client_type', 
+            'segmentation_product_type', ];
+        
+        foreach ($complexEntities as $entityName) {
+            if (array_key_exists($entityName, $input)) {
+                $input["id_$entityName"] = $input[$entityName]['id'];
+                unset($input[$entityName]);
+            }
+        }
+
+        unset($input['segmentation__a_b_c']);
+        unset($input['segmentation__f_n_c_relation']);
+
+        return $input;
     }
 
     /**

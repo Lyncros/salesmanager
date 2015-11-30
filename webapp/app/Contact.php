@@ -37,12 +37,18 @@ class Contact extends Model {
         'bulletinFNC' => 'boolean',
     ];
 
+    protected $guarded = ['id_creator'];
+
     public function getSegmentationABCAttribute() {
-    	return $this->relations['segmentation_ABC'];
+    	if (array_key_exists('segmentation_ABC', $this->relations)) {
+	    	return $this->relations['segmentation_ABC'];
+    	}
     }
 
     public function getSegmentationFNCRelationAttribute() {
-    	return $this->relations['segmentation_FNC_relation'];
+    	if (array_key_exists('segmentation_FNC_relation', $this->relations)) {
+    		return $this->relations['segmentation_FNC_relation'];
+    	}
     }
 
 	public function country() {

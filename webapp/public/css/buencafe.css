@@ -1,5 +1,5 @@
-/*general settings*/
-body{color:#353b3a; background-color:#f1f2f2; font-family:'AvenirLTStd-Medium';padding-top:50px}
+/* General settings */
+body{color:#353b3a;background-color:#f1f2f2;font-family:'AvenirLTStd-Medium';padding-top:50px;}
 a, p{color:#808285;}a:hover, a:active, a:focus{color:#353b3a;}
 a:focus{ outline:none}
 a.mailto {color: #337ab7;}
@@ -8,6 +8,13 @@ b, strong{ font-weight:normal;font-family:'AvenirLTStd-Black';}
 h1{font-family:'AvenirLTStd-Light';}
 h2{font-family:'AvenirLTStd-Black';}
 h3{font-family:'AvenirLTStd-Medium'}
+
+a.disabled {
+    color: #CCCCCC;
+    cursor: default;
+    pointer-events: none;
+    text-decoration: none;
+}
 
 @font-face{
 	font-family:'AvenirLTStd-Light';
@@ -174,6 +181,10 @@ h3{font-family:'AvenirLTStd-Medium'}
 
 /*contact list*/
 
+.contact-list-actions {
+	margin: 0px 0px 10px 0px;
+}
+
 .task{-webkit-transition: all 0.25s ease-in-out;-moz-transition: all 0.25s ease-in-out;-ms-transition: all 0.25s ease-in-out;-o-transition: all 0.25s ease-in-out;transition: all 0.25s ease-in-out; opacity:.5}
 .task:first-child, .home .task{ opacity:1}
 .task:hover{ background-color:#fafafa;box-shadow:0 4px 0 0 #ddd; opacity:1}
@@ -184,7 +195,7 @@ h3{font-family:'AvenirLTStd-Medium'}
 .task h4{ margin:0}
 .task .panel-body p.lead{ margin:10px 0 0 0; font-size:1.25em;line-height:20px;color:#353b3a;}
 .task .panel-body{ padding-top:0; padding-bottom:0;}
-.task .panel-heading {}
+.task .panel-heading { padding: 8px;}
 .task .panel-heading h4{ color:#353b3a; font-family: 'AvenirLTStd-Black'; font-size:1.3em}
 .task .panel-heading .checkbox label::before{ margin-top:3px}
 .task .panel-heading .checkbox label::after{ top:3px}
