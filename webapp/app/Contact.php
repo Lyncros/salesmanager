@@ -55,10 +55,6 @@ class Contact extends Model {
 		return $this->hasOne('App\Country', 'id', 'id_country');
 	}
 
-	public function region() {
-		return $this->hasOne('App\Region', 'id', 'id_region');
-	}
-
 	public function contact_type() {
 		return $this->hasOne('App\ContactType', 'id', 'id_contact_type');
 	}
@@ -105,6 +101,10 @@ class Contact extends Model {
 
 	public function gender() {
 		return $this->hasOne('App\Gender', 'id', 'id_gender');
+	}
+
+	public function interests() {
+		return $this->hasMany('App\ContactInterest', 'id_contact');
 	}
 
 }

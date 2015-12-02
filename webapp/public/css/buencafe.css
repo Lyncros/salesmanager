@@ -9,6 +9,8 @@ h1{font-family:'AvenirLTStd-Light';}
 h2{font-family:'AvenirLTStd-Black';}
 h3{font-family:'AvenirLTStd-Medium'}
 
+.nopadding { padding: 0px; }
+
 a.disabled {
     color: #CCCCCC;
     cursor: default;
@@ -49,7 +51,7 @@ a.disabled {
 	unicode-range:U+0020-25CA
 }
 
-.main{padding:20px 0px 20px 0px;}
+.main{padding:10px 0px 10px 0px;}
 .main .page-header{margin-top:0}
 .sub-header{padding-bottom:10px;border-bottom:1px solid #eee}
 .placeholders{margin-bottom:30px;text-align:center}
@@ -75,9 +77,9 @@ a.disabled {
 
 /*navbar*/
 .navbar { background-color:#fff;}
-.navbar-header{ width:320px;box-sizing:border-box; position:absolute; left:0; top:0; height:50px;}
+.navbar-header{ width:193px;box-sizing:border-box; height:50px;}
 .navbar-fixed-top{border:0}
-.navbar-collapse { float:left; width:40.8%; left:305px; position:relative}
+.navbar-collapse { width: 55%}
 .navbar-collapse .navbar-form {
 	padding-left: 0;
 	padding-right: 0;
@@ -86,8 +88,8 @@ a.disabled {
 .navbar-toggle{background-color:#353b3a; color:#fff}.navbar-nav{ padding:0; background-color:#fff;}
 .navbar-brand{ 
 	background: url(../img/logo.png) no-repeat center center;
-    background-size: 49%;
-    width: 265px;
+    background-size: 70%;
+    width: 193px;
     text-indent: -9999px;
     height: 50px;
     padding: 0;
@@ -178,6 +180,14 @@ a.disabled {
     float: right;
     line-height: 24px;
 }
+
+/*fixed height main panels*/
+.relative{ position:relative;}
+.contact-new, .contact-detail.solo, .contact-edit.solo{ left:0}
+.contact-list {height: 87vh; padding-right: 0px;}
+.contact-list, .contact-edit, .contact-detail, .contact-new{ overflow-x:hidden; overflow-y:auto;}
+.contact-edit form .form-group, .contact-new form .form-group, .contact-detail.solo form .form-group{ width:75%}
+
 
 /*contact list*/
 
@@ -273,7 +283,7 @@ a.disabled {
 .contact-detail .panel-data{ padding: 0px}
 .contact-detail .panel-data p{ margin: 0px; padding: 0px}
 .contact-detail .v-card p{color:#353b3a; margin-right:10px; padding-right:10px; font-size:.9em}
-span.icon-email{ background: url(../img/email.png) no-repeat center bottom; width:17px; height:17px; background-size:cover; display:inline-block; vertical-align:middle; margin-right: 5px;}
+span.icon-email{ background: url(../img/email.png) no-repeat center bottom; width:17px; height:17px; background-size:cover; display:inline-block; vertical-align:middle; margin-right: 0px;}
 span.icon-phone{ background: url(../img/phone.png) no-repeat center bottom; width:17px; height:17px; background-size:cover; display:inline-block; vertical-align:middle; margin-right: 5px;}
 span.icon-skype{ background: url(../img/skype.png) no-repeat center bottom; width:17px; height:17px; background-size:cover; display:inline-block; vertical-align:middle; margin-right: 5px;}
 span.icon-linkedin { background: url(../img/linkedin.png) no-repeat center bottom; width: 20px; height: 20px; background-size: cover; display: inline-block; vertical-align: middle; }
@@ -312,6 +322,15 @@ span.icon-linkedin { background: url(../img/linkedin.png) no-repeat center botto
 .contact-detail .task .collapse{ position:relative; border:none !important;}
 .contact-detail .task .panel-body{ border:none !important; padding:0}
 .contact-detail .task-edit{ margin-left:10px}
+
+/* glyphicon colors */
+.contact-detail .glyphicon-ok {
+	color: green;
+}
+
+.contact-detail .glyphicon-remove {
+	color: #ff4d4d;
+}
 
 .contact-edit .nav-tabs>li>a {
 	padding: 5px;
@@ -365,14 +384,9 @@ span.icon-linkedin { background: url(../img/linkedin.png) no-repeat center botto
 .task-filter-applied a.btn span.icon-play{ transform:rotate(90deg) !important}
 
 /*editar contacto*/
+.contact-edit { margin-bottom: 5px; }
 .contact-edit .panel-heading, .contact-new .panel-heading, .contact-detail.solo .panel-heading{ display:table; width:100%; padding:0}
 .contact-edit .panel-heading .panel-actions, .contact-new .panel-heading .panel-actions{ margin-top:20px}
 .contact-edit hr, .contact-new hr{ margin-top:5px; margin-bottom:5px}
 
 .form-control:focus{border-color: #ddd;outline: 0px none;box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset, 0px 0px 8px rgba(200, 200, 200, 0.6);}
-
-/*fixed height main panels*/
-.relative{ position:relative;}
-.contact-new, .contact-detail.solo, .contact-edit.solo{ left:0}
-.contact-list, .contact-edit, .contact-detail, .contact-new{ overflow-x:hidden; overflow-y:auto;}
-.contact-edit form .form-group, .contact-new form .form-group, .contact-detail.solo form .form-group{ width:75%}

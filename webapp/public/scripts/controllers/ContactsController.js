@@ -7,15 +7,15 @@ angular.module('salesManager')
     })
     .directive('tabs', TabDirective)
     .directive('pane', PaneDirective)
-    .directive('resize', ResizeDirective)
+    .directive('booleanicon', BooleaniconDirective)
     .controller('ContactsController', ContactsController);
 
 
 function ContactsController($http, contactsService, entitiesService) {
 
+    Chart.defaults.global.tooltipTemplate = "<%=label%>: <%= Math.round(circumference / 6.283 * 100) %>% (<%=value%> hits)";
+
     this.contacts = [];
-    this.propertiesWeights = [];
-    this.contactSelected = null;
     this.editingContact = false;
     this.contactTypes = [];
     this.groupAreas = [];
@@ -32,6 +32,15 @@ function ContactsController($http, contactsService, entitiesService) {
     this.sizes = [];
     this.orderByField = '';
     this.orderByReverse = false;
+    
+    this.propertiesWeights = [];
+    this.contactSelected = null;
+    this.contactInterestsData = [];
+    this.contactInterestsLabels = [];
+    this.completenessPercentage = 0;
+    this.nextEmptyPropertyPercentage = 0;
+
+    var controller = this;
 
     contactsService.getContacts().then(onResultAssignProperty(this, 'contacts'));
     contactsService.getPropertyWeights().then(onResultAssignProperty(this, 'propertiesWeights'));
@@ -54,16 +63,38 @@ function ContactsController($http, contactsService, entitiesService) {
     }
 
     this.isContactDetailsVisible = function() {
-    	return this.isContactSelected() && !this.isContactEditionVisible();
+        return this.isContactSelected() && !this.isContactEditionVisible();
     }
 
     this.showContactDetails = function(contact) {
         this.hideContactEdition();
-        contactsService.getContact(contact.id).then(onResultAssignProperty(this, 'contactSelected'));
+        contactsService.getContact(contact.id).then(this.onGetContactDataResult);
+    }
+
+    this.onGetContactDataResult = function(contact) {
+        controller.setContactSelected(contact);
+    }
+
+    this.setContactSelected = function(contact) {
+        this.contactSelected = contact;
+        this.contactInterestsData = [];
+        this.contactInterestsLabels = [];
+        this.completenessPercentage = this.calculateCompletenessPercentage(contact);
+        this.nextEmptyPropertyPercentage = this.getNextEmptyPropertyPercentage(contact);
+
+        var controller = this;
+        angular.forEach(this.contactSelected.interests, function(item, index, array) {
+            controller.contactInterestsData[index] = item.hits;
+            controller.contactInterestsLabels[index] = item.interest.description;
+        });
     }
 
     this.resetContactSelected = function() {
         this.contactSelected = null;
+        this.contactInterestsData = [];
+        this.contactInterestsLabels = [];
+        this.completenessPercentage = 0;
+        this.nextEmptyPropertyPercentage = 0;
     }
 
     this.newContact = function() {
@@ -85,17 +116,46 @@ function ContactsController($http, contactsService, entitiesService) {
     }
 
     this.saveContactEdition = function() {
-        var result = contactsService.saveContact(this.contactSelected);
+        var result = contactsService.saveContact(this.contactSelected).then(this.onSaveContactResult);
+        this.editingContact = false;
+    }
+
+    this.onSaveContactResult = function(result) {
         if (result) {
-            this.editingContact = false;
-            contactsService.getContacts().then(onResultAssignProperty(this, 'contacts'));
+            controller.setContactSelected(result);
+            contactsService.getContacts().then(onResultAssignProperty(controller, 'contacts'));
         } else {
+            controller.resetContactSelected();
             alert('Ocurrio un error al guardar el contacto.');
         }
     }
 
     this.cancelContactEdition = function() {
         this.editingContact = false;
+        if (!this.contactSelected.id) {
+            this.resetContactSelected();
+        }
+    }
+
+    this.calculateCompletenessPercentage = function(contact) {
+        var percentage = 0;
+
+        this.propertiesWeights.forEach(function(prop, i) {
+            percentage = percentage + calculateFieldWeight(contact, prop.name, prop.weight);
+        });
+
+        return Math.round(percentage);
+    }
+
+    this.getNextEmptyPropertyPercentage = function(contact) {
+        var prop = null;
+
+        for (var i = 0; prop == null && i < this.propertiesWeights.length; i++) {
+            var p = this.propertiesWeights[i];
+            prop = calculateFieldWeight(contact, p.name, p.weight) == 0 ? p : null;
+        };
+
+        return Math.round(prop.weight);
     }
 
     this.resetSearchKey = function() {
@@ -139,16 +199,6 @@ function ContactsController($http, contactsService, entitiesService) {
     this.updateFilterGroupArea = function(ga) {
     	updateFilter(ga, this.groupAreaFilters);
         this.resetContactSelected();
-    }
-
-    this.calculateCompletenessPercentage = function(contact) {
-        var percentage = 0;
-
-        angular.forEach(this.propertiesWeights, function(prop, i) {
-            percentage = percentage + calculateFieldWeight(contact, prop.name, prop.weight);
-        });
-
-        return Math.round(percentage) + '%';
     }
 
     this.orderByAZ = function() {

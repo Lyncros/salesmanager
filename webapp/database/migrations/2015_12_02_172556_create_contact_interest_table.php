@@ -3,16 +3,18 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRegionsTable extends Migration {
+class CreateContactInterestTable extends Migration {
     /**
      * Run the migrations.
      *
      * @return void
      */
     public function up() {
-        Schema::create('regions', function (Blueprint $table) {
+        Schema::create('contact_interest', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name', 50);
+            $table->integer('id_contact');
+            $table->integer('id_interest');
+            $table->integer('hits');
         });
     }
 
@@ -22,6 +24,6 @@ class CreateRegionsTable extends Migration {
      * @return void
      */
     public function down() {
-        Schema::drop('regions');
+        Schema::drop('contact_interest');
     }
 }

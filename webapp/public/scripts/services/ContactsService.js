@@ -1,4 +1,4 @@
-/* scripts/services/ContactsService.js */
+// scripts/services/ContactsService.js
 'use strict';
 
 angular.module('salesManager')

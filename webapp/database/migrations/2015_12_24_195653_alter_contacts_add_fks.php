@@ -12,7 +12,6 @@ class AlterContactsAddFks extends Migration {
     public function up() {
         Schema::table('contacts', function(Blueprint $table) {
             $table->foreign('id_country')->references('id')->on('countries')->onDelete('cascade');
-            $table->foreign('id_region')->references('id')->on('regions')->onDelete('cascade');
             $table->foreign('id_contact_type')->references('id')->on('contact_types')->onDelete('cascade');
             $table->foreign('id_group_area')->references('id')->on('group_areas')->onDelete('cascade');
             $table->foreign('id_segmentation_ABC')->references('id')->on('segmentation_ABC')->onDelete('cascade');
@@ -38,7 +37,6 @@ class AlterContactsAddFks extends Migration {
             $table->dropForeign('contacts_id_group_area_foreign');
             $table->dropForeign('contacts_id_contact_type_foreign');
             $table->dropForeign('contacts_id_country_foreign');
-            $table->dropForeign('contacts_id_region_foreign');
             $table->dropForeign('contacts_id_segmentation_abc_foreign');
             $table->dropForeign('contacts_id_segmentation_client_type_foreign');
             $table->dropForeign('contacts_id_segmentation_fnc_relation_foreign');
