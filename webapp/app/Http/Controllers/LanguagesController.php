@@ -7,17 +7,16 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use App\AgeRange;
+use App\Language;
 
-class AgeRangesController extends Controller {
-
+class LanguagesController extends Controller {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        return AgeRange::all();
+        return Language::all();
     }
 
     /**

@@ -7,9 +7,9 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use App\AgeRange;
+use App\Honorific;
 
-class AgeRangesController extends Controller {
+class HonorificsController extends Controller {
 
     /**
      * Display a listing of the resource.
@@ -17,7 +17,7 @@ class AgeRangesController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        return AgeRange::all();
+        return Honorific::all();
     }
 
     /**

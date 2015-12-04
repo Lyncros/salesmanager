@@ -20,6 +20,10 @@ function EntitiesService($resource) {
         restGenders: $resource('index.php/api/genders'),
         restAgeRanges: $resource('index.php/api/ageRanges'),
         restSizes: $resource('index.php/api/sizes'),
+        restHonorifics: $resource('index.php/api/honorifics'),
+        restLanguages: $resource('index.php/api/languages'),
+        restCustomerSince: $resource('index.php/api/customerSince'),
+        restBusinessOrigins: $resource('index.php/api/businessOrigins'),
     
 		getCountries: function() {
             return queryAPI(this.restCountries);
@@ -59,6 +63,18 @@ function EntitiesService($resource) {
         },
         getSizes: function() {
             return queryAPI(this.restSizes);
+        },
+        getHonorifics: function() {
+            return queryAPI(this.restHonorifics);
+        },
+        getLanguages: function() {
+            return queryAPI(this.restLanguages);
+        },
+        getCustomerSince: function() {
+            return queryAPI(this.restCustomerSince);
+        },
+        getBusinessOrigins: function() {
+            return queryAPI(this.restBusinessOrigins);
         },
 	}
 

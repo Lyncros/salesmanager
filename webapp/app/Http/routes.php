@@ -33,6 +33,10 @@ Route::group(array('prefix' => 'api'), function() {
     Route::resource('genders', 'GendersController', $params);
     Route::resource('sizes', 'SizesController', $params);
     Route::resource('ageRanges', 'AgeRangesController', $params);
+    Route::resource('honorifics', 'HonorificsController', $params);
+    Route::resource('languages', 'LanguagesController', $params);
+    Route::resource('businessOrigins', 'BusinessOriginsController', $params);
+    Route::resource('customerSince', 'CustomerSinceController', $params);
     Route::get('propertyWeights', 'ContactsController@propertyWeights');
 
 });

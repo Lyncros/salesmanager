@@ -30,6 +30,10 @@ function ContactsController($http, contactsService, entitiesService) {
     this.genders = [];
     this.ageRanges = [];
     this.sizes = [];
+    this.honorifics = [];
+    this.languages = [];
+    this.customerSince = [];
+    this.businessOrigins = [];
     this.orderByField = '';
     this.orderByReverse = false;
     
@@ -58,6 +62,10 @@ function ContactsController($http, contactsService, entitiesService) {
     entitiesService.getGenders().then(onResultAssignProperty(this, 'genders'));
     entitiesService.getAgeRanges().then(onResultAssignProperty(this, 'ageRanges'));
     entitiesService.getSizes().then(onResultAssignProperty(this, 'sizes'));
+    entitiesService.getHonorifics().then(onResultAssignProperty(this, 'honorifics'));
+    entitiesService.getLanguages().then(onResultAssignProperty(this, 'languages'));
+    entitiesService.getCustomerSince().then(onResultAssignProperty(this, 'customerSince'));
+    entitiesService.getBusinessOrigins().then(onResultAssignProperty(this, 'businessOrigins'));
 
     this.isContactSelected = function() {
         return this.contactSelected != null;
@@ -93,8 +101,8 @@ function ContactsController($http, contactsService, entitiesService) {
     this.resetContactSelected = function() {
         this.contactSelected = null;
         this.contactSelectedOriginal = null;
-        this.contactInterestsData = [];
-        this.contactInterestsLabels = [];
+        this.contactInterestsData = null;
+        this.contactInterestsLabels = null;
         this.completenessPercentage = 0;
         this.nextEmptyPropertyPercentage = 0;
     }
@@ -106,6 +114,7 @@ function ContactsController($http, contactsService, entitiesService) {
 
     this.showContactEdition = function() {
         this.editingContact = true;
+        this.setContactSelected(this.contactSelected);
         this.contactSelectedOriginal = angular.copy(this.contactSelected);
     }
 
@@ -118,12 +127,16 @@ function ContactsController($http, contactsService, entitiesService) {
         this.editingContact = false;
     }
 
-    this.saveContactEdition = function(contactFormController) {
-        if (contactFormController.$dirty) {
+    this.saveContactEdition = function(contactFormCtlr) {
+        if (!contactFormCtlr.$valid) {
+            return;
+        }
+
+        if (contactFormCtlr.$dirty) {
             var data = {
                 id: this.contactSelected.id
             };
-            angular.forEach(contactFormController, function(value, key) {
+            angular.forEach(contactFormCtlr, function(value, key) {
                 if(key[0] !== '$' && value.$dirty) {
                     data[key] = value.$viewValue;
                 }
@@ -170,6 +183,10 @@ function ContactsController($http, contactsService, entitiesService) {
         };
 
         return Math.round(prop.weight);
+    }
+
+    this.getInputCssError = function(field) {
+        return field && field.$error.required ? 'has-error has-feedback' : '';
     }
 
     this.resetSearchKey = function() {

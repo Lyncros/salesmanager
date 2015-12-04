@@ -368,6 +368,14 @@ span.icon-linkedin { background: url(../img/linkedin.png) no-repeat center botto
 	background-color: #00A800;
 }
 
+.contact-edit .honorific-container { padding-right: 5px; }
+.contact-edit .firstname-container { padding-left: 5px; }
+
+.contact-edit .form-control-feedback { display: none; right: -30px; }
+.contact-edit .firstname-container .form-control-feedback { right: -15px; }
+.contact-edit .has-feedback .form-control-feedback { display: block; }
+.contact-edit .error-legend { font-size: 0.8em; color: #a94442; }
+
 
 .op-list{ margin:20px 0; padding:10px 0; border-top:1px solid #ddd; border-bottom:1px solid #ddd}
 .op-list article.task{ background-color:#ddd; padding-left:10px; padding-right:10px; overflow:hidden;}

@@ -15,7 +15,6 @@ class CreateContactsTable extends Migration {
             $table->string('consolidated_code', 20);
             $table->string('ten_digits_code', 10);
             $table->string('sap_code', 30);
-            $table->string('honorific', 5);
             $table->string('firstname', 50);
             $table->string('lastname', 50);
             $table->string('email');
@@ -29,15 +28,13 @@ class CreateContactsTable extends Migration {
             $table->string('street', 100);
             $table->string('city', 50);
             $table->string('postal_code', 10);
-            $table->string('language');
-            $table->string('business_origin', 50);
             $table->string('region', 50);
             $table->boolean('action');
             $table->boolean('christmas_cards');
             $table->boolean('christmas_presents');
             $table->boolean('newsletter');
             $table->boolean('bulletinFNC');
-            $table->integer('customer_since')->unsigned()->nullable();
+            $table->integer('id_honorific')->unsigned()->nullable();
             $table->integer('id_market')->unsigned()->nullable();
             $table->integer('id_country')->unsigned()->nullable();
             $table->integer('id_contact_type')->unsigned()->nullable();
@@ -52,6 +49,9 @@ class CreateContactsTable extends Migration {
             $table->integer('id_size')->unsigned()->nullable();
             $table->integer('id_gender')->unsigned()->nullable();
             $table->integer('id_age_range')->unsigned()->nullable();
+            $table->integer('id_business_origin')->unsigned()->nullable();
+            $table->integer('id_language')->unsigned()->nullable();
+            $table->integer('id_customer_since')->unsigned()->nullable();;
             $table->integer('id_creator')->unsigned()->nullable();
             $table->timestamps();
         });

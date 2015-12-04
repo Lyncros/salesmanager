@@ -97,7 +97,7 @@ class ContactsController extends Controller {
     private function translatePropertiesObjectToID($input) {
         $complexEntities = ['market', 'country', 'gender', 'contact_type', 'education_level', 'size', 'age_range',
             'group_area', 'segmentation_ABC', 'segmentation_potential', 'segmentation_FNC_relation', 'segmentation_client_type', 
-            'segmentation_product_type', ];
+            'segmentation_product_type', 'language', 'customer_since', 'honorific', 'business_origin'];
         
         foreach ($complexEntities as $entityName) {
             if (array_key_exists($entityName, $input)) {

@@ -31,8 +31,8 @@ class Contact extends Model {
 
 	protected $casts = [
         'action' => 'boolean',
-        'christmasCards' => 'boolean',
-        'christmasPresents' => 'boolean',
+        'christmas_cards' => 'boolean',
+        'christmas_presents' => 'boolean',
         'newsletter' => 'boolean',
         'bulletinFNC' => 'boolean',
     ];
@@ -111,9 +111,26 @@ class Contact extends Model {
 		return $this->hasMany('App\ContactInterest', 'id_contact');
 	}
 
+	public function honorific() {
+		return $this->hasOne('App\Honorific', 'id', 'id_honorific');
+	}
+
+	public function language() {
+		return $this->hasOne('App\Language', 'id', 'id_language');
+	}
+
+	public function customer_since() {
+		return $this->hasOne('App\CustomerSince', 'id', 'id_customer_since');
+	}
+
+	public function business_origin() {
+		return $this->hasOne('App\BusinessOrigin', 'id', 'id_business_origin');
+	}
+
 	public function scopeFull($query, $id) {
 		$with = array(
             'country', 'contact_type', 'group_area', 'market', 'gender', 'interests.interest', 'profile',
+            'language', 'customer_since', 'honorific', 'business_origin',
             'segmentation_ABC', 'segmentation_client_type', 'segmentation_FNC_relation', 
             'segmentation_potential', 'segmentation_product_type'
         );
