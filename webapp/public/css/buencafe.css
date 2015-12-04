@@ -58,9 +58,7 @@ a.disabled {
 .sub-header{padding-bottom:10px;border-bottom:1px solid #eee}
 .placeholders{margin-bottom:30px;text-align:center}
 .placeholders h4{margin-bottom:0}.placeholder{margin-bottom:20px}.placeholder img{display:inline-block;border-radius:50%}
-.sidebar{
-	padding:20px;overflow-x:hidden;overflow-y:auto;border-right:1px solid #eee; height: 100%;
-}
+
 
 /*colores*/
 .vok{color:#007b3c}.nok{color:#e9580c}.vok_bg{background-color:#007b3c}.nok_bg{background-color:#e9580c}
@@ -74,8 +72,15 @@ a.disabled {
 
 /* nav-sidebar */
 .nav-sidebar{margin-right:-21px;margin-left:-20px}
-.nav-sidebar>li>a{padding-right:20px;padding-left:20px}
 .nav-sidebar>.active>a,.nav-sidebar>.active>a:focus,.nav-sidebar>.active>a:hover{color:#fff;background-color:#428bca}
+
+.nav-sidebar > li, .nav-sidebar > li a {
+	color: #FFFFFF;
+	cursor: pointer;
+	padding: 5px;
+}
+.nav-sidebar > li{ margin-bottom:0 !important; padding:0 !important; display:block !important; border-bottom:none !important}
+.navbar-form input[type="search"]{ width:100%;}
 
 /*navbar*/
 .navbar { background-color:#fff;}
@@ -120,10 +125,18 @@ a.disabled {
 }
 .btn-add-contact span { color: white; position: relative; top: 19px; left: 21px; font-size: 2.5em; }
 .btn-add-contact:hover{color:transparent; font-size:-10px; background-color:#bcbec0}
-.sidebar .nav > li > a:focus, .sidebar .nav > li > a:hover{ background-color:#8A3003}
 
 /* sidebar */
-.sidebar{ background: url('../img/barra_filtros_CM.jpg') no-repeat; background-color: #00AEC9; border:0px; }
+.sidebar{ 
+	background: url('../img/barra_filtros_CM.jpg') no-repeat; 
+	background-color: #00AEC9; 
+	border: 0px; 
+	padding: 10px;
+	overflow-x:hidden;
+	overflow-y:auto;
+	border-right:1px solid #eee; 
+	height: 100%;
+}
 .sidebar h4{  margin:0 -20px;padding:10px 5px}
 .sidebar ul.filters{ margin:20px -10px 0 -10px}
 .sidebar ul.filters li{ padding:0 5px 20px 5px; position:relative; margin-bottom:20px; }
@@ -150,18 +163,16 @@ a.disabled {
 	color:#fff; 
 	width:100%;
 }
-.nav-sidebar > li, .nav-sidebar > li a {
-	padding:0px !important;
-	color:#FFFFFF;
-	cursor: pointer;
+
+.sidebar .nav > li > a:focus, .sidebar .nav > li > a:hover{ 
+	background-color: #008499;
+	border-radius: 3px;
 }
-.nav-sidebar > li{ margin-bottom:0 !important; padding:0 !important; display:block !important; border-bottom:none !important}
 .sidebar .collapse ul.nav-sidebar{ width:100%; margin:0; padding:0;}
 .sidebar .collapsing ul.nav-sidebar{ opacity:0}
 .sidebar ul.filters li a span{ font-size:1.5em; float:left; margin-right:5px; }
 .sidebar .navbar-form .checkbox label, .sidebar .navbar-form .radio label{ width:100%;}
 
-.navbar-form input[type="search"]{ width:100%;}
 
 .sidebar .active-filters h5 {
 	margin-left: 10px;
