@@ -3,18 +3,17 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateGroupAreaInterestProfileTable extends Migration {
+class CreateGroupAreaInterestTable extends Migration {
     /**
      * Run the migrations.
      *
      * @return void
      */
     public function up() {
-        Schema::create('group_area_interest_profile', function (Blueprint $table) {
+        Schema::create('group_area_interest', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('id_group_area');
-            $table->integer('id_interest');
-            $table->integer('id_profile');
+            $table->integer('id_group_area')->unsigned()->index();
+            $table->integer('id_interest')->unsigned()->index();
         });
     }
 
@@ -24,6 +23,6 @@ class CreateGroupAreaInterestProfileTable extends Migration {
      * @return void
      */
     public function down() {
-        Schema::drop('group_area_interest_profile');
+        Schema::drop('group_area_interest');
     }
 }

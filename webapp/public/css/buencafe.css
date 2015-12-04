@@ -1,5 +1,9 @@
 /* General settings */
-body{color:#353b3a;background-color:#f1f2f2;font-family:'AvenirLTStd-Medium';padding-top:50px;}
+body{ 
+	color:#353b3a;background-color:#f1f2f2;
+	font-family:'AvenirLTStd-Medium';padding-top:50px;
+	overflow: hidden;
+}
 a, p{color:#808285;}a:hover, a:active, a:focus{color:#353b3a;}
 a:focus{ outline:none}
 a.mailto {color: #337ab7;}
@@ -28,7 +32,7 @@ a.disabled {
 	font-style:normal;
 	font-stretch:normal;
 	unicode-range:U+0020-25CA
-	}
+}
 @font-face{
 	font-family:'AvenirLTStd-Black';
 	src:url(../fonts/AvenirLTStd-Black_gdi.eot);
@@ -39,7 +43,7 @@ a.disabled {
 	font-style:normal;
 	font-stretch:normal;
 	unicode-range:U+0020-25CA
-	}
+}
 @font-face{
 	font-family:'AvenirLTStd-Medium';src:url(../fonts/AvenirLTStd-Medium_gdi.eot);
 	src:url(../fonts/AvenirLTStd-Medium_gdi.eot?#iefix) format('embedded-opentype'),
@@ -51,8 +55,6 @@ a.disabled {
 	unicode-range:U+0020-25CA
 }
 
-.main{padding:10px 0px 10px 0px;}
-.main .page-header{margin-top:0}
 .sub-header{padding-bottom:10px;border-bottom:1px solid #eee}
 .placeholders{margin-bottom:30px;text-align:center}
 .placeholders h4{margin-bottom:0}.placeholder{margin-bottom:20px}.placeholder img{display:inline-block;border-radius:50%}
@@ -79,15 +81,15 @@ a.disabled {
 .navbar { background-color:#fff;}
 .navbar-header{ width:193px;box-sizing:border-box; height:50px;}
 .navbar-fixed-top{border:0}
-.navbar-collapse { width: 55%}
+.navbar-collapse { width: 48%}
 .navbar-collapse .navbar-form {
 	padding-left: 0;
 	padding-right: 0;
 	margin-right: 0;
 }
-.navbar-toggle{background-color:#353b3a; color:#fff}.navbar-nav{ padding:0; background-color:#fff;}
-.navbar-brand{ 
-	background: url(../img/logo.png) no-repeat center center;
+.navbar-toggle { background-color:#353b3a; color:#fff}.navbar-nav{ padding:0; background-color:#fff;}
+.navbar-brand { 
+	background: url(../img/logo-CM.jpg) no-repeat center center;
     background-size: 70%;
     width: 193px;
     text-indent: -9999px;
@@ -121,7 +123,7 @@ a.disabled {
 .sidebar .nav > li > a:focus, .sidebar .nav > li > a:hover{ background-color:#8A3003}
 
 /* sidebar */
-.sidebar{background-color:#8A3003;border-right:none}
+.sidebar{ background: url('../img/barra_filtros_CM.jpg') no-repeat; background-color: #00AEC9; border:0px; }
 .sidebar h4{  margin:0 -20px;padding:10px 5px}
 .sidebar ul.filters{ margin:20px -10px 0 -10px}
 .sidebar ul.filters li{ padding:0 5px 20px 5px; position:relative; margin-bottom:20px; }
@@ -182,12 +184,19 @@ a.disabled {
 }
 
 /*fixed height main panels*/
-.relative{ position:relative;}
+.main{width: 100%;}
+.contact-section {
+	padding: 10px 10px 20px 10px;
+}
 .contact-new, .contact-detail.solo, .contact-edit.solo{ left:0}
-.contact-list {height: 87vh; padding-right: 0px;}
-.contact-list, .contact-edit, .contact-detail, .contact-new{ overflow-x:hidden; overflow-y:auto;}
-.contact-edit form .form-group, .contact-new form .form-group, .contact-detail.solo form .form-group{ width:75%}
-
+.contact-list, .contact-edit, .contact-detail, .contact-new { 
+	max-height: 91vh;
+	overflow-x:hidden; overflow-y:auto;
+}
+.contact-list {padding: 10px 2px 0px 10px;}
+.contact-edit, .contact-detail { padding: 0px 15px 15px 15px;margin-bottom: 10px;}
+.contact-edit form .form-group, .contact-new form .form-group, 
+.contact-detail.solo form .form-group{ width:75% }
 
 /*contact list*/
 
@@ -332,6 +341,9 @@ span.icon-linkedin { background: url(../img/linkedin.png) no-repeat center botto
 	color: #ff4d4d;
 }
 
+.contact-edit h5 { margin: 10px 0px 0px 0px; }
+.contact-edit h3 { margin: 5px 0px 10px 0px; }
+
 .contact-edit .nav-tabs>li>a {
 	padding: 5px;
 }
@@ -384,9 +396,10 @@ span.icon-linkedin { background: url(../img/linkedin.png) no-repeat center botto
 .task-filter-applied a.btn span.icon-play{ transform:rotate(90deg) !important}
 
 /*editar contacto*/
-.contact-edit { margin-bottom: 5px; }
-.contact-edit .panel-heading, .contact-new .panel-heading, .contact-detail.solo .panel-heading{ display:table; width:100%; padding:0}
-.contact-edit .panel-heading .panel-actions, .contact-new .panel-heading .panel-actions{ margin-top:20px}
+.contact-edit .panel-heading, .contact-new .panel-heading, 
+.contact-detail.solo .panel-heading{ display:table; width:100%; padding:0}
+.contact-edit .panel-heading .panel-actions, .contact-new 
+.panel-heading .panel-actions{ margin-top:20px}
 .contact-edit hr, .contact-new hr{ margin-top:5px; margin-bottom:5px}
 
 .form-control:focus{border-color: #ddd;outline: 0px none;box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset, 0px 0px 8px rgba(200, 200, 200, 0.6);}

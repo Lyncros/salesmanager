@@ -9,6 +9,8 @@ use Request;
 
 use App\Contact;
 use App\PropertyWeight;
+use App\GroupArea;
+use App\ContactInterest;
 
 class ContactsController extends Controller {
 
@@ -36,14 +38,7 @@ class ContactsController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
-        //TODO: refactor code. Move relations into laravel 'scope' (inside Model).- jarias
-        $with = array(
-            'country', 'contact_type', 'group_area', 'market', 'gender', 'interests.interest',
-            'segmentation_ABC', 'segmentation_client_type', 'segmentation_FNC_relation', 
-            'segmentation_potential', 'segmentation_product_type'
-        );
-
-        return Contact::with($with)->findOrFail($id);
+        return Contact::full($id);
     }
 
     /**
@@ -53,11 +48,14 @@ class ContactsController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
-        $input = Request::all();
-        $data = $this->translatePropertiesObjectToID($input);
-        $data['linkedin_profile'] = $this->completeURL($data, 'linkedin_profile');
+        $data = $this->getRequestData();
+        $newInterests = $data['interests'];
+        unset($data['interests']);
+        $newContact = Contact::create($data);
+
+        $this->saveInterests($newContact, $newInterests);
         
-        return Contact::create($data);
+        return Contact::full($newContact->id);
     }
 
     /**
@@ -68,16 +66,32 @@ class ContactsController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id) {
-        $input = Request::all();
-        $data = $this->translatePropertiesObjectToID($input);
-        $data['linkedin_profile'] = $this->completeURL($data, 'linkedin_profile');
-
+        $data = $this->getRequestData();
+        $newInterests = $data['interests'];
+        unset($data['interests']);
         $contact = new Contact();
         $contact->fill($data);
         $contact->exists =  true;
         $contact->save();
 
-        return $contact;
+        $this->saveInterests($contact, $newInterests);
+
+        return Contact::full($contact->id);
+    }
+
+    private function getRequestData() {
+        $input = Request::all();
+        $data = $this->translatePropertiesObjectToID($input);
+        $group_area = $this->getGroupArea($data);
+        $data['interests'] = null;
+
+        if ($group_area) {
+            $data['id_profile'] = $group_area->profile->id;
+            $data['interests'] = $group_area->interests;
+        }
+        $data['linkedin_profile'] = $this->completeURL($data, 'linkedin_profile');
+
+        return $data;
     }
 
     private function translatePropertiesObjectToID($input) {
@@ -92,18 +106,40 @@ class ContactsController extends Controller {
             }
         }
 
-        unset($input['segmentation__a_b_c']);
-        unset($input['segmentation__f_n_c_relation']);
-        unset($input['interests']);
-
         return $input;
     }
 
     private function completeURL($data, $field) {
-        if (isset($data[$field]) && substr($data[$field], 0, 4) !== 'http') {
+        if (isset($data[$field]) && !empty($data[$field]) && substr($data[$field], 0, 4) !== 'http') {
             return 'http://' . $data[$field];
         } else {
             return '';
+        }
+    }
+
+    private function getGroupArea($data) {
+        if (array_key_exists('id_group_area', $data)) {
+            $id = $data['id_group_area'];
+            return GroupArea::find($id);
+        } else {
+            return null;
+        }
+    }
+
+    private function saveInterests($contact, $newInterests) {
+        if ($newInterests) {
+            $ids = array();
+            foreach ($contact->interests as $i) {
+                $ids[] = $i->id;
+            }
+            ContactInterest::destroy($ids);
+
+            foreach ($newInterests as $i) {
+                $contactInterest = new ContactInterest();
+                $contactInterest->id_interest = $i->id;
+                $contactInterest->hits = 1;
+                $contact->interests()->save($contactInterest);
+            }
         }
     }
 

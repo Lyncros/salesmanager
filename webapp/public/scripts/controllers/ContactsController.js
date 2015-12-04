@@ -35,6 +35,7 @@ function ContactsController($http, contactsService, entitiesService) {
     
     this.propertiesWeights = [];
     this.contactSelected = null;
+    this.contactSelectedOriginal = null;
     this.contactInterestsData = [];
     this.contactInterestsLabels = [];
     this.completenessPercentage = 0;
@@ -91,6 +92,7 @@ function ContactsController($http, contactsService, entitiesService) {
 
     this.resetContactSelected = function() {
         this.contactSelected = null;
+        this.contactSelectedOriginal = null;
         this.contactInterestsData = [];
         this.contactInterestsLabels = [];
         this.completenessPercentage = 0;
@@ -104,6 +106,7 @@ function ContactsController($http, contactsService, entitiesService) {
 
     this.showContactEdition = function() {
         this.editingContact = true;
+        this.contactSelectedOriginal = angular.copy(this.contactSelected);
     }
 
     this.isContactEditionVisible = function() {
@@ -115,8 +118,18 @@ function ContactsController($http, contactsService, entitiesService) {
         this.editingContact = false;
     }
 
-    this.saveContactEdition = function() {
-        var result = contactsService.saveContact(this.contactSelected).then(this.onSaveContactResult);
+    this.saveContactEdition = function(contactFormController) {
+        if (contactFormController.$dirty) {
+            var data = {
+                id: this.contactSelected.id
+            };
+            angular.forEach(contactFormController, function(value, key) {
+                if(key[0] !== '$' && value.$dirty) {
+                    data[key] = value.$viewValue;
+                }
+            });
+            contactsService.saveContact(data).then(this.onSaveContactResult);
+        }
         this.editingContact = false;
     }
 
@@ -132,6 +145,7 @@ function ContactsController($http, contactsService, entitiesService) {
 
     this.cancelContactEdition = function() {
         this.editingContact = false;
+        this.contactSelected = this.contactSelectedOriginal;
         if (!this.contactSelected.id) {
             this.resetContactSelected();
         }

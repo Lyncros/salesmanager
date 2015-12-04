@@ -10,4 +10,8 @@ class GroupArea extends Model {
 		return $this->hasOne('App\Profile', 'id', 'id_profile');
 	}
 
+	public function interests() {
+		return $this->belongsToMany('App\Interest', 'group_area_interest', 'id_group_area', 'id_interest');
+	}
+
 }

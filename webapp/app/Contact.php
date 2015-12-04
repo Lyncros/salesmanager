@@ -67,6 +67,10 @@ class Contact extends Model {
 		return $this->hasOne('App\Market', 'id', 'id_market');
 	}
 
+	public function profile() {
+		return $this->hasOne('App\Profile', 'id', 'id_profile');
+	}
+
 	public function segmentation_ABC() {
 		return $this->hasOne('App\SegmentationABC', 'id', 'id_segmentation_abc');
 	}
@@ -105,6 +109,15 @@ class Contact extends Model {
 
 	public function interests() {
 		return $this->hasMany('App\ContactInterest', 'id_contact');
+	}
+
+	public function scopeFull($query, $id) {
+		$with = array(
+            'country', 'contact_type', 'group_area', 'market', 'gender', 'interests.interest', 'profile',
+            'segmentation_ABC', 'segmentation_client_type', 'segmentation_FNC_relation', 
+            'segmentation_potential', 'segmentation_product_type'
+        );
+		return $query->with($with)->findOrFail($id);
 	}
 
 }
