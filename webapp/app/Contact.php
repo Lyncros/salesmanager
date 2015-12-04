@@ -130,7 +130,7 @@ class Contact extends Model {
 	public function scopeFull($query, $id) {
 		$with = array(
             'country', 'contact_type', 'group_area', 'market', 'gender', 'interests.interest', 'profile',
-            'language', 'customer_since', 'honorific', 'business_origin',
+            'education_level', 'age_range', 'size', 'language', 'customer_since', 'honorific', 'business_origin',
             'segmentation_ABC', 'segmentation_client_type', 'segmentation_FNC_relation', 
             'segmentation_potential', 'segmentation_product_type'
         );

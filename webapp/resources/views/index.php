@@ -249,8 +249,8 @@
                             <div id="additional-information" class="collapse panel-data">
                                 <div class="col-md-6 nopadding">
                                     <p><strong>&Aacute;rea dentro de la empresa:&nbsp;</strong>{{vm.contactSelected.company_area}}</p>
-                                    <p><strong>El negocio proviene de:&nbsp;</strong>{{vm.contactSelected.business_origin}}</p>
-                                    <p><strong>Cliente hace:&nbsp;</strong>{{vm.contactSelected.customer_since}}</p>
+                                    <p><strong>El negocio proviene de:&nbsp;</strong>{{vm.contactSelected.business_origin.description}}</p>
+                                    <p><strong>Cliente hace:&nbsp;</strong>{{vm.contactSelected.customer_since.description}}</p>
                                     <p><strong>Profesi&oacute;n:&nbsp;</strong>{{vm.contactSelected.career}}</p>
                                     <p><strong>Edad:&nbsp;</strong>{{vm.contactSelected.age_range.description}}</p>
                                     <p><strong>Nivel de educaci&oacute;n:&nbsp;</strong>{{vm.contactSelected.education_level.description}}</p>
