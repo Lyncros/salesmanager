@@ -362,7 +362,7 @@
                                         </select>
                                         <span class="form-control-feedback" aria-hidden="true">*</span>
                                     </div>
-                                    <div class="form-group {{vm.getInputCssError(contactFormCtlr.group_area)}}">
+                                    <div ng-if="isAdmin()" class="form-group {{vm.getInputCssError(contactFormCtlr.group_area)}}">
                                         <label for="group_area">Area agrupada</label>
                                         <select ng-model="vm.contactSelected.group_area" class="form-control" name="group_area"
                                             ng-options="ga as ga.description for ga in vm.groupAreas track by ga.id" required="">
@@ -413,7 +413,7 @@
                                     </div>
                                 </pane>
                                 <pane title="segmentaci&oacute;n">
-                                    <div class="form-group">
+                                    <div ng-if="isAdmin()" class="form-group">
                                         <label for="position">Segmentaci&oacute;n A-B-C</label>
                                         <select ng-model="vm.contactSelected.segmentation_ABC" class="form-control" name="segmentation_ABC"
                                             ng-options="seg as seg.description for seg in vm.segmentationsABC track by seg.id">

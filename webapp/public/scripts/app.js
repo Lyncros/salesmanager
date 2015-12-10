@@ -41,5 +41,11 @@ angular
 		        $cookies.putObject('globals', {});
 		        $location.path('/');
 		    };
+
+		    $rootScope.isAdmin = function() {
+		    	return $rootScope.globals && 
+		    		$rootScope.globals.currentUser && 
+		    		$rootScope.globals.currentUser.role == 1000;
+		    }
 	    }
 	]);
