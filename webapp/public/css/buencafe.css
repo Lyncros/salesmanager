@@ -55,6 +55,59 @@ a.disabled {
 	unicode-range:U+0020-25CA
 }
 
+.main-header {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	background: #FFFFFF;
+	border: none;
+	margin: 0px;
+	padding: 0px;
+}
+
+.logged-user-panel {
+	float: right;
+	text-align: right;
+}
+
+.logged-user-panel .indicators {
+	float: left;
+	text-align: left;
+}
+
+.logged-user-panel .indicators p {
+	margin: 0px;
+	color: #00AEC9;
+}
+
+.logged-user-panel .indicators p:first-child {
+	margin-top: 5px;
+}
+.logged-user-panel .indicators p:last-child {
+	margin-bottom: 5px;
+}
+
+.logged-user-panel .logged-user {
+	float: right;
+	padding: 15px;
+}
+
+.logged-user-panel .logged-user span {
+	padding-right: 15px;
+}
+
+.logged-user-panel .logout-link {
+    border: 1px solid;
+    padding: 3px 5px;
+    border-radius: 3px;
+}
+
+.logged-user-panel a:hover.logout-link {
+    background-color: #e6e6e6;
+    text-decoration: none;
+}
+
 .sub-header{padding-bottom:10px;border-bottom:1px solid #eee}
 .placeholders{margin-bottom:30px;text-align:center}
 .placeholders h4{margin-bottom:0}.placeholder{margin-bottom:20px}.placeholder img{display:inline-block;border-radius:50%}
@@ -86,7 +139,6 @@ a.disabled {
 .navbar { background-color:#fff;}
 .navbar-header{ width:193px;box-sizing:border-box; height:50px;}
 .navbar-fixed-top{border:0}
-.navbar-collapse { width: 48%}
 .navbar-collapse .navbar-form {
 	padding-left: 0;
 	padding-right: 0;
@@ -201,7 +253,7 @@ a.disabled {
 }
 .contact-new, .contact-detail.solo, .contact-edit.solo{ left:0}
 .contact-list, .contact-edit, .contact-detail, .contact-new { 
-	max-height: 91vh;
+	height: 91vh;
 	overflow-x:hidden; overflow-y:auto;
 }
 .contact-list {padding: 10px 2px 0px 10px;}
@@ -259,7 +311,7 @@ a.disabled {
 
 /*contact detail*/
 .contact-detail .panel-heading{ margin-bottom:10px; padding-left:0; padding-right:0; padding-bottom:0}
-.contact-detail .subpanel-heading {margin-top: 20px;}
+.contact-detail .subpanel-heading {margin-top: 10px;}
 .contact-detail .subpanel-heading h5 {
 	width:100%; 
 	text-align:right; 
@@ -286,6 +338,7 @@ a.disabled {
 }
 .contact-detail .subpanel-heading h5 a:hover span {	background: #BBBBBB;border: 1px solid #BBBBBB;}
 .contact-detail .subpanel-heading h5 a span:after {	padding-left: 5px;content: "▾";}
+.contact-detail .subpanel-heading .subpanel-button { cursor: pointer; }
 .contact-detail .panel-actions { margin-top:4px}
 .contact-detail .panel-actions a { padding:0 0 0 10px}
 .contact-detail .panel-actions a:hover { text-decoration:none; cursor: pointer; }

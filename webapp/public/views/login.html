@@ -1,14 +1,20 @@
 <div class="col-sm-4 col-sm-offset-4">
     <div class="well">
-        <h3>Login</h3>
-        <form>
-            <div class="form-group">
-                <input type="email" class="form-control" placeholder="Email" ng-model="login.email">
+        <form name="form" ng-submit="login(credentials)" role="form">
+            <div class="form-group" ng-class="hasError(form.email) ? 'has-error' : ''">
+                <label for="email">Usuario</label>
+                <input type="text" name="email" id="email" class="form-control" ng-model="credentials.email" required />
+                <span ng-show="hasError(form.email)" class="help-block error-legend">El e-mail es requerido</span>
             </div>
-            <div class="form-group">
-                <input type="password" class="form-control" placeholder="Password" ng-model="login.password">
+            <div class="form-group" ng-class="hasError(form.password) ? 'has-error' : ''">
+                <label for="password">Contraseña</label>
+                <input type="password" name="password" id="password" class="form-control" ng-model="credentials.password" required />
+                <span ng-show="hasError(form.password)" class="help-block error-legend">La contraseña es requerida</span>
             </div>
-            <button class="btn btn-primary" ng-click="login.login()">Submit</button>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary" ng-disabled="form.$invalid || dataLoading">Login</button>
+            </div>
         </form>
     </div>
+    <div ng-show="error" class="alert alert-danger">{{error}}</div>
 </div>

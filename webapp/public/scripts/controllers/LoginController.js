@@ -3,21 +3,30 @@
 angular.module('salesManager')
 	.controller('LoginController', LoginController);
 
-function LoginController($state) {
-	
-	this.login = function() {
+function LoginController($rootScope, $scope, $cookies, $location, authService) {
 
-        var credentials = {
-            email: this.email,
-            password: this.password
-        }
-        
-        // Use Satellizer's $auth service to login
-        //authService.login(credentials).then(function(data) {
+    $scope.credentials = {
+        email: '',
+        password: ''
+    };
 
-            // If login is successful, redirect to the users state
-            $state.go('contacts', {});
-        //});
+    $scope.hasError = function (input) {
+        return input.$dirty && input.$error.required;
+    }
+
+    $scope.login = function(credentials) {
+        $scope.dataLoading = true;
+
+        authService.login(credentials).then(function(response) {
+            $rootScope.globals = {
+                currentUser: response.user
+            };
+            $cookies.putObject('globals', $rootScope.globals);
+            $location.path('/');
+        }, function() {
+            $scope.dataLoading = false;
+            $scope.error = 'Usuario o contraseña inválidos';
+        });
     }
 
 }

@@ -4,10 +4,12 @@
 angular.module('salesManager')
     .factory('contactsService', ContactsService);
 
-function ContactsService($resource) {
+function ContactsService($resource, $rootScope) {
 
 	return {
-		restContacts: $resource('index.php/api/contacts/:id', {}, {
+		restContacts: $resource('index.php/api/contacts/:id', {
+			filter: '@filter'
+		}, {
 			getContact: {
 				isArray: false
 			},

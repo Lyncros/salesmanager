@@ -15,10 +15,14 @@ Route::get('/', function () {
     return view('index');
 });
 
+
 // A route group allows us to have a prefix, in this case api
 Route::group(array('prefix' => 'api'), function() {
-    $params = [ 'except' => ['edit', 'create'] ];
 
+    Route::post('login', 'AuthenticateController@login');
+    Route::get('propertyWeights', 'ContactsController@propertyWeights');
+    
+    $params = [ 'except' => ['edit', 'create'] ];
     Route::resource('contacts', 'ContactsController', $params);
     Route::resource('countries', 'CountriesController', $params);
     Route::resource('contactTypes', 'ContactTypeController', $params);
@@ -37,6 +41,5 @@ Route::group(array('prefix' => 'api'), function() {
     Route::resource('languages', 'LanguagesController', $params);
     Route::resource('businessOrigins', 'BusinessOriginsController', $params);
     Route::resource('customerSince', 'CustomerSinceController', $params);
-    Route::get('propertyWeights', 'ContactsController@propertyWeights');
 
 });

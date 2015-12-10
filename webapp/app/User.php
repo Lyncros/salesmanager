@@ -12,8 +12,7 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
 class User extends Model implements AuthenticatableContract,
                                     AuthorizableContract,
-                                    CanResetPasswordContract
-{
+                                    CanResetPasswordContract {
     use Authenticatable, Authorizable, CanResetPassword;
 
     /**
@@ -28,7 +27,7 @@ class User extends Model implements AuthenticatableContract,
      *
      * @var array
      */
-    protected $fillable = ['name', 'email', 'password'];
+    protected $fillable = ['name', 'email', 'password', 'role'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -36,4 +35,11 @@ class User extends Model implements AuthenticatableContract,
      * @var array
      */
     protected $hidden = ['password', 'remember_token'];
+
+    /*
+     * Finds the first (an single) user with given e-mail.
+     */
+    public static function byEmail($email) {
+        return User::where('email', $email)->first();
+    }
 }
