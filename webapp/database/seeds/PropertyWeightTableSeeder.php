@@ -42,7 +42,7 @@ class PropertyWeightTableSeeder extends BaseTableSeeder {
             ['name' => 'newsletter', 'weight' => 0.2],
             ['name' => 'bulletinFNC', 'weight' => 0.2],
             ['name' => 'size', 'weight' => 0.2],
-            ['name' => 'ageRank', 'weight' => 2.]
+            ['name' => 'age_rank', 'weight' => 2.2]
         );
 
 		$this->loadData('property_weights', $data, 'App\PropertyWeight');

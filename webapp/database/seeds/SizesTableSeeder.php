@@ -9,10 +9,10 @@ class SizesTableSeeder extends BaseTableSeeder {
     public function run() {
         $data = array(
 			['description' => '0'],
-			['description' => 'L'],
-			['description' => 'M'],
-			['description' => 'XL'],
 			['description' => 'S'],
+            ['description' => 'M'],
+            ['description' => 'L'],
+            ['description' => 'XL'],
 			['description' => 'XXL'],
     	);
 

@@ -8,12 +8,12 @@ class MarketsTableSeeder extends BaseTableSeeder {
      */
     public function run() {
     	$markets = array(
-			['name' => 'ASIA PACIFICO'],
-			['name' => 'CENTRO Y SUR AMERICA'],
-			['name' => 'COLOMBIA'],
-			['name' => 'EUROPA'],
-			['name' => 'AFRICA Y MEDIO ORIENTE'],
-			['name' => 'NORTE AMERICA'],
+			['name' => 'Asia Pacifico'],
+			['name' => 'Centro y Sur America'],
+			['name' => 'Colombia'],
+			['name' => 'Europa'],
+			['name' => 'Africa y Medio Oriente'],
+			['name' => 'Norte America'],
 		);
 
 		$this->loadData('markets', $markets, 'App\Market');

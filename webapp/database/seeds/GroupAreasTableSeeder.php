@@ -8,13 +8,13 @@ class GroupAreasTableSeeder extends BaseTableSeeder {
      */
     public function run() {
     	$groupAreas = array(
-			['description' => 'COMPRAS', 'id_profile' => 1],
-			['description' => 'GERENCIA', 'id_profile' => 2],
-			['description' => 'MERCADEO', 'id_profile' => 2],
-			['description' => 'COMERCIAL', 'id_profile' => 1],
+			['description' => 'Compras', 'id_profile' => 1],
+			['description' => 'Gerencia', 'id_profile' => 2],
+			['description' => 'Mercadeo', 'id_profile' => 2],
+			['description' => 'Comercial', 'id_profile' => 1],
 			['description' => 'I&D', 'id_profile' => 3],
-			['description' => 'LOGISTICA', 'id_profile' => 2],
-			['description' => 'CALIDAD', 'id_profile' => 4],
+			['description' => 'Logística', 'id_profile' => 2],
+			['description' => 'Calidad', 'id_profile' => 4],
 		);
 
 		$this->loadData('group_areas', $groupAreas, 'App\GroupArea');

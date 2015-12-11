@@ -10,8 +10,8 @@ class HonorificsTableSeeder extends BaseTableSeeder {
         $data = array(
 			['description' => 'Sr.'],
 			['description' => 'Sra.'],
-			['description' => 'Mr'],
-			['description' => 'Ms'],
+			['description' => 'Mr.'],
+			['description' => 'Ms.'],
         );
 
         $this->loadData('honorifics', $data, 'App\Honorific');
