@@ -2,7 +2,7 @@
     <div class="well">
         <form name="form" ng-submit="login(credentials)" role="form">
             <div class="form-group" ng-class="hasError(form.email) ? 'has-error' : ''">
-                <label for="email">Usuario</label>
+                <label for="email">e-mail</label>
                 <input type="text" name="email" id="email" class="form-control" ng-model="credentials.email" required />
                 <span ng-show="hasError(form.email)" class="help-block error-legend">El e-mail es requerido</span>
             </div>
