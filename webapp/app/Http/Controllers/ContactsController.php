@@ -6,6 +6,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use Request;
+use Mail;
 
 use App\Contact;
 use App\PropertyWeight;
@@ -54,6 +55,13 @@ class ContactsController extends Controller {
         $newContact = Contact::create($data);
 
         $this->saveInterests($newContact, $newInterests);
+
+        $name = $newContact->firstname . ' ' . $newContact->lastname;
+        $destination = 'juangarias@gmail.com';
+
+        Mail::send('emails.new_contact_created', ['name' => $name], function ($m) use($destination) {
+            $m->to($destination)->subject('Nuevo contacto creado');
+        });
         
         return Contact::full()->findOrFail($newContact->id);
     }
