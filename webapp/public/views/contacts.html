@@ -94,7 +94,7 @@
             <div class="row">
                 <aside class="contact-list col-sm-12 col-md-5 col-lg-5">
                     <article class="contact-list-actions text-right">
-                        <a class="btn btn-default" title="Exportar a Excel" ng-click="vm.exportContactsToExcel()">
+                        <a ng-if="isAdmin()" class="btn btn-default" title="Exportar a Excel" ng-click="vm.exportContactsToExcel()">
                             <span class="glyphicon glyphicon-save"></span>
                         </a>
                         <a class="btn btn-default {{vm.getCssClassOrderByAZ()}}" title="Ordenar A-Z" ng-click="vm.orderByAZ()">

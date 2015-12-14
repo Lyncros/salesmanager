@@ -277,7 +277,7 @@ function ContactsController($http, $scope, contactsService, entitiesService) {
     }
 
     this.exportContactsToExcel = function() {
-        var url = 'index.php/api/contactsExport?id_creator=' + $scope.getUserId();
+        var url = 'index.php/api/contactsExport';
         window.open(url);
     }
 
