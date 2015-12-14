@@ -56,12 +56,12 @@ class ContactsController extends Controller {
 
         $this->saveInterests($newContact, $newInterests);
 
-        $name = $newContact->firstname . ' ' . $newContact->lastname;
-        $destination = 'juangarias@gmail.com';
+        //$name = $newContact->firstname . ' ' . $newContact->lastname;
+        //$destination = 'juangarias@gmail.com';
 
-        Mail::send('emails.new_contact_created', ['name' => $name], function ($m) use($destination) {
-            $m->to($destination)->subject('Nuevo contacto creado');
-        });
+        //Mail::send('emails.new_contact_created', ['name' => $name], function ($m) use($destination) {
+        //    $m->to($destination)->subject('Nuevo contacto creado');
+        //});
         
         return Contact::full()->findOrFail($newContact->id);
     }
