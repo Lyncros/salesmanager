@@ -61,23 +61,23 @@
                     <li>
                         <a class="btn" data-target="#contactTypeFilterList" data-toggle="collapse">Tipo de socio</a>
                         <ul id="contactTypeFilterList"  class="nav nav-sidebar collapse in">
-                            <li class="checkbox" ng-repeat="type in vm.contactTypes">
+                            <li ng-repeat="type in vm.contactTypes">
                                 <a ng-click="vm.updateFilterContactType(type)">{{type.description}}</a>
                             </li>
                         </ul>
                     </li>
                     <li>
-                        <a class="btn" data-target="#groupAreaFilterList" data-toggle="collapse">Area agrupada</a>
+                        <a class="btn filter-title" data-target="#groupAreaFilterList" data-toggle="collapse">Area agrupada</a>
                         <ul id="groupAreaFilterList" class="nav nav-sidebar collapse in">
-                            <li class="checkbox" ng-repeat="area in vm.groupAreas">
+                            <li ng-repeat="area in vm.groupAreas">
                                 <a ng-click="vm.updateFilterGroupArea(area)">{{area.description}}</a>
                             </li>
                         </ul>
                     </li>
                     <li ng-if="isAdmin()">
-                        <a class="btn" data-target="#usersFilterList" data-toggle="collapse">Comerciales</a>
+                        <a class="btn filter-title" data-target="#usersFilterList" data-toggle="collapse">Comerciales</a>
                         <ul id="usersFilterList" class="nav nav-sidebar collapse in">
-                            <li class="checkbox" ng-repeat="user in vm.users">
+                            <li ng-repeat="user in vm.users">
                                 <a ng-click="vm.updateFilterUser(user)">{{user.lastname}},&nbsp;{{user.firstname}}</a>
                             </li>
                         </ul>

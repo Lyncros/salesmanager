@@ -123,16 +123,6 @@ a.disabled {
 	margin-bottom: 15px;
 }
 
-/* nav-sidebar */
-.nav-sidebar{margin-right:-21px;margin-left:-20px}
-.nav-sidebar>.active>a,.nav-sidebar>.active>a:focus,.nav-sidebar>.active>a:hover{color:#fff;background-color:#428bca}
-
-.nav-sidebar > li, .nav-sidebar > li a {
-	color: #FFFFFF;
-	cursor: pointer;
-	padding: 5px;
-}
-.nav-sidebar > li{ margin-bottom:0 !important; padding:0 !important; display:block !important; border-bottom:none !important}
 .navbar-form input[type="search"]{ width:100%;}
 
 /*navbar*/
@@ -194,7 +184,7 @@ a.disabled {
 }
 .sidebar h4{  margin:0 -20px;padding:10px 5px}
 .sidebar ul.filters{ margin:20px -10px 0 -10px}
-.sidebar ul.filters li{ padding:0 5px 20px 5px; position:relative; margin-bottom:20px; }
+.sidebar ul.filters li{ padding:0 7px; position:relative; }
 .sidebar ul.filters li a.btn:after {
 	position:absolute; 
 	top:2px; 
@@ -203,8 +193,12 @@ a.disabled {
 	transform:rotate(180deg);
 	font-size:.9em;
 }
+/* nav-sidebar */
+.nav-sidebar {margin-right:-21px;margin-left:-20px}
+
 .sidebar ul.filters li a.btn.collapsed:after{ transform:rotate(0);}
-.sidebar ul.filters li a.btn{ 
+
+.sidebar ul.filters li a.btn { 
 	padding:0; 
 	text-align:left; 
 	background:none; 
@@ -213,13 +207,19 @@ a.disabled {
 	font-family:'AvenirLTStd-Black'; 
 	font-size:.9em; 
 	letter-spacing:2px; 
-	margin-bottom:10px; 
+	margin-top: 15px;
+	margin-bottom:5px; 
 	text-transform:uppercase;
 	color:#fff; 
 	width:100%;
 }
 
-.sidebar .nav > li > a:focus, .sidebar .nav > li > a:hover{ 
+.sidebar .nav > li > a {
+	color: #FFFFFF;
+	cursor: pointer;
+	padding: 3px 7px;
+}
+.sidebar .nav > li > a:focus, .sidebar .nav > li > a:hover {
 	background-color: #008499;
 	border-radius: 3px;
 }
