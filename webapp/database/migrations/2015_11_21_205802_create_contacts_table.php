@@ -40,7 +40,7 @@ class CreateContactsTable extends Migration {
             $table->integer('id_contact_type')->unsigned()->nullable();
             $table->integer('id_group_area')->unsigned()->nullable();
             $table->integer('id_profile')->unsigned()->nullable();
-            $table->integer('id_segmentation_abc')->unsigned()->nullable();
+            $table->integer('id_segmentation_ABC')->unsigned()->nullable();
             $table->integer('id_segmentation_client_type')->unsigned()->nullable();
             $table->integer('id_segmentation_product_type')->unsigned()->nullable();
             $table->integer('id_segmentation_FNC_relation')->unsigned()->nullable();

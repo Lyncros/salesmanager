@@ -24,6 +24,7 @@ function EntitiesService($resource) {
         restLanguages: $resource('index.php/api/languages'),
         restCustomerSince: $resource('index.php/api/customerSince'),
         restBusinessOrigins: $resource('index.php/api/businessOrigins'),
+        restUsers: $resource('index.php/api/users'),
     
 		getCountries: function() {
             return queryAPI(this.restCountries);
@@ -75,6 +76,9 @@ function EntitiesService($resource) {
         },
         getBusinessOrigins: function() {
             return queryAPI(this.restBusinessOrigins);
+        },
+        getUsers: function() {
+            return queryAPI(this.restUsers);
         },
 	}
 

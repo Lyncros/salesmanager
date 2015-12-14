@@ -1,4 +1,4 @@
-// scripts/filters/contactsFitler.js
+// scripts/extensions/filters.js
 
 function ContactsFilter(contactList, controller) {
     if (!controller.hasFilters()) {
@@ -11,6 +11,7 @@ function ContactsFilter(contactList, controller) {
     return contactList.filter(function(contact) {
         return contactPassContactTypeFilter(contact, controller) && 
             contactPassGroupAreaFilter(contact, controller) && 
+            contactPassUserFilter(contact, controller) && 
             contactPassSearchFilter(contact, controller, fieldsToSearch);
     });
 }
@@ -20,15 +21,7 @@ function contactPassContactTypeFilter(contact, controller) {
         return true;
     }
 
-    if (!contact.contact_type) {
-        return false;
-    }
-
-    var passFilter = false;
-    controller.contactTypeFilters.forEach(function(type) {
-        passFilter = passFilter || contact.contact_type.id == type.id;
-    });
-    return passFilter;
+    return contactPassEntityFilter(contact, 'contact_type', controller.contactTypeFilters);
 }
 
 function contactPassGroupAreaFilter(contact, controller) {
@@ -36,15 +29,27 @@ function contactPassGroupAreaFilter(contact, controller) {
         return true;
     }
 
-    if (!contact.group_area) {
+    return contactPassEntityFilter(contact, 'group_area', controller.groupAreaFilters);
+}
+
+function contactPassUserFilter(contact, controller) {
+    if (!controller.hasUserFilters()) {
+        return true;
+    }
+
+    return contactPassEntityFilter(contact, 'creator', controller.userFilters);
+}
+
+function contactPassEntityFilter(contact, propertyName, entitiesFilter) {
+    if (!contact[propertyName]) {
         return false;
     }
 
-    var groupAreaPass = false;
-    controller.groupAreaFilters.forEach(function(ga) {
-        groupAreaPass = groupAreaPass || contact.group_area.id == ga.id;
+    var pass = false;
+    entitiesFilter.forEach(function(entity) {
+        pass = pass || contact[propertyName].id == entity.id;
     });
-    return groupAreaPass;
+    return pass;   
 }
 
 function contactPassSearchFilter(contact, controller, fieldsToSearch) {

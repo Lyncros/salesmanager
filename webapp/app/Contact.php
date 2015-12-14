@@ -16,7 +16,12 @@ class Contact extends Model {
 		'id_age_range',
 		'id_size',
 		'id_market',
-		'id_segmentation_abc',
+		'id_honorific',
+		'id_language',
+		'id_profile',
+		'id_business_origin',	
+		'id_customer_since',
+		'id_segmentation_ABC',
 		'id_segmentation_client_type',
 		'id_segmentation_product_type',
 		'id_segmentation_potential',
@@ -37,7 +42,17 @@ class Contact extends Model {
         'bulletinFNC' => 'boolean',
     ];
 
-    protected $guarded = ['id_creator'];
+    protected $fillable = [
+		'id', 'consolidated_code','ten_digits_code','sap_code','firstname','lastname','email',
+		'skype','linkedin_profile','position','company_area','company_name','career','phone',
+		'street','city','postal_code','region',
+		'action','christmas_cards','christmas_presents','newsletter','bulletinFNC',
+		'id_honorific','id_market','id_country','id_contact_type','id_group_area','id_profile',
+		'id_segmentation_ABC','id_segmentation_client_type','id_segmentation_product_type',
+		'id_segmentation_FNC_relation','id_segmentation_potential',
+		'id_education_level','id_size','id_gender','id_age_range','id_business_origin',
+		'id_language','id_customer_since','id_creator',
+    ];
 
     public function getSegmentationABCAttribute() {
     	if (array_key_exists('segmentation_ABC', $this->relations)) {
@@ -72,7 +87,7 @@ class Contact extends Model {
 	}
 
 	public function segmentation_ABC() {
-		return $this->hasOne('App\SegmentationABC', 'id', 'id_segmentation_abc');
+		return $this->hasOne('App\SegmentationABC', 'id', 'id_segmentation_ABC');
 	}
 
 	public function segmentation_client_type() {
@@ -127,14 +142,18 @@ class Contact extends Model {
 		return $this->hasOne('App\BusinessOrigin', 'id', 'id_business_origin');
 	}
 
-	public function scopeFull($query, $id) {
+	public function creator() {
+		return $this->hasOne('App\User', 'id', 'id_creator');
+	}
+
+	public function scopeFull($query) {
 		$with = array(
-            'country', 'contact_type', 'group_area', 'market', 'gender', 'interests.interest', 'profile',
+            'creator', 'country', 'contact_type', 'group_area', 'market', 'gender', 'interests.interest', 'profile',
             'education_level', 'age_range', 'size', 'language', 'customer_since', 'honorific', 'business_origin',
             'segmentation_ABC', 'segmentation_client_type', 'segmentation_FNC_relation', 
             'segmentation_potential', 'segmentation_product_type'
         );
-		return $query->with($with)->findOrFail($id);
+		return $query->with($with);
 	}
 
 }

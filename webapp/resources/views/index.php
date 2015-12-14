@@ -23,20 +23,20 @@
 <script type="text/javascript" src="bower_components/angular-cookies/angular-cookies.min.js"></script>
 <script type="text/javascript" src="bower_components/Chart.js/Chart.js"></script>
 <script type="text/javascript" src="bower_components/angular-chart.js/angular-chart.js"></script>
-<script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script> 
+<script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
 <!-- Application Scripts -->
 <script type="text/javascript" src="scripts/app.js"></script>
 
-<script type="text/javascript" src="scripts/filters/contactsFilter.js"></script>
-<script type="text/javascript" src="scripts/controllers/directives.js"></script>
+<script type="text/javascript" src="scripts/extensions/filters.js"></script>
+<script type="text/javascript" src="scripts/extensions/directives.js"></script>
 
 <script type="text/javascript" src="scripts/services/commonService.js"></script>
 <script type="text/javascript" src="scripts/services/AuthService.js"></script>
 <script type="text/javascript" src="scripts/services/ContactsService.js"></script>
 <script type="text/javascript" src="scripts/services/EntitiesService.js"></script>
 
-<script type="text/javascript" src="scripts/controllers/ContactsController.js"></script>
 <script type="text/javascript" src="scripts/controllers/LoginController.js"></script>
+<script type="text/javascript" src="scripts/controllers/ContactsController.js"></script>
 
 </html>

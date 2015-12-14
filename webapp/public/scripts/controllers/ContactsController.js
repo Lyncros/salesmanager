@@ -11,12 +11,12 @@ angular.module('salesManager')
     .controller('ContactsController', ContactsController);
 
 
-function ContactsController($http, contactsService, entitiesService) {
+function ContactsController($http, $scope, contactsService, entitiesService) {
 
     Chart.defaults.global.tooltipTemplate = "<%=label%>: <%= Math.round(circumference / 6.283 * 100) %>% (<%=value%> hits)";
 
+    this.contactListCompleteness = 0;
     this.contacts = [];
-    this.editingContact = false;
     this.contactTypes = [];
     this.groupAreas = [];
     this.countries = [];
@@ -34,20 +34,24 @@ function ContactsController($http, contactsService, entitiesService) {
     this.languages = [];
     this.customerSince = [];
     this.businessOrigins = [];
+    this.users = [];
     this.orderByField = '';
     this.orderByReverse = false;
     
     this.propertiesWeights = [];
     this.contactSelected = null;
+    this.editingContact = false;
     this.contactSelectedOriginal = null;
     this.contactInterestsData = [];
     this.contactInterestsLabels = [];
     this.completenessPercentage = 0;
     this.nextEmptyPropertyPercentage = 0;
+    this.nextEmptyPropertyName = '';
 
     var controller = this;
 
     contactsService.getContacts().then(onResultAssignProperty(this, 'contacts'));
+    contactsService.getContactListCompleteness().then(onResultAssignProperty(this, 'contactListCompleteness'));
     contactsService.getPropertyWeights().then(onResultAssignProperty(this, 'propertiesWeights'));
     entitiesService.getCountries().then(onResultAssignProperty(this, 'countries'));
     entitiesService.getContactTypes().then(onResultAssignProperty(this, 'contactTypes'));
@@ -66,6 +70,10 @@ function ContactsController($http, contactsService, entitiesService) {
     entitiesService.getLanguages().then(onResultAssignProperty(this, 'languages'));
     entitiesService.getCustomerSince().then(onResultAssignProperty(this, 'customerSince'));
     entitiesService.getBusinessOrigins().then(onResultAssignProperty(this, 'businessOrigins'));
+
+    if ($scope.isAdmin()) {
+        entitiesService.getUsers().then(onResultAssignProperty(this, 'users'));
+    }
 
     this.isContactSelected = function() {
         return this.contactSelected != null;
@@ -89,7 +97,7 @@ function ContactsController($http, contactsService, entitiesService) {
         this.contactInterestsData = [];
         this.contactInterestsLabels = [];
         this.completenessPercentage = this.calculateCompletenessPercentage(contact);
-        this.nextEmptyPropertyPercentage = this.getNextEmptyPropertyPercentage(contact);
+        this.setNextEmptyProperty(contact);
 
         var controller = this;
         angular.forEach(this.contactSelected.interests, function(item, index, array) {
@@ -105,6 +113,7 @@ function ContactsController($http, contactsService, entitiesService) {
         this.contactInterestsLabels = null;
         this.completenessPercentage = 0;
         this.nextEmptyPropertyPercentage = 0;
+        this.nextEmptyPropertyName = '';
     }
 
     this.newContact = function() {
@@ -134,7 +143,8 @@ function ContactsController($http, contactsService, entitiesService) {
 
         if (contactFormCtlr.$dirty) {
             var data = {
-                id: this.contactSelected.id
+                id: this.contactSelected.id,
+                id_creator: $scope.getUserId()
             };
             angular.forEach(contactFormCtlr, function(value, key) {
                 if(key[0] !== '$' && value.$dirty) {
@@ -150,6 +160,7 @@ function ContactsController($http, contactsService, entitiesService) {
         if (result) {
             controller.setContactSelected(result);
             contactsService.getContacts().then(onResultAssignProperty(controller, 'contacts'));
+            contactsService.getContactListCompleteness().then(onResultAssignProperty(controller, 'contactListCompleteness'));
         } else {
             controller.resetContactSelected();
             alert('Ocurrio un error al guardar el contacto.');
@@ -168,13 +179,13 @@ function ContactsController($http, contactsService, entitiesService) {
         var percentage = 0;
 
         this.propertiesWeights.forEach(function(prop, i) {
-            percentage = percentage + calculateFieldWeight(contact, prop.name, prop.weight);
+            percentage += calculateFieldWeight(contact, prop.name, prop.weight);
         });
 
         return Math.round(percentage);
     }
 
-    this.getNextEmptyPropertyPercentage = function(contact) {
+    this.setNextEmptyProperty = function(contact) {
         var prop = null;
 
         for (var i = 0; prop == null && i < this.propertiesWeights.length; i++) {
@@ -182,11 +193,18 @@ function ContactsController($http, contactsService, entitiesService) {
             prop = calculateFieldWeight(contact, p.name, p.weight) == 0 ? p : null;
         };
 
-        return Math.round(prop.weight);
+        this.nextEmptyPropertyName = prop.name;
+        this.nextEmptyPropertyPercentage = Math.round(prop.weight);
     }
 
-    this.getInputCssError = function(field) {
-        return field && field.$error.required ? 'has-error has-feedback' : '';
+    this.getFormGroupClass = function(field) {
+        var cssClass = '';
+
+        if (field) {
+            cssClass += field.$error.required ? ' has-feedback ' : '';
+        }
+
+        return cssClass;
     }
 
     this.resetSearchKey = function() {
@@ -203,11 +221,13 @@ function ContactsController($http, contactsService, entitiesService) {
     this.resetFilters = function() {
     	this.contactTypeFilters = [];
     	this.groupAreaFilters = [];
+        this.userFilters = [];
     	this.resetSearchKey();
     }
 
     this.hasFilters = function() {
-    	return this.hasContactTypeFilters() || this.hasGroupAreaFilters() || this.hasSearchKeyFilters();
+    	return this.hasContactTypeFilters() || this.hasGroupAreaFilters() || 
+            this.hasUserFilters() || this.hasSearchKeyFilters();
     }
 
     this.hasContactTypeFilters = function() {
@@ -216,6 +236,10 @@ function ContactsController($http, contactsService, entitiesService) {
 
     this.hasGroupAreaFilters = function() {
     	return this.groupAreaFilters.length > 0;
+    }
+
+    this.hasUserFilters = function() {
+        return this.userFilters.length > 0;
     }
 
     this.hasSearchKeyFilters = function() {
@@ -232,6 +256,11 @@ function ContactsController($http, contactsService, entitiesService) {
         this.resetContactSelected();
     }
 
+    this.updateFilterUser = function(user) {
+        updateFilter(user, this.userFilters);
+        this.resetContactSelected();
+    }
+
     this.orderByAZ = function() {
         this.orderByField = 'lastname';
         this.orderByReverse = false;
@@ -245,6 +274,11 @@ function ContactsController($http, contactsService, entitiesService) {
     this.orderByRecent = function() {
         this.orderByField = 'created_at';
         this.orderByReverse = true;
+    }
+
+    this.exportContactsToExcel = function() {
+        var url = 'index.php/api/contactsExport?id_creator=' + $scope.getUserId();
+        window.open(url);
     }
 
     this.getCssClassOrderByAZ = function() {

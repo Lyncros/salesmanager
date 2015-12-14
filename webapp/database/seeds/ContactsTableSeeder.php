@@ -5,6 +5,7 @@ class ContactsTableSeeder extends BaseTableSeeder {
     public function run() {
         $contacts = array(
             [
+                'id_creator' => 2,
                 'consolidated_code' => '#10000001',
                 'ten_digits_code' => '0010000001',
                 'sap_code' => 'SAP0010000001',
@@ -32,6 +33,7 @@ class ContactsTableSeeder extends BaseTableSeeder {
                 'action' => true,
             ],
             [
+                'id_creator' => 2,
                 'consolidated_code' => '#10000002',
                 'id_honorific' => 3,
                 'firstname' => 'Keith',
@@ -55,6 +57,7 @@ class ContactsTableSeeder extends BaseTableSeeder {
                 'linkedin_profile' => '',
             ],
             [
+                'id_creator' => 2,
                 'consolidated_code' => '#10000003',
                 'id_honorific' => 3,
                 'firstname' => 'Charlie',
@@ -78,6 +81,7 @@ class ContactsTableSeeder extends BaseTableSeeder {
                 'linkedin_profile' => '',
             ],
             [
+                'id_creator' => 2,
                 'consolidated_code' => '#10000004',
                 'id_honorific' => 3,
                 'firstname' => 'Ron',
@@ -101,6 +105,7 @@ class ContactsTableSeeder extends BaseTableSeeder {
                 'linkedin_profile' => '',
             ],
             [
+                'id_creator' => 3,
                 'consolidated_code' => '#10001001',
                 'id_honorific' => 3,
                 'firstname' => 'Roger',
@@ -124,6 +129,7 @@ class ContactsTableSeeder extends BaseTableSeeder {
                 'linkedin_profile' => '',
             ],
             [
+                'id_creator' => 3,
                 'consolidated_code' => '#10001002',
                 'id_honorific' => 3,
                 'firstname' => 'David',
@@ -147,6 +153,7 @@ class ContactsTableSeeder extends BaseTableSeeder {
                 'linkedin_profile' => '',
             ],
             [
+                'id_creator' => 3,
                 'consolidated_code' => '#10001003',
                 'id_honorific' => 3,
                 'firstname' => 'Syd',
@@ -170,6 +177,7 @@ class ContactsTableSeeder extends BaseTableSeeder {
                 'linkedin_profile' => '',
             ],
             [
+                'id_creator' => 3,
                 'consolidated_code' => '#10001004',
                 'id_honorific' => 3,
                 'firstname' => 'Nick',
@@ -193,6 +201,7 @@ class ContactsTableSeeder extends BaseTableSeeder {
                 'linkedin_profile' => '',
             ],
             [
+                'id_creator' => 2,
                 'consolidated_code' => '#10002001',
                 'id_honorific' => 3,
                 'firstname' => 'John',
@@ -216,6 +225,7 @@ class ContactsTableSeeder extends BaseTableSeeder {
                 'linkedin_profile' => '',
             ],
             [
+                'id_creator' => 2,
                 'consolidated_code' => '#10002002',
                 'id_honorific' => 3,
                 'firstname' => 'Paul',
@@ -239,6 +249,7 @@ class ContactsTableSeeder extends BaseTableSeeder {
                 'linkedin_profile' => '',
             ],
             [
+                'id_creator' => 2,
                 'consolidated_code' => '#10002003',
                 'id_honorific' => 3,
                 'firstname' => 'George',
@@ -262,6 +273,7 @@ class ContactsTableSeeder extends BaseTableSeeder {
                 'linkedin_profile' => '',
             ],
             [
+                'id_creator' => 2,
                 'consolidated_code' => '#10002004',
                 'id_honorific' => 3,
                 'firstname' => 'Ringo',

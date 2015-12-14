@@ -1,4 +1,4 @@
-// scripts/controllers/directives.js
+// scripts/extensions/directives.js
 
 function TabDirective() {
     return {

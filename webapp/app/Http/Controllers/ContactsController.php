@@ -12,14 +12,11 @@ use App\PropertyWeight;
 use App\GroupArea;
 use App\ContactInterest;
 
-class ContactsController extends Controller {
+use Illuminate\Support\Facades\DB;
 
-    /**
-     *
-     */
-    public function propertyWeights() {
-        return PropertyWeight::orderBy('weight', 'DESC')->get();
-    }
+use Maatwebsite\Excel\Facades\Excel;
+
+class ContactsController extends Controller {
     
     /**
      * Display a listing of contacts.
@@ -27,8 +24,11 @@ class ContactsController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        $with = array('contact_type', 'group_area');
-        return Contact::with($with)->get(array('id', 'firstname', 'lastname', 'company_name', 'id_contact_type', 'id_group_area'));
+        $p = Request::all();
+        $with = array('contact_type', 'group_area', 'creator');
+        return Contact::with($with)
+            ->where($p)
+            ->get(array('id', 'firstname', 'lastname', 'company_name', 'id_contact_type', 'id_group_area', 'id_creator'));
     }
 
     /**
@@ -38,7 +38,7 @@ class ContactsController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
-        return Contact::full($id);
+        return Contact::full()->findOrFail($id);
     }
 
     /**
@@ -55,7 +55,7 @@ class ContactsController extends Controller {
 
         $this->saveInterests($newContact, $newInterests);
         
-        return Contact::full($newContact->id);
+        return Contact::full()->findOrFail($newContact->id);
     }
 
     /**
@@ -76,7 +76,7 @@ class ContactsController extends Controller {
 
         $this->saveInterests($contact, $newInterests);
 
-        return Contact::full($contact->id);
+        return Contact::full()->findOrFail($id);
     }
 
     private function getRequestData() {
@@ -155,5 +155,99 @@ class ContactsController extends Controller {
      */
     public function destroy($id) {
         //
+    }
+
+
+    /**
+     * Get list of property weigths for contact completeness.
+     */
+    public function propertyWeights() {
+        return PropertyWeight::orderBy('weight', 'DESC')->get();
+    }
+
+    /*
+     * Get comleteness of contact list.
+     */
+    public function contactListCompleteness() {
+        $p = Request::all();
+        $contactList = Contact::full()->where($p)->get();
+        $propertyWeights = PropertyWeight::all();
+
+        $accum = 0;
+
+        foreach ($contactList as $contact) {
+            foreach ($propertyWeights as $prop) {
+                $accum += $contact->{$prop->name} ? $prop->weight : 0;
+            }
+        }
+
+        $completeness = round($accum / $contactList->count());
+
+        return '{"value":' . $completeness . '}';
+    }
+
+    public function export() {
+        
+        Excel::create('contactos', function($excel) {
+            $excel->setTitle('Lista de contactos');
+            $excel->sheet('Contactos', function($sheet) {
+                $p = Request::all();
+                $contacts = Contact::full()->where($p)->orderBy('lastname')->get();
+
+                $contactsFlat = array();
+                foreach($contacts as $c) {
+                    $data = array($this->getDesc($c->honorific), $c->lastname, $c->firstname, $c->email, $c->skype,
+                        $c->linkedin_profile, $c->consolidated_code, $c->sap_code, $c->ten_digits_code,
+                        $c->position, $c->company_area, $c->company_name, $c->career,
+                        $c->phone, $c->street, $c->city, $c->postal_code, $c->region, $c->country->name,
+                        $this->transBool($c->action), $this->transBool($c->christmas_cards), 
+                        $this->transBool($c->christmas_presents), $this->transBool($c->newsletter), 
+                        $this->transBool($c->bulletinFNC),
+                        $this->getDesc($c->market), $this->getDesc($c->contact_type), $this->getDesc($c->group_area), 
+                        $this->getDesc($c->profile), $this->getDesc($c->education_level), $this->getDesc($c->size), 
+                        $this->getDesc($c->gender), $this->getDesc($c->age_range), $this->getDesc($c->business_origin), 
+                        $this->getDesc($c->language), $this->getDesc($c->customer_since),
+                        $this->getDesc($c->segmentation_ABC), $this->getDesc($c->segmentation_client_type), 
+                        $this->getDesc($c->segmentation_product_type), $this->getDesc($c->segmentation_potential), 
+                        $this->getDesc($c->segmentation_FNC_relation));
+                    array_push($contactsFlat, $data);
+                }
+
+                //set the titles
+                $sheet->fromArray($contactsFlat, null, 'A1', false, false)->prependRow(array(
+                        'Título', 'Apellido', 'Nombre', 'e-mail', 'Skype',
+                        'Linked-In', 'Código consolidado', 'Código SAP', 'Código 10 digitos',
+                        'Cargo', 'Área', 'Empresa', 'Profesión',  
+                        'Teléfono oficina', 'Calle', 'Ciudad', 'Código Postal', 'Región / Estado', 'País', 
+                        'Nos interesa realizar alguna acción', 'Tarjetas de Navidad', 
+                        'Regalos de Navidad', 'Newsletter', 
+                        'Boletín FNC', 
+                        'Mercado', 'Tipo de socio', 'Area Agrupada', 
+                        'Perfil', 'Nivel Educación', 'Talla', 
+                        'Sexo', 'Rango de edad', 'De dónde proviene el negocio', 
+                        'Idioma', 'Desde cuándo es cliente', 
+                        'Segmentación ABC', 'Segmentación Tipo Cliente', 
+                        'Segmentación Tipo Producto', 'Segmentación Potencial a futuro', 
+                        'Segmentación Relacion FNC', 
+                    )
+
+                );
+
+                $sheet->cells('A1:AN1', function($cells) {
+                    $cells->setFontWeight('bold');
+                    $cells->setBackground('#CCCCCC');
+                });
+            });
+
+
+        })->export('xlsx'); 
+    }
+
+    private function transBool($value) {
+        return $value ? 'Si' : 'No';
+    }
+
+    private function getDesc($obj) {
+        return is_null($obj) ? '' : $obj->description;
     }
 }

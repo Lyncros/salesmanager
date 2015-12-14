@@ -21,6 +21,8 @@ Route::group(array('prefix' => 'api'), function() {
 
     Route::post('login', 'AuthenticateController@login');
     Route::get('propertyWeights', 'ContactsController@propertyWeights');
+    Route::get('contactListCompleteness', 'ContactsController@contactListCompleteness');
+    Route::get('contactsExport', 'ContactsController@export');
     
     $params = [ 'except' => ['edit', 'create'] ];
     Route::resource('contacts', 'ContactsController', $params);
@@ -41,5 +43,7 @@ Route::group(array('prefix' => 'api'), function() {
     Route::resource('languages', 'LanguagesController', $params);
     Route::resource('businessOrigins', 'BusinessOriginsController', $params);
     Route::resource('customerSince', 'CustomerSinceController', $params);
+    Route::resource('users', 'UsersController', $params);
+    Route::resource('notifications', 'NotificationsController', $params);
 
 });

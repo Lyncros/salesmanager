@@ -47,5 +47,9 @@ angular
 		    		$rootScope.globals.currentUser && 
 		    		$rootScope.globals.currentUser.role == 1000;
 		    }
+
+		    $rootScope.getUserId = function() {
+		    	return $rootScope.globals.currentUser.id;
+		    }
 	    }
 	]);

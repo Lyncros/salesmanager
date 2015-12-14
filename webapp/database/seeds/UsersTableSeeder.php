@@ -13,8 +13,12 @@ class UsersTableSeeder extends BaseTableSeeder {
                 'email' => 'admin@salesmanager.com', 'password' => Hash::make('secret'), 'role' => 1000
             ],
         	[
-                'firstname' => 'sales', 'lastname' => 'sale', 
-                'email' => 'sales@salesmanager.com', 'password' => Hash::make('secret'), 'role' => 100
+                'firstname' => 'John', 'lastname' => 'Sales', 
+                'email' => 'john@salesmanager.com', 'password' => Hash::make('secret'), 'role' => 100
+            ],
+            [
+                'firstname' => 'Peter', 'lastname' => 'Sales', 
+                'email' => 'peter@salesmanager.com', 'password' => Hash::make('secret'), 'role' => 100
             ],
     	);
 

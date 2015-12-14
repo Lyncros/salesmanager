@@ -154,12 +154,15 @@ a.disabled {
     padding: 0;
 }
 
+.navbar-nav > li > a { cursor: pointer; }
+
 /* add contact button */
 .btn-add-contact {
 	position:fixed; 
 	display:block; 
 	bottom:50px; 
 	right:50px; 
+	z-index: 2;
 	background:#0B0; 
 	border-radius:100%; 
 	width:75px; 
@@ -381,8 +384,8 @@ span.icon-linkedin { background: url(../img/linkedin.png) no-repeat center botto
 .contact-detail .operacion p{ margin:0 !important; padding:5px 10px}
 .contact-detail .operacion .col-md-4{border-left:1px solid #ffb6b6}
 .contact-detail p.task-description{ position:relative; padding-right:30px}.contact-detail p.task-description a{ position:absolute; color:#fff; top:0; right:10px; font-size:1em}.contact-detail p.task-description a:hover{color:#ff6666}
-.contact-detail .panel-body{ padding:0}
-.contact-detail .panel-group{ margin:0}
+.contact-detail .panel-body{ padding:0px 0px 10px 0px; }
+.contact-detail .panel-group{ margin:0px; }
 .contact-detail .task:hover{ background:none}
 .contact-detail .task .panel-heading .checkbox label::before { margin-top:0}
 .contact-detail .task .panel-heading label{font-family:'AvenirLTStd-Medium'; font-size:1em; line-height:20px}
@@ -421,13 +424,27 @@ span.icon-linkedin { background: url(../img/linkedin.png) no-repeat center botto
 	background-color: #00A800;
 }
 
-.contact-edit .honorific-container { padding-right: 5px; }
-.contact-edit .firstname-container { padding-left: 5px; }
+.contact-edit .left-container { padding-right: 5px; }
+.contact-edit .right-container { padding-left: 5px; }
 
-.contact-edit .form-control-feedback { display: none; right: -30px; }
-.contact-edit .firstname-container .form-control-feedback { right: -15px; }
-.contact-edit .has-feedback .form-control-feedback { display: block; }
-.contact-edit .error-legend { font-size: 0.8em; color: #a94442; }
+.contact-edit .form-control-feedback { display: none; }
+.contact-edit .has-feedback .form-control-feedback { 
+	display: inline; 
+	position: static;
+	top: 0px;
+	color: #A94442; 
+	font-weight: bold;
+	line-height: inherit;
+}
+.contact-edit .error-legend { font-size: 0.8em; color: #A94442; }
+
+.contact-edit .next-field-complete input { border-color: #F0AD4E; }
+
+.contact-edit .next-field-complete input :focus {
+    border-color: #F0AD4E;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 6px #ce8483;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 6px #ce8483;
+}
 
 
 .op-list{ margin:20px 0; padding:10px 0; border-top:1px solid #ddd; border-bottom:1px solid #ddd}

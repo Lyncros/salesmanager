@@ -15,15 +15,21 @@ function ContactsService($resource, $rootScope) {
 			},
 			update: {
 				method: 'PUT'
-			}
+			},
 		}),
 		restPropertyWeights: $resource('index.php/api/propertyWeights'),
+		restContactListCompleteness: $resource('index.php/api/contactListCompleteness', {}, {
+			query: {
+				isArray: false
+			}
+		}),
 
 		getContact: function(id) {
 			return this.restContacts.getContact({id}).$promise.then(onSuccess, onError);
 		},
 		getContacts: function() {
-			return queryAPI(this.restContacts);
+			var params = this.buildParams();
+			return queryAPI(this.restContacts, params);
 		},
 		getPropertyWeights : function () {
 	        return queryAPI(this.restPropertyWeights);
@@ -34,6 +40,19 @@ function ContactsService($resource, $rootScope) {
 	    	} else {
 		    	return this.restContacts.save(contact).$promise.then(onSuccess, onError);
 	    	}
+	    },
+	    getContactListCompleteness: function() {
+	    	var params = this.buildParams();
+	    	return this.restContactListCompleteness.query(params).$promise.then(onSuccess, onError);
+	    },
+	    buildParams: function() {
+	    	var params = {};
+			if (! $rootScope.isAdmin()) {
+				params = {
+					id_creator: $rootScope.getUserId()
+				};
+			}
+			return params;
 	    }
 	};
 }
