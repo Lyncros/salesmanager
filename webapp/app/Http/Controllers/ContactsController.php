@@ -7,11 +7,13 @@ use App\Http\Controllers\Controller;
 
 use Request;
 use Mail;
+use Illuminate\Support\Facades\URL;
 
 use App\Contact;
 use App\PropertyWeight;
 use App\GroupArea;
 use App\ContactInterest;
+use App\User;
 
 use Illuminate\Support\Facades\DB;
 
@@ -26,10 +28,13 @@ class ContactsController extends Controller {
      */
     public function index() {
         $p = Request::all();
-        $with = array('contact_type', 'group_area', 'creator');
+        $with = array('contact_type', 'group_area', 'market', 'language', 'country', 'creator');
         return Contact::with($with)
             ->where($p)
-            ->get(array('id', 'firstname', 'lastname', 'company_name', 'id_contact_type', 'id_group_area', 'id_creator'));
+            ->get(array('id', 'firstname', 'lastname', 'email', 'phone', 'skype',
+                'company_name', 'company_area', 'position', 'sap_code', 'career',
+                'city', 'id_market', 'id_language', 'id_country',
+                'id_contact_type', 'id_group_area', 'id_creator'));
     }
 
     /**
@@ -56,12 +61,18 @@ class ContactsController extends Controller {
 
         $this->saveInterests($newContact, $newInterests);
 
-        //$name = $newContact->firstname . ' ' . $newContact->lastname;
-        //$destination = 'juangarias@gmail.com';
+        $name = $newContact->firstname . ' ' . $newContact->lastname;
+        $admins = User::where('role', 1000)->get(array('email'));
+        $destination = '';
+        foreach ($admins as $user) {
+            $destination .= $user->email . ',';
+        }
 
-        //Mail::send('emails.new_contact_created', ['name' => $name], function ($m) use($destination) {
-        //    $m->to($destination)->subject('Nuevo contacto creado');
-        //});
+        $destination = rtrim($destination, ',');
+
+        Mail::send('emails.new_contact_created', compact('name'), function ($m) use($destination) {
+            $m->to($destination)->subject('Nuevo contacto creado');
+        });
         
         return Contact::full()->findOrFail($newContact->id);
     }
@@ -179,17 +190,20 @@ class ContactsController extends Controller {
     public function contactListCompleteness() {
         $p = Request::all();
         $contactList = Contact::full()->where($p)->get();
-        $propertyWeights = PropertyWeight::all();
+        $completeness = 0;
 
-        $accum = 0;
+        if (!$contactList->isEmpty()) {
+            $propertyWeights = PropertyWeight::all();
+            $accum = 0;
 
-        foreach ($contactList as $contact) {
-            foreach ($propertyWeights as $prop) {
-                $accum += $contact->{$prop->name} ? $prop->weight : 0;
+            foreach ($contactList as $contact) {
+                foreach ($propertyWeights as $prop) {
+                    $accum += $contact->{$prop->name} ? $prop->weight : 0;
+                }
             }
-        }
 
-        $completeness = round($accum / $contactList->count());
+            $completeness = round($accum / $contactList->count());
+        }
 
         return '{"value":' . $completeness . '}';
     }

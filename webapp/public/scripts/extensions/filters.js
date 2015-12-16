@@ -5,8 +5,9 @@ function ContactsFilter(contactList, controller) {
         return contactList;
     }
 
-    var fieldsToSearch = ['email', 'firstname', 'lastname', 'phone', 'skype', 'perfil', 'interes', 'company', 'market', 
-        'language', 'city', 'country', 'consolidatedCode', 'segmentationContactType', 'profession', 'position', 'area'];
+    var fieldsToSearch = ['email', 'firstname', 'lastname', 'phone', 'skype', 'perfil', 'interes', 
+        'company_name', 'company_area', 'market', 'segmentationContactType', 'profession', 'position',
+        'language', 'city', 'country', 'consolidatedCode'];
 
     return contactList.filter(function(contact) {
         return contactPassContactTypeFilter(contact, controller) && 
@@ -58,18 +59,29 @@ function contactPassSearchFilter(contact, controller, fieldsToSearch) {
     }
 
     var searchKeyPass = false;
-    controller.searchKeys.forEach(function(key) {
-        fieldsToSearch.forEach(function(field) {
+    angular.forEach(controller.searchKeys, function(key){
+        angular.forEach(fieldsToSearch, function(field) {
             searchKeyPass = searchKeyPass || fieldContainsKey(contact, field, key);
-        });
+        });        
     });
     return searchKeyPass;
 
 }
 
 function fieldContainsKey(obj, field, key) {
+    var keyStnd = key.toLowerCase();
+    var valueStnd = '';
     if (obj && obj[field]) {
-        return obj[field].toLowerCase().indexOf(key.toLowerCase()) > -1;
+        if (angular.isObject(obj[field])) {
+            if (obj[field].description) {
+                valueStnd = obj[field].description.toLowerCase();
+            } else if (obj[field].name) {
+                valueStnd = obj[field].name.toLowerCase();
+            }
+        } else {
+            valueStnd = obj[field].toLowerCase();
+        }
+        return valueStnd.indexOf(keyStnd) > -1;
     } else {
         return false;
     }

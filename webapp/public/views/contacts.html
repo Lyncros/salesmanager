@@ -174,8 +174,8 @@
                                             <strong>{{[vm.contactSelected.market.name, vm.contactSelected.language.description].join(' | ')}}</strong>
                                         </p>
                                         <p><strong>{{vm.contactSelected.sap_code}}</strong></p>
-                                        <p>
-                                            <span ng-if="vm.contactSelected.creator">Comercial:&nbsp;</span>
+                                        <p ng-if="vm.contactSelected.creator && isAdmin()">
+                                            <span>Responsable:&nbsp;</span>
                                             <strong>{{vm.contactSelected.creator.lastname}}</strong>
                                             <strong>{{vm.contactSelected.creator.firstname}}</strong>
                                         </p>

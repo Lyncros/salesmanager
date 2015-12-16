@@ -144,8 +144,12 @@ function ContactsController($http, $scope, contactsService, entitiesService) {
         if (contactFormCtlr.$dirty) {
             var data = {
                 id: this.contactSelected.id,
-                id_creator: $scope.getUserId()
             };
+
+            if (!this.contactSelected.id) {
+                data['id_creator'] = $scope.getUserId();
+            }
+
             angular.forEach(contactFormCtlr, function(value, key) {
                 if(key[0] !== '$' && value.$dirty) {
                     data[key] = value.$viewValue;
@@ -202,6 +206,7 @@ function ContactsController($http, $scope, contactsService, entitiesService) {
 
         if (field) {
             cssClass += field.$error.required ? ' has-feedback ' : '';
+            //cssClass += field.$name == this.nextEmptyPropertyName ? ' next-field-complete ' : '';
         }
 
         return cssClass;
