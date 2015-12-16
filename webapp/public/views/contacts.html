@@ -75,7 +75,7 @@
                         </ul>
                     </li>
                     <li ng-if="isAdmin()">
-                        <a class="btn filter-title" data-target="#usersFilterList" data-toggle="collapse">Comerciales</a>
+                        <a class="btn filter-title" data-target="#usersFilterList" data-toggle="collapse">Responsables</a>
                         <ul id="usersFilterList" class="nav nav-sidebar collapse in">
                             <li ng-repeat="user in vm.users">
                                 <a ng-click="vm.updateFilterUser(user)">{{user.lastname}},&nbsp;{{user.firstname}}</a>
