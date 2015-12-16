@@ -7,7 +7,7 @@ function ContactsFilter(contactList, controller) {
 
     var fieldsToSearch = ['email', 'firstname', 'lastname', 'phone', 'skype', 'perfil', 'interes', 
         'company_name', 'company_area', 'market', 'segmentationContactType', 'profession', 'position',
-        'language', 'city', 'country', 'consolidatedCode'];
+        'language', 'city', 'country', 'consolidatedCode', 'sap_code'];
 
     return contactList.filter(function(contact) {
         return contactPassContactTypeFilter(contact, controller) && 

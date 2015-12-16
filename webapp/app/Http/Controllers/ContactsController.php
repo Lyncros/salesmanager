@@ -221,7 +221,7 @@ class ContactsController extends Controller {
                     $data = array($this->getDesc($c->honorific), $c->lastname, $c->firstname, $c->email, $c->skype,
                         $c->linkedin_profile, $c->consolidated_code, $c->sap_code, $c->ten_digits_code,
                         $c->position, $c->company_area, $c->company_name, $c->career,
-                        $c->phone, $c->street, $c->city, $c->postal_code, $c->region, $c->country->name,
+                        $c->phone, $c->street, $c->city, $c->postal_code, $c->region, $this->getDesc($c->country, 'name'),
                         $this->transBool($c->action), $this->transBool($c->christmas_cards), 
                         $this->transBool($c->christmas_presents), $this->transBool($c->newsletter), 
                         $this->transBool($c->bulletinFNC),
@@ -269,7 +269,7 @@ class ContactsController extends Controller {
         return $value ? 'Si' : 'No';
     }
 
-    private function getDesc($obj) {
-        return is_null($obj) ? '' : $obj->description;
+    private function getDesc($obj, $prop = 'description') {
+        return is_null($obj) ? '' : $obj->{$prop};
     }
 }
