@@ -400,7 +400,7 @@
                                         <label for="group_area">Area agrupada</label>
                                         <span class="form-control-feedback" aria-hidden="true">*</span>
                                         <select ng-model="vm.contactSelected.group_area" class="form-control" name="group_area"
-                                            ng-options="ga as ga.description for ga in vm.groupAreas track by ga.id" required="">
+                                            ng-options="ga as ga.description for ga in vm.groupAreas track by ga.id">
                                         </select>
                                     </div>
                                     <div ng-hide="contactFormCtlr.$valid" class="error-legend">
