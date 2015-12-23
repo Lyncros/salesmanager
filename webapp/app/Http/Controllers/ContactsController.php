@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Request;
 use Mail;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\DB;
 
 use App\Contact;
 use App\PropertyWeight;
@@ -15,11 +16,33 @@ use App\GroupArea;
 use App\ContactInterest;
 use App\User;
 
-use Illuminate\Support\Facades\DB;
-
 use Maatwebsite\Excel\Facades\Excel;
 
 class ContactsController extends Controller {
+
+    public function applyInterestsAllContacts() {
+        $with = array('group_area.interests', 'group_area.profile', 'interests');
+        $contacts = Contact::with($with)->get();
+
+        foreach ($contacts as $c) {
+            if ($c->interests->isEmpty()) {
+                if ($c->group_area) {
+                    $this->saveInterests($c, $c->group_area->interests);
+                    $c->id_profile = $c->group_area->profile->id;
+                    $c->save();
+                    $this->echoContact('SAVED contact', $c);
+                } else {
+                    $this->echoContact('EMPTY GroupArea', $c);
+                }
+            } else {
+                $this->echoContact('DO Nothing. Already has interests', $c);
+            }
+        }
+    }
+
+    private function echoContact($msg, $c) {
+        echo $msg . ' ' . $c->firstname . ' ' . $c->lastname . ' [' . $c->id . ']' . '<br>';        
+    }
     
     /**
      * Display a listing of contacts.
@@ -54,7 +77,7 @@ class ContactsController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
-        $data = $this->getRequestData();
+        $data = $this->processRequestData();
         $newInterests = $data['interests'];
         unset($data['interests']);
         $newContact = Contact::create($data);
@@ -85,7 +108,7 @@ class ContactsController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id) {
-        $data = $this->getRequestData();
+        $data = $this->processRequestData();
         $newInterests = $data['interests'];
         unset($data['interests']);
         $contact = new Contact();
@@ -98,7 +121,7 @@ class ContactsController extends Controller {
         return Contact::full()->findOrFail($id);
     }
 
-    private function getRequestData() {
+    private function processRequestData() {
         $input = Request::all();
         $data = $this->translatePropertiesObjectToID($input);
         $group_area = $this->getGroupArea($data);
@@ -215,8 +238,8 @@ class ContactsController extends Controller {
             $excel->sheet('Contactos', function($sheet) {
                 $p = Request::all();
                 $contacts = Contact::full()->where($p)->orderBy('lastname')->get();
-
                 $contactsFlat = array();
+
                 foreach($contacts as $c) {
                     $data = array($this->getDesc($c->honorific), $c->lastname, $c->firstname, $c->email, $c->skype,
                         $c->linkedin_profile, $c->consolidated_code, $c->sap_code, $c->ten_digits_code,
@@ -225,35 +248,34 @@ class ContactsController extends Controller {
                         $this->transBool($c->action), $this->transBool($c->christmas_cards), 
                         $this->transBool($c->christmas_presents), $this->transBool($c->newsletter), 
                         $this->transBool($c->bulletinFNC),
-                        $this->getDesc($c->market), $this->getDesc($c->contact_type), $this->getDesc($c->group_area), 
+                        $this->getDesc($c->market, 'name'), $this->getDesc($c->contact_type), $this->getDesc($c->group_area), 
                         $this->getDesc($c->profile), $this->getDesc($c->education_level), $this->getDesc($c->size), 
                         $this->getDesc($c->gender), $this->getDesc($c->age_range), $this->getDesc($c->business_origin), 
                         $this->getDesc($c->language), $this->getDesc($c->customer_since),
                         $this->getDesc($c->segmentation_ABC), $this->getDesc($c->segmentation_client_type), 
                         $this->getDesc($c->segmentation_product_type), $this->getDesc($c->segmentation_potential), 
                         $this->getDesc($c->segmentation_FNC_relation));
+
                     array_push($contactsFlat, $data);
                 }
 
                 //set the titles
                 $sheet->fromArray($contactsFlat, null, 'A1', false, false)->prependRow(array(
-                        'Título', 'Apellido', 'Nombre', 'e-mail', 'Skype',
-                        'Linked-In', 'Código consolidado', 'Código SAP', 'Código 10 digitos',
-                        'Cargo', 'Área', 'Empresa', 'Profesión',  
-                        'Teléfono oficina', 'Calle', 'Ciudad', 'Código Postal', 'Región / Estado', 'País', 
-                        'Nos interesa realizar alguna acción', 'Tarjetas de Navidad', 
-                        'Regalos de Navidad', 'Newsletter', 
-                        'Boletín FNC', 
-                        'Mercado', 'Tipo de socio', 'Area Agrupada', 
-                        'Perfil', 'Nivel Educación', 'Talla', 
-                        'Sexo', 'Rango de edad', 'De dónde proviene el negocio', 
-                        'Idioma', 'Desde cuándo es cliente', 
-                        'Segmentación ABC', 'Segmentación Tipo Cliente', 
-                        'Segmentación Tipo Producto', 'Segmentación Potencial a futuro', 
-                        'Segmentación Relacion FNC', 
-                    )
-
-                );
+                    'Título', 'Apellido', 'Nombre', 'e-mail', 'Skype',
+                    'Linked-In', 'Código consolidado', 'Código SAP', 'Código 10 digitos',
+                    'Cargo', 'Área', 'Empresa', 'Profesión',  
+                    'Teléfono oficina', 'Calle', 'Ciudad', 'Código Postal', 'Región / Estado', 'País', 
+                    'Nos interesa realizar alguna acción', 'Tarjetas de Navidad', 
+                    'Regalos de Navidad', 'Newsletter', 
+                    'Boletín FNC', 
+                    'Mercado', 'Tipo de socio', 'Area Agrupada', 
+                    'Perfil', 'Nivel Educación', 'Talla', 
+                    'Sexo', 'Rango de edad', 'De dónde proviene el negocio', 
+                    'Idioma', 'Desde cuándo es cliente', 
+                    'Segmentación ABC', 'Segmentación Tipo Cliente', 
+                    'Segmentación Tipo Producto', 'Segmentación Potencial a futuro', 
+                    'Segmentación Relacion FNC', 
+                ));
 
                 $sheet->cells('A1:AN1', function($cells) {
                     $cells->setFontWeight('bold');

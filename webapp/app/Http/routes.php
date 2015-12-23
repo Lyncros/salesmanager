@@ -23,6 +23,8 @@ Route::group(array('prefix' => 'api'), function() {
     Route::get('propertyWeights', 'ContactsController@propertyWeights');
     Route::get('contactListCompleteness', 'ContactsController@contactListCompleteness');
     Route::get('contactsExport', 'ContactsController@export');
+
+    Route::get('applyInterestsAllContacts', 'ContactsController@applyInterestsAllContacts');
     
     $params = [ 'except' => ['edit', 'create'] ];
     Route::resource('contacts', 'ContactsController', $params);
