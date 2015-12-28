@@ -48,8 +48,8 @@ angular
 		    		$rootScope.globals.currentUser.role == 1000;
 		    }
 
-		    $rootScope.getUserId = function() {
-		    	return $rootScope.globals.currentUser.id;
+		    $rootScope.getUser = function() {
+		    	return $rootScope.globals.currentUser;
 		    }
 	    }
 	]);

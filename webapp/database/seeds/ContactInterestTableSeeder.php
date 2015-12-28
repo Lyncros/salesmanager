@@ -29,7 +29,7 @@ class ContactInterestTableSeeder extends Seeder {
         DB::table($tablename)->truncate();
 
         foreach ($data as $row) {
-        	 DB::table($tablename)->insert($row);
+    	   //DB::table($tablename)->insert($row);
         }
     }
 }

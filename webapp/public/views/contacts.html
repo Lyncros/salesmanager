@@ -174,10 +174,9 @@
                                             <strong>{{[vm.contactSelected.market.name, vm.contactSelected.language.description].join(' | ')}}</strong>
                                         </p>
                                         <p><strong>{{vm.contactSelected.sap_code}}</strong></p>
-                                        <p ng-if="vm.contactSelected.creator && isAdmin()">
+                                        <p ng-if="vm.contactSelected.responsibles && isAdmin()">
                                             <span>Responsable:&nbsp;</span>
-                                            <strong>{{vm.contactSelected.creator.lastname}}</strong>
-                                            <strong>{{vm.contactSelected.creator.firstname}}</strong>
+                                            <strong>{{vm.contactSelected.responsibles | responsibles}}</strong>
                                         </p>
                                     </div>
                                 </div>
@@ -401,6 +400,14 @@
                                         <span class="form-control-feedback" aria-hidden="true">*</span>
                                         <select ng-model="vm.contactSelected.group_area" class="form-control" name="group_area"
                                             ng-options="ga as ga.description for ga in vm.groupAreas track by ga.id">
+                                        </select>
+                                    </div>
+                                    <div ng-if="isAdmin()" class="form-group">
+                                        <label for="responsibles">Responsables</label>
+                                        <span class="form-control-feedback" aria-hidden="true">*</span>
+                                        <select ng-model="vm.contactSelected.responsibles" class="form-control" name="responsibles"
+                                            ng-options='u as (u.lastname + ", " + u.firstname) for u in vm.users track by u.id'
+                                            multiple="true">
                                         </select>
                                     </div>
                                     <div ng-hide="contactFormCtlr.$valid" class="error-legend">

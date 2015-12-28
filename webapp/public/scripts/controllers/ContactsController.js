@@ -2,9 +2,8 @@
 'use strict';
 
 angular.module('salesManager')
-    .filter('contacts', function() {
-        return ContactsFilter;
-    })
+    .filter('contacts', ContactsFilter)
+    .filter('responsibles', ResponsiblesFilter)
     .directive('tabs', TabDirective)
     .directive('pane', PaneDirective)
     .directive('booleanicon', BooleaniconDirective)
@@ -99,8 +98,8 @@ function ContactsController($http, $scope, contactsService, entitiesService) {
         this.completenessPercentage = this.calculateCompletenessPercentage(contact);
         this.setNextEmptyProperty(contact);
 
-        var controller = this;
-        angular.forEach(this.contactSelected.interests, function(item, index, array) {
+        //var controller = this;
+        angular.forEach(this.contactSelected.interests, function(item, index) {
             controller.contactInterestsData[index] = item.hits;
             controller.contactInterestsLabels[index] = item.interest.description;
         });
@@ -147,7 +146,7 @@ function ContactsController($http, $scope, contactsService, entitiesService) {
             };
 
             if (!this.contactSelected.id) {
-                data['id_creator'] = $scope.getUserId();
+                data['responsibles'] = [$scope.getUser()];
             }
 
             angular.forEach(contactFormCtlr, function(value, key) {

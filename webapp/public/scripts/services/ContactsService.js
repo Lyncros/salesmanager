@@ -49,7 +49,7 @@ function ContactsService($resource, $rootScope) {
 	    	var params = {};
 			if (! $rootScope.isAdmin()) {
 				params = {
-					id_creator: $rootScope.getUserId()
+					id_responsible: $rootScope.getUser().id
 				};
 			}
 			return params;

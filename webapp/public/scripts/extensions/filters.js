@@ -1,20 +1,28 @@
 // scripts/extensions/filters.js
 
-function ContactsFilter(contactList, controller) {
-    if (!controller.hasFilters()) {
-        return contactList;
+/*
+ * ContactsFilter
+ * 
+ * Filter contacts based on controller's data: contact type, group area, search box.
+ */
+
+function ContactsFilter() {
+    return function(contactList, controller) {
+        if (!controller.hasFilters()) {
+            return contactList;
+        }
+
+        var fieldsToSearch = ['email', 'firstname', 'lastname', 'phone', 'skype', 'perfil', 'interes', 
+            'company_name', 'company_area', 'market', 'segmentationContactType', 'profession', 'position',
+            'language', 'city', 'country', 'consolidatedCode', 'sap_code'];
+
+        return contactList.filter(function(contact) {
+            return contactPassContactTypeFilter(contact, controller) && 
+                contactPassGroupAreaFilter(contact, controller) && 
+                contactPassUserFilter(contact, controller) && 
+                contactPassSearchFilter(contact, controller, fieldsToSearch);
+        });
     }
-
-    var fieldsToSearch = ['email', 'firstname', 'lastname', 'phone', 'skype', 'perfil', 'interes', 
-        'company_name', 'company_area', 'market', 'segmentationContactType', 'profession', 'position',
-        'language', 'city', 'country', 'consolidatedCode', 'sap_code'];
-
-    return contactList.filter(function(contact) {
-        return contactPassContactTypeFilter(contact, controller) && 
-            contactPassGroupAreaFilter(contact, controller) && 
-            contactPassUserFilter(contact, controller) && 
-            contactPassSearchFilter(contact, controller, fieldsToSearch);
-    });
 }
 
 function contactPassContactTypeFilter(contact, controller) {
@@ -38,7 +46,17 @@ function contactPassUserFilter(contact, controller) {
         return true;
     }
 
-    return contactPassEntityFilter(contact, 'creator', controller.userFilters);
+    if (!contact.responsibles) {
+        return false;
+    }
+
+    var pass = false;
+    angular.forEach(controller.userFilters, function(entity) {
+        angular.forEach(contact.responsibles, function(resp){
+            pass = pass || resp.id == entity.id;
+        });
+    });
+    return pass; 
 }
 
 function contactPassEntityFilter(contact, propertyName, entitiesFilter) {
@@ -47,7 +65,7 @@ function contactPassEntityFilter(contact, propertyName, entitiesFilter) {
     }
 
     var pass = false;
-    entitiesFilter.forEach(function(entity) {
+    angular.forEach(entitiesFilter, function(entity) {
         pass = pass || contact[propertyName].id == entity.id;
     });
     return pass;   
@@ -65,7 +83,6 @@ function contactPassSearchFilter(contact, controller, fieldsToSearch) {
         });        
     });
     return searchKeyPass;
-
 }
 
 function fieldContainsKey(obj, field, key) {
@@ -84,5 +101,24 @@ function fieldContainsKey(obj, field, key) {
         return valueStnd.indexOf(keyStnd) > -1;
     } else {
         return false;
+    }
+}
+
+
+/*
+ * ResponsiblesFilter
+ *
+ * Displays responsible list in one line.
+ */
+
+function ResponsiblesFilter() {
+    return function(responsiblesList) {
+        var text = '';
+
+        angular.forEach(responsiblesList, function(resp){
+            text += resp.lastname + ', ' + resp.firstname + ' - ';
+        });
+
+        return text.slice(0, text.length - 3);
     }
 }

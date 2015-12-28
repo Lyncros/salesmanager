@@ -7,26 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class Contact extends Model {
 
 	protected $hidden = [
-		'id_contact_type',
-		'id_group_area',
-		'id_country',
-		'id_region',
-		'id_gender',
-		'id_education_level',
-		'id_age_range',
-		'id_size',
-		'id_market',
-		'id_honorific',
-		'id_language',
-		'id_profile',
-		'id_business_origin',	
-		'id_customer_since',
-		'id_segmentation_ABC',
-		'id_segmentation_client_type',
-		'id_segmentation_product_type',
-		'id_segmentation_potential',
+		'id_contact_type', 'id_group_area', 'id_country', 'id_region', 
+		'id_gender', 'id_education_level', 'id_age_range', 'id_size', 
+		'id_market', 'id_honorific', 'id_language', 'id_profile', 
+		'id_business_origin', 'id_customer_since', 
+		'id_segmentation_ABC', 'id_segmentation_client_type', 
+		'id_segmentation_product_type', 'id_segmentation_potential', 
 		'id_segmentation_FNC_relation',
-		'id_creator',
 	];
 
 	protected $appends = [
@@ -51,7 +38,7 @@ class Contact extends Model {
 		'id_segmentation_ABC','id_segmentation_client_type','id_segmentation_product_type',
 		'id_segmentation_FNC_relation','id_segmentation_potential',
 		'id_education_level','id_size','id_gender','id_age_range','id_business_origin',
-		'id_language','id_customer_since','id_creator',
+		'id_language','id_customer_since',
     ];
 
     public function getSegmentationABCAttribute() {
@@ -142,18 +129,28 @@ class Contact extends Model {
 		return $this->hasOne('App\BusinessOrigin', 'id', 'id_business_origin');
 	}
 
-	public function creator() {
-		return $this->hasOne('App\User', 'id', 'id_creator');
+	public function responsibles() {
+		return $this->belongsToMany('App\User', 'contact_user', 'id_contact', 'id_user');
 	}
 
 	public function scopeFull($query) {
 		$with = array(
-            'creator', 'country', 'contact_type', 'group_area', 'market', 'gender', 'interests.interest', 'profile',
+            'responsibles', 'country', 'contact_type', 'group_area', 'market', 'gender', 'interests.interest', 'profile',
             'education_level', 'age_range', 'size', 'language', 'customer_since', 'honorific', 'business_origin',
             'segmentation_ABC', 'segmentation_client_type', 'segmentation_FNC_relation', 
             'segmentation_potential', 'segmentation_product_type'
         );
 		return $query->with($with);
+	}
+
+	public function scopeHasResponsible($query, $id_responsible) {
+		if ($id_responsible) {
+			return $query->whereHas('responsibles', function($query) use($id_responsible) {
+	            $query->where('id_user', $id_responsible);
+	        });
+		} else {
+			return $query;
+		}
 	}
 
 }

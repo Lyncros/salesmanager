@@ -51,8 +51,7 @@ class CreateContactsTable extends Migration {
             $table->integer('id_age_range')->unsigned()->nullable();
             $table->integer('id_business_origin')->unsigned()->nullable();
             $table->integer('id_language')->unsigned()->nullable();
-            $table->integer('id_customer_since')->unsigned()->nullable();;
-            $table->integer('id_creator')->unsigned()->nullable();
+            $table->integer('id_customer_since')->unsigned()->nullable();
             $table->timestamps();
         });
     }

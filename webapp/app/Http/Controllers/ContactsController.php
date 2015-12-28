@@ -51,13 +51,17 @@ class ContactsController extends Controller {
      */
     public function index() {
         $p = Request::all();
-        $with = array('contact_type', 'group_area', 'market', 'language', 'country', 'creator');
+        $id_responsible = $this->getIdResponsible($p);
+
+        $with = array('contact_type', 'group_area', 'market', 'language', 'country', 'responsibles');
+        $fields = array('id', 'firstname', 'lastname', 'email', 'phone', 'skype',
+            'company_name', 'company_area', 'position', 'sap_code', 'career',
+            'city', 'id_market', 'id_language', 'id_country',
+            'id_contact_type', 'id_group_area');
+        
         return Contact::with($with)
-            ->where($p)
-            ->get(array('id', 'firstname', 'lastname', 'email', 'phone', 'skype',
-                'company_name', 'company_area', 'position', 'sap_code', 'career',
-                'city', 'id_market', 'id_language', 'id_country',
-                'id_contact_type', 'id_group_area', 'id_creator'));
+            ->hasResponsible($id_responsible)
+            ->get($fields);
     }
 
     /**
@@ -78,20 +82,22 @@ class ContactsController extends Controller {
      */
     public function store(Request $request) {
         $data = $this->processRequestData();
+        
         $newInterests = $data['interests'];
         unset($data['interests']);
-        $newContact = Contact::create($data);
+        $newResponsibles = $data['responsibles'];
+        unset($data['responsibles']);
 
+        $newContact = Contact::create($data);
         $this->saveInterests($newContact, $newInterests);
+        $this->saveResponsibles($newContact, $newResponsibles);
 
         $name = $newContact->firstname . ' ' . $newContact->lastname;
         $admins = User::where('role', 1000)->get(array('email'));
-        $destination = '';
+        $destination = array();
         foreach ($admins as $user) {
-            $destination .= $user->email . ',';
+            $destination[] = $user->email;
         }
-
-        $destination = rtrim($destination, ',');
 
         Mail::send('emails.new_contact_created', compact('name'), function ($m) use($destination) {
             $m->to($destination)->subject('Nuevo contacto creado');
@@ -109,14 +115,19 @@ class ContactsController extends Controller {
      */
     public function update(Request $request, $id) {
         $data = $this->processRequestData();
+        
         $newInterests = $data['interests'];
         unset($data['interests']);
+        $newResponsibles = $data['responsibles'];
+        unset($data['responsibles']);
+        
         $contact = new Contact();
         $contact->fill($data);
         $contact->exists =  true;
         $contact->save();
 
         $this->saveInterests($contact, $newInterests);
+        $this->saveResponsibles($contact, $newResponsibles);
 
         return Contact::full()->findOrFail($id);
     }
@@ -124,13 +135,23 @@ class ContactsController extends Controller {
     private function processRequestData() {
         $input = Request::all();
         $data = $this->translatePropertiesObjectToID($input);
-        $group_area = $this->getGroupArea($data);
         $data['interests'] = null;
+        $data['responsibles'] = null;
 
+        $group_area = $this->getGroupArea($data);
         if ($group_area) {
             $data['id_profile'] = $group_area->profile->id;
             $data['interests'] = $group_area->interests;
         }
+
+        if (array_key_exists('responsibles', $input)) {
+            $ids = array();
+            foreach ($input['responsibles'] as $user) {
+                $ids[] = $user['id'];
+            }
+            $data['responsibles'] = $ids;
+        }
+
         $data['linkedin_profile'] = $this->completeURL($data, 'linkedin_profile');
 
         if (array_key_exists('sap_code', $data)) {
@@ -189,6 +210,13 @@ class ContactsController extends Controller {
         }
     }
 
+    private function saveResponsibles($contact, $newResponsibles) {
+        if ($newResponsibles && !empty($newResponsibles)) {
+            $users = User::where('id', $newResponsibles)->get();
+            $contact->responsibles()->saveMany($users->all());
+        }
+    }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -212,7 +240,8 @@ class ContactsController extends Controller {
      */
     public function contactListCompleteness() {
         $p = Request::all();
-        $contactList = Contact::full()->where($p)->get();
+        $id_responsible = $this->getIdResponsible($p);
+        $contactList = Contact::full()->hasResponsible($id_responsible)->get();
         $completeness = 0;
 
         if (!$contactList->isEmpty()) {
@@ -229,6 +258,10 @@ class ContactsController extends Controller {
         }
 
         return '{"value":' . $completeness . '}';
+    }
+
+    private function getIdResponsible($params) {
+        return array_key_exists('id_responsible', $params) ? $params['id_responsible'] : null;
     }
 
     public function export() {
