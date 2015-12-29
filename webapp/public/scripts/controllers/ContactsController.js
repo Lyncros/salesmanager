@@ -211,6 +211,24 @@ function ContactsController($http, $scope, contactsService, entitiesService) {
         return cssClass;
     }
 
+    this.isAddressSectionVisible = function() {
+        return this.contactSelected.street || this.contactSelected.city ||
+            this.contactSelected.region || this.contactSelected.country ||
+            this.contactSelected.postal_code;
+    }
+
+    this.isSegmentationSectionVisible = function() {
+        return this.contactSelected.segmentation_ABC || 
+            this.contactSelected.segmentation_client_type ||
+            this.contactSelected.segmentation_product_type || 
+            this.contactSelected.segmentation_FNC_relation ||
+            this.contactSelected.segmentation_potential;
+    }
+
+    this.isInterestsSectionVisible = function() {
+        return this.contactSelected.group_area || this.contactSelected.profile;
+    }
+
     this.resetSearchKey = function() {
     	this.searchKeys = [];
     }

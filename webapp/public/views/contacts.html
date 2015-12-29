@@ -174,7 +174,7 @@
                                             <strong>{{[vm.contactSelected.market.name, vm.contactSelected.language.description].join(' | ')}}</strong>
                                         </p>
                                         <p><strong>{{vm.contactSelected.sap_code}}</strong></p>
-                                        <p ng-if="vm.contactSelected.responsibles && isAdmin()">
+                                        <p ng-if="isAdmin() && vm.contactSelected.responsibles">
                                             <span>Responsable:&nbsp;</span>
                                             <strong>{{vm.contactSelected.responsibles | responsibles}}</strong>
                                         </p>
@@ -182,7 +182,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-12 col-md-12 nopadding">
+                        <div class="col-sm-12 col-md-12 nopadding" ng-if="vm.isAddressSectionVisible()">
                             <header class="subpanel-heading">
                                 <h5>
                                     <span>direcci&oacute;n
@@ -201,7 +201,7 @@
                                 <p>{{vm.contactSelected.country.name}}</p>
                             </div>
                         </div>
-                        <div class="col-sm-12 col-md-12 nopadding">
+                        <div class="col-sm-12 col-md-12 nopadding" ng-if="vm.isSegmentationSectionVisible()">
                             <header class="subpanel-heading">
                                 <h5>
                                     <span>segmentacion
@@ -212,29 +212,29 @@
                                 </h5>
                             </header>
                             <div id="segmentation" class="collapse panel-data">
-                                <p>
+                                <p ng-if="vm.contactSelected.segmentation_ABC">
                                     <strong>A-B-C:&nbsp;</strong>
                                     {{vm.contactSelected.segmentation_ABC.description}}
                                 </p>
-                                <p>
+                                <p ng-if="vm.contactSelected.segmentation_client_type">
                                     <strong>Tipo Cliente:&nbsp;</strong>
                                     {{vm.contactSelected.segmentation_client_type.description}}
                                 </p>
-                                <p>
+                                <p ng-if="vm.contactSelected.segmentation_product_type">
                                     <strong>Tipo Producto:&nbsp;</strong>
                                     {{vm.contactSelected.segmentation_product_type.description}}
                                 </p>
-                                <p>
+                                <p ng-if="vm.contactSelected.segmentation_FNC_relation">
                                     <strong>Relaci&oacute;n FNC:&nbsp;</strong>
                                     {{vm.contactSelected.segmentation_FNC_relation.description}}
                                 </p>
-                                <p>
+                                <p ng-if="vm.contactSelected.segmentation_potential">
                                     <strong>Potencial a Futuro:&nbsp;</strong>
                                     {{vm.contactSelected.segmentation_potential.description}}
                                 </p>
                             </div>
                         </div>
-                        <div class="col-sm-12 col-md-12 nopadding">
+                        <div class="col-sm-12 col-md-12 nopadding" ng-if="vm.isInterestsSectionVisible()">
                             <header class="subpanel-heading">
                                 <h5>
                                     <span>intereses
@@ -245,8 +245,12 @@
                                 </h5>
                             </header>
                             <div id="intereses" class="collapse">
-                                <p><strong>&Aacute;rea Agrupada:&nbsp;</strong>{{vm.contactSelected.group_area.description}}</p>
-                                <p><strong>Perfil:&nbsp;</strong>{{vm.contactSelected.profile.description}}</p>
+                                <p ng-if="vm.contactSelected.group_area">
+                                    <strong>&Aacute;rea Agrupada:&nbsp;</strong>{{vm.contactSelected.group_area.description}}
+                                </p>
+                                <p ng-if="vm.contactSelected.profile">
+                                    <strong>Perfil:&nbsp;</strong>{{vm.contactSelected.profile.description}}
+                                </p>
                                 <canvas ng-if="vm.contactInterestsData && vm.contactInterestsLabels" 
                                     id="pie" class="chart chart-pie" chart-legend="true" 
                                     chart-data="vm.contactInterestsData" chart-labels="vm.contactInterestsLabels">
@@ -265,16 +269,30 @@
                             </header>
                             <div id="additional-information" class="collapse panel-data">
                                 <div class="col-md-6 nopadding">
-                                    <p ng-if="isAdmin()">
+                                    <p ng-if="isAdmin() && vm.contactSelected.ten_digits_code">
                                         <strong>C&oacute;digo 10 d&iacute;gitos:&nbsp;</strong>{{vm.contactSelected.ten_digits_code}}
                                     </p>
-                                    <p><strong>&Aacute;rea dentro de la empresa:&nbsp;</strong>{{vm.contactSelected.company_area}}</p>
-                                    <p><strong>El negocio proviene de:&nbsp;</strong>{{vm.contactSelected.business_origin.description}}</p>
-                                    <p><strong>Cliente hace:&nbsp;</strong>{{vm.contactSelected.customer_since.description}}</p>
-                                    <p><strong>Profesi&oacute;n:&nbsp;</strong>{{vm.contactSelected.career}}</p>
-                                    <p><strong>Edad:&nbsp;</strong>{{vm.contactSelected.age_range.description}}</p>
-                                    <p><strong>Nivel de educaci&oacute;n:&nbsp;</strong>{{vm.contactSelected.education_level.description}}</p>
-                                    <p><strong>Talla:&nbsp;</strong>{{vm.contactSelected.size.description}}</p>
+                                    <p ng-if="vm.contactSelected.company_area">
+                                        <strong>&Aacute;rea dentro de la empresa:&nbsp;</strong>{{vm.contactSelected.company_area}}
+                                    </p>
+                                    <p ng-if="vm.contactSelected.business_origin">
+                                        <strong>El negocio proviene de:&nbsp;</strong>{{vm.contactSelected.business_origin.description}}
+                                    </p>
+                                    <p ng-if="vm.contactSelected.customer_since">
+                                        <strong>Cliente hace:&nbsp;</strong>{{vm.contactSelected.customer_since.description}}
+                                    </p>
+                                    <p ng-if="vm.contactSelected.career">
+                                        <strong>Profesi&oacute;n:&nbsp;</strong>{{vm.contactSelected.career}}
+                                    </p>
+                                    <p ng-if="vm.contactSelected.age_range">
+                                        <strong>Edad:&nbsp;</strong>{{vm.contactSelected.age_range.description}}
+                                    </p>
+                                    <p ng-if="vm.contactSelected.education_level">
+                                        <strong>Nivel de educaci&oacute;n:&nbsp;</strong>{{vm.contactSelected.education_level.description}}
+                                    </p>
+                                    <p ng-if="vm.contactSelected.size">
+                                        <strong>Talla:&nbsp;</strong>{{vm.contactSelected.size.description}}
+                                    </p>
                                 </div>
                                 <div class="col-md-6 nopadding">
                                     <p ng-if="isAdmin()">
