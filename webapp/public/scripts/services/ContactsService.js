@@ -2,12 +2,12 @@
 'use strict';
 
 angular.module('salesManager')
-    .factory('contactsService', ContactsService);
+    .factory('contactsService', ContactsService)
 
-function ContactsService($resource, $rootScope) {
+function ContactsService($resource, $rootScope, $http) {
 
 	return {
-		restContacts: $resource('index.php/api/contacts/:id', {
+		restContacts: $resource('api/contacts/:id', {
 			filter: '@filter'
 		}, {
 			getContact: {
@@ -17,8 +17,8 @@ function ContactsService($resource, $rootScope) {
 				method: 'PUT'
 			},
 		}),
-		restPropertyWeights: $resource('index.php/api/propertyWeights'),
-		restContactListCompleteness: $resource('index.php/api/contactListCompleteness', {}, {
+		restPropertyWeights: $resource('api/propertyWeights'),
+		restContactListCompleteness: $resource('api/contactListCompleteness', {}, {
 			query: {
 				isArray: false
 			}

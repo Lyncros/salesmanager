@@ -7,7 +7,7 @@ angular.module('salesManager')
 function AuthService($resource) {
 
 	return {
-		restLogin: $resource('index.php/api/login', {}, {
+		restLogin: $resource('api/login', {}, {
 			login: {
 				method: 'POST',
 				isArray: false

@@ -4,8 +4,23 @@
 angular
 	.module('salesManager', ['ngResource', 'ngAnimate', 'ngRoute', 'ngCookies', 'ui.bootstrap', 'chart.js'])
 
-	.config(['$routeProvider', function ($routeProvider) {
+	.factory('tokenHttpInterceptor', function ($rootScope) {
+		return {
+			request: function (config) {
+				config.params = config.params || {};
+				if ($rootScope.getUser()) {
+	      			config.params.token = $rootScope.getUser().token;
+				}
+		      	return config;
+	    	}
+	 	};
+	})
 
+	.config(function ($httpProvider) {
+		$httpProvider.interceptors.push('tokenHttpInterceptor');
+	})
+
+	.config(['$routeProvider', function ($routeProvider) {
 	    $routeProvider
 	        .when('/login', {
 	            controller: 'LoginController',

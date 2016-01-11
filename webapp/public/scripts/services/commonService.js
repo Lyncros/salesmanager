@@ -14,6 +14,6 @@ function onError(error) {
 	console.log(error);
 }
 
-function queryAPI (entityResource, params) {
+function queryAPI(entityResource, params) {
 	return entityResource.query(params).$promise.then(onSuccess, onError);
 }
