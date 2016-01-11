@@ -10,4 +10,13 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 abstract class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
+    public function __construct() {
+    	$authExceptMethods = $this->getAuthExceptMethods();
+        $this->middleware('jwt.auth', ['except' => $authExceptMethods]);
+    }
+
+    protected function getAuthExceptMethods() {
+    	return [];
+    }
 }
