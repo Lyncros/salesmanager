@@ -26,7 +26,6 @@ class UsersController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
-        //
     }
 
     /**
@@ -36,7 +35,6 @@ class UsersController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
-        //
     }
 
     /**
@@ -47,7 +45,6 @@ class UsersController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id) {
-        //
     }
 
     /**
@@ -57,6 +54,5 @@ class UsersController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function destroy($id) {
-        //
     }
 }
