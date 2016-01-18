@@ -100,7 +100,6 @@ class ContactsController extends Controller {
         }
 
         Mail::send('emails.new_contact_created', compact('name'), function ($m) use($destination) {
-            $m->from('no-reply@cafedecolombia.com', 'Buencafe Contact Manager');
             $m->to($destination)->subject('Nuevo contacto creado');
         });
         

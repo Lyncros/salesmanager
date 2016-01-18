@@ -54,7 +54,7 @@ return [
     |
     */
 
-    'from' => ['address' => 'noreply@buencafe.com', 'name' => 'Buen Cafe Contact Manager'],
+    'from' => ['address' => 'no-reply@cafedecolombia.com', 'name' => 'Buencafe Contact Manager'],
 
     /*
     |--------------------------------------------------------------------------
