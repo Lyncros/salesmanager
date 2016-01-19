@@ -92,18 +92,35 @@ class ContactsController extends Controller {
         $this->saveInterests($newContact, $newInterests);
         $this->saveResponsibles($newContact, $newResponsibles);
 
-        $name = $newContact->firstname . ' ' . $newContact->lastname;
-        $admins = User::where('role', 1000)->get(array('email'));
-        $destination = array();
-        foreach ($admins as $user) {
-            $destination[] = $user->email;
-        }
+        $contactName = $this->buildContactNameParam($newContact);
+        $creatorName = $this->buildCreatorNameParam();
+        $destinations = $this->buildDestinations();
 
-        Mail::send('emails.new_contact_created', compact('name'), function ($m) use($destination) {
-            $m->to($destination)->subject('Nuevo contacto creado');
+        Mail::send('emails.new_contact_created', compact('contactName', 'creatorName'), function ($m) use($destinations) {
+            $m->to($destinations)->subject('Nuevo contacto creado');
         });
         
         return Contact::full()->findOrFail($newContact->id);
+    }
+
+    private function buildContactNameParam($newContact) {
+        return $newContact->firstname . ' ' . $newContact->lastname;
+    }
+
+    private function buildCreatorNameParam() {
+        $input = Request::all();
+        $newResponsibles = $input['responsibles'];
+        return $newResponsibles[0]['firstname'] . ' ' . $newResponsibles[0]['lastname'];
+    }
+
+    private function buildDestinations() {
+        $admins = User::where('role', 1000)->get(array('email'));
+        $destinations = array();
+        foreach ($admins as $user) {
+            $destinations[] = $user->email;
+        }
+
+        return $destinations;
     }
 
     /**
