@@ -287,7 +287,12 @@ class ContactsController extends Controller {
             $excel->setTitle('Lista de contactos');
             $excel->sheet('Contactos', function($sheet) {
                 $p = Request::all();
-                $contacts = Contact::full()->where($p)->orderBy('lastname')->get();
+                unset($p['token']);
+
+                $contacts = Contact::full()->select(DB::raw('*, TRIM(lastname) lastname_trimmed'))
+                    ->where($p)
+                    ->orderBy('lastname_trimmed')
+                    ->get();
                 $contactsFlat = array();
 
                 foreach($contacts as $c) {

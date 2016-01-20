@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-    <title>Buen cafe - Sales manager</title>
+    <title>Buencaf&eacute; - Contact Manager</title>
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/buencafe.css">
     <link rel="stylesheet" href="css/simple-sidebar.css">

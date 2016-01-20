@@ -283,6 +283,10 @@ function ContactsController($http, $scope, contactsService, entitiesService) {
         this.resetContactSelected();
     }
 
+    this.trimContact = function(contact) {
+        return contact[controller.orderByField].trim();
+    }
+
     this.orderByAZ = function() {
         this.orderByField = 'lastname';
         this.orderByReverse = false;
@@ -299,7 +303,7 @@ function ContactsController($http, $scope, contactsService, entitiesService) {
     }
 
     this.exportContactsToExcel = function() {
-        var url = 'index.php/api/contactsExport';
+        var url = 'index.php/api/contactsExport?token=' + $scope.getUser().token;
         window.open(url);
     }
 

@@ -108,7 +108,7 @@
                             <span class="glyphicon glyphicon-calendar"></span>
                         </a>
                     </article>
-                    <article class="task panel" ng-repeat="contact in vm.contacts | contacts:vm | orderBy:vm.orderByField:vm.orderByReverse">
+                    <article class="task panel" ng-repeat="contact in vm.contacts | contacts:vm | orderBy:vm.trimContact:vm.orderByReverse">
                         <a href="" ng-click="vm.showContactDetails(contact)">
                             <header class="panel-heading">
                                 <div class="row">
@@ -173,7 +173,9 @@
                                         <p>
                                             <strong>{{[vm.contactSelected.market.name, vm.contactSelected.language.description].join(' | ')}}</strong>
                                         </p>
-                                        <p><strong>{{vm.contactSelected.sap_code}}</strong></p>
+                                        <p ng-if="vm.contactSelected.sap_code">
+                                            SAP:&nbsp;<strong>{{vm.contactSelected.sap_code}}</strong>
+                                        </p>
                                         <p ng-if="isAdmin() && vm.contactSelected.responsibles">
                                             <span>Responsable:&nbsp;</span>
                                             <strong>{{vm.contactSelected.responsibles | responsibles}}</strong>
