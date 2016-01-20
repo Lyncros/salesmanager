@@ -57,7 +57,7 @@ class ContactsController extends Controller {
         $fields = array('id', 'firstname', 'lastname', 'email', 'phone', 'skype',
             'company_name', 'company_area', 'position', 'sap_code', 'career',
             'city', 'id_market', 'id_language', 'id_country',
-            'id_contact_type', 'id_group_area');
+            'id_contact_type', 'id_group_area', 'created_at');
         
         return Contact::with($with)
             ->hasResponsible($id_responsible)
