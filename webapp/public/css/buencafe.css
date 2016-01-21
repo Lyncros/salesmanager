@@ -137,8 +137,8 @@ a.disabled {
 .navbar-toggle { background-color:#353b3a; color:#fff}.navbar-nav{ padding:0; background-color:#fff;}
 .navbar-brand { 
 	background: url(../img/logo-ContactManager.png) no-repeat center center;
-    background-size: 85%;
-    width: 193px;
+    background-size: 90%;
+    width: 175px;
     text-indent: -9999px;
     height: 50px;
     padding: 0;
