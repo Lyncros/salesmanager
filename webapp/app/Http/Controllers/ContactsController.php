@@ -227,10 +227,10 @@ class ContactsController extends Controller {
         }
     }
 
-    private function saveResponsibles($contact, $newResponsibles) {
-        if ($newResponsibles && !empty($newResponsibles)) {
-            $users = User::where('id', $newResponsibles)->get();
-            $contact->responsibles()->saveMany($users->all());
+    private function saveResponsibles($contact, $responsibles) {
+        if ($responsibles && !empty($responsibles)) {
+            $users = User::whereIn('id', $responsibles)->get();
+            $contact->responsibles()->sync($users);
         }
     }
 
