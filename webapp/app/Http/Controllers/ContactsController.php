@@ -169,7 +169,10 @@ class ContactsController extends Controller {
             $data['responsibles'] = $ids;
         }
 
-        $data['linkedin_profile'] = $this->completeURL($data, 'linkedin_profile');
+        $linkedinProfile = $this->completeURL($data, 'linkedin_profile');
+        if (!empty($linkedinProfile)) {
+            $data['linkedin_profile'] = $linkedinProfile;
+        }
 
         if (array_key_exists('sap_code', $data)) {
             $data['ten_digits_code'] = str_pad($data['sap_code'], 10, '0', STR_PAD_LEFT);

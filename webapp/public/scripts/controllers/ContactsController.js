@@ -196,8 +196,10 @@ function ContactsController($http, $scope, contactsService, entitiesService) {
             prop = calculateFieldWeight(contact, p.name, p.weight) == 0 ? p : null;
         };
 
-        this.nextEmptyPropertyName = prop.name;
-        this.nextEmptyPropertyPercentage = Math.round(prop.weight);
+        if (prop) {
+            this.nextEmptyPropertyName = prop.name;
+            this.nextEmptyPropertyPercentage = Math.round(prop.weight);
+        }
     }
 
     this.getFormGroupClass = function(field) {
