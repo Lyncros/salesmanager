@@ -312,7 +312,8 @@ class ContactsController extends Controller {
                         $this->getDesc($c->language), $this->getDesc($c->customer_since),
                         $this->getDesc($c->segmentation_ABC), $this->getDesc($c->segmentation_client_type), 
                         $this->getDesc($c->segmentation_product_type), $this->getDesc($c->segmentation_potential), 
-                        $this->getDesc($c->segmentation_FNC_relation), $this->getResponsibles($c));
+                        $this->getDesc($c->segmentation_FNC_relation), 
+                        $this->getResponsibles($c), $this->getEMailResponsibles($c));
 
                     array_push($contactsFlat, $data);
                 }
@@ -332,10 +333,10 @@ class ContactsController extends Controller {
                     'Segmentación ABC', 'Segmentación Tipo Cliente', 
                     'Segmentación Tipo Producto', 'Segmentación Potencial a futuro', 
                     'Segmentación Relacion FNC', 
-                    'Responsables',
+                    'Responsables', 'e-mail responsables',
                 ));
 
-                $sheet->cells('A1:AO1', function($cells) {
+                $sheet->cells('A1:AP1', function($cells) {
                     $cells->setFontWeight('bold');
                     $cells->setBackground('#CCCCCC');
                 });
@@ -359,11 +360,27 @@ class ContactsController extends Controller {
         }
 
         $text = '';
+        $glue = ' - ';
 
         foreach ($contact->responsibles as $resp) {
-            $text .= $resp->lastname . ' ' . $resp->firstname . ' - ';
+            $text .= $resp->lastname . ' ' . $resp->firstname . $glue;
         }
 
-        return rtrim($text, ' - ');
+        return rtrim($text, $glue);
+    }
+
+    private function getEMailResponsibles($contact) {
+        if (is_null($contact) || $contact->responsibles->isEmpty()) {
+            return '';
+        }
+
+        $text = '';
+        $glue = ', ';
+
+        foreach ($contact->responsibles as $resp) {
+            $text .= $resp->email . $glue;
+        }
+
+        return rtrim($text, $glue);
     }
 }
