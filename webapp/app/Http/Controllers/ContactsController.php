@@ -312,7 +312,7 @@ class ContactsController extends Controller {
                         $this->getDesc($c->language), $this->getDesc($c->customer_since),
                         $this->getDesc($c->segmentation_ABC), $this->getDesc($c->segmentation_client_type), 
                         $this->getDesc($c->segmentation_product_type), $this->getDesc($c->segmentation_potential), 
-                        $this->getDesc($c->segmentation_FNC_relation));
+                        $this->getDesc($c->segmentation_FNC_relation), $this->getResponsibles($c));
 
                     array_push($contactsFlat, $data);
                 }
@@ -321,11 +321,10 @@ class ContactsController extends Controller {
                 $sheet->fromArray($contactsFlat, null, 'A1', false, false)->prependRow(array(
                     'Título', 'Apellido', 'Nombre', 'e-mail', 'Skype',
                     'Linked-In', 'Código consolidado', 'Código SAP', 'Código 10 digitos',
-                    'Cargo', 'Área', 'Empresa', 'Profesión',  
-                    'Teléfono oficina', 'Calle', 'Ciudad', 'Código Postal', 'Región / Estado', 'País', 
+                    'Cargo', 'Área', 'Empresa', 'Profesión', 'Teléfono oficina', 
+                    'Calle', 'Ciudad', 'Código Postal', 'Región / Estado', 'País', 
                     'Nos interesa realizar alguna acción', 'Tarjetas de Navidad', 
-                    'Regalos de Navidad', 'Newsletter', 
-                    'Boletín FNC', 
+                    'Regalos de Navidad', 'Newsletter', 'Boletín FNC', 
                     'Mercado', 'Tipo de socio', 'Area Agrupada', 
                     'Perfil', 'Nivel Educación', 'Talla', 
                     'Sexo', 'Rango de edad', 'De dónde proviene el negocio', 
@@ -333,9 +332,10 @@ class ContactsController extends Controller {
                     'Segmentación ABC', 'Segmentación Tipo Cliente', 
                     'Segmentación Tipo Producto', 'Segmentación Potencial a futuro', 
                     'Segmentación Relacion FNC', 
+                    'Responsables',
                 ));
 
-                $sheet->cells('A1:AN1', function($cells) {
+                $sheet->cells('A1:AO1', function($cells) {
                     $cells->setFontWeight('bold');
                     $cells->setBackground('#CCCCCC');
                 });
@@ -351,5 +351,19 @@ class ContactsController extends Controller {
 
     private function getDesc($obj, $prop = 'description') {
         return is_null($obj) ? '' : $obj->{$prop};
+    }
+
+    private function getResponsibles($contact) {
+        if (is_null($contact) || $contact->responsibles->isEmpty()) {
+            return '';
+        }
+
+        $text = '';
+
+        foreach ($contact->responsibles as $resp) {
+            $text .= $resp->lastname . ' ' . $resp->firstname . ' - ';
+        }
+
+        return rtrim($text, ' - ');
     }
 }
