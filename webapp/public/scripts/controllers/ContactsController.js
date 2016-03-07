@@ -7,6 +7,7 @@ angular.module('salesManager')
     .directive('tabs', TabDirective)
     .directive('pane', PaneDirective)
     .directive('booleanicon', BooleaniconDirective)
+    .directive('modal', ModalDirective)
     .controller('ContactsController', ContactsController);
 
 
@@ -46,6 +47,8 @@ function ContactsController($http, $scope, contactsService, entitiesService) {
     this.completenessPercentage = 0;
     this.nextEmptyPropertyPercentage = 0;
     this.nextEmptyPropertyName = '';
+
+    this.showConfirmationModal = false;
 
     var controller = this;
 
@@ -175,6 +178,29 @@ function ContactsController($http, $scope, contactsService, entitiesService) {
         this.contactSelected = this.contactSelectedOriginal;
         if (!this.contactSelected.id) {
             this.resetContactSelected();
+        }
+    }
+
+    this.showDeleteContactModal = function() {
+        this.showConfirmationModal = true;
+    }
+
+    this.hideDeleteContactModal = function() {
+        this.showConfirmationModal = false;
+    }
+
+    this.deleteContact = function() {
+        contactsService.deleteContact(this.contactSelected).then(this.onDeleteContactResult);
+    }
+
+    this.onDeleteContactResult = function(result) {
+        controller.showConfirmationModal = false;
+        if (result) {
+            controller.hideContactEdition();
+            contactsService.getContacts().then(onResultAssignProperty(controller, 'contacts'));
+            contactsService.getContactListCompleteness().then(onResultAssignProperty(controller, 'contactListCompleteness'));
+        } else {
+            alert('Ocurrio un error al eliminar el contacto.');   
         }
     }
 

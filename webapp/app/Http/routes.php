@@ -46,6 +46,5 @@ Route::group(array('prefix' => 'api'), function() {
     Route::resource('businessOrigins', 'BusinessOriginsController', $params);
     Route::resource('customerSince', 'CustomerSinceController', $params);
     Route::resource('users', 'UsersController', $params);
-    Route::resource('notifications', 'NotificationsController', $params);
 
 });

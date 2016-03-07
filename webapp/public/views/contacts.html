@@ -620,6 +620,9 @@
                                     </div>
                                 </pane>
                             </tabs>
+                            <footer class="pull-left">
+                                <a class="btn btn-link" ng-click="vm.showDeleteContactModal()">Eliminar</a>
+                            </footer>
                             <footer class="pull-right">
                                 <a class="btn btn-primary" 
                                     ng-click="vm.saveContactEdition(contactFormCtlr)"
@@ -632,4 +635,13 @@
             </div>
         </div>
     </div>
+
+    <modal title="Eliminar contacto" visible="vm.showConfirmationModal">
+        <p>Se eliminar&aacute; el contacto de forma permanente.</p>
+        <div class="modal-footer">
+            <a class="btn btn-primary" ng-click="vm.deleteContact()">Eliminar</a>
+            <a class="btn btn-default" ng-click="vm.hideDeleteContactModal()">Cancelar</a>
+        </div>
+    </modal>
+
 </div>

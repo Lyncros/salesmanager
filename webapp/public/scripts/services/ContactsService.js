@@ -45,6 +45,9 @@ function ContactsService($resource, $rootScope, $http) {
 	    	var params = this.buildParams();
 	    	return this.restContactListCompleteness.query(params).$promise.then(onSuccess, onError);
 	    },
+	    deleteContact: function(contact) {
+	    	return this.restContacts.delete({id: contact.id}).$promise.then(onSuccess, onError);
+	    },
 	    buildParams: function() {
 	    	var params = {};
 			if (! $rootScope.isAdmin()) {
