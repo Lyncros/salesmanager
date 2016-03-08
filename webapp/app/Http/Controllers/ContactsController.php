@@ -16,6 +16,7 @@ use App\GroupArea;
 use App\ContactInterest;
 use App\User;
 
+use JWTAuth;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ContactsController extends Controller {
@@ -108,9 +109,8 @@ class ContactsController extends Controller {
     }
 
     private function buildCreatorNameParam() {
-        $input = Request::all();
-        $newResponsibles = $input['responsibles'];
-        return $newResponsibles[0]['firstname'] . ' ' . $newResponsibles[0]['lastname'];
+        $user = JWTAuth::parseToken()->authenticate();
+        return $user->firstname . ' ' . $user->lastname;
     }
 
     private function buildDestinations() {
