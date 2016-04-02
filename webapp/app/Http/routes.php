@@ -19,12 +19,13 @@ Route::get('/', function () {
 // A route group allows us to have a prefix, in this case api
 Route::group(array('prefix' => 'api'), function() {
 
+    Route::get('applyInterestsAllContacts', 'ContactsController@applyInterestsAllContacts');
+
     Route::post('login', 'AuthenticateController@login');
     Route::get('propertyWeights', 'ContactsController@propertyWeights');
     Route::get('contactListCompleteness', 'ContactsController@contactListCompleteness');
     Route::get('contactsExport', 'ContactsController@export');
-
-    Route::get('applyInterestsAllContacts', 'ContactsController@applyInterestsAllContacts');
+    Route::get('contactInterestHit', 'ContactsController@contactInterestHit');
     
     $params = [ 'except' => ['edit', 'create'] ];
     Route::resource('contacts', 'ContactsController', $params);

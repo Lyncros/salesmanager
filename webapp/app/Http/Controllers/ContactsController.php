@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use Request;
 use Mail;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Request;
 
 use App\Contact;
 use App\PropertyWeight;
@@ -20,6 +20,10 @@ use JWTAuth;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ContactsController extends Controller {
+
+    protected function getAuthExceptMethods() {
+        return ['contactInterestHit'];
+    }
 
     public function applyInterestsAllContacts() {
         $with = array('group_area.interests', 'group_area.profile', 'interests');
@@ -43,6 +47,24 @@ class ContactsController extends Controller {
 
     private function echoContact($msg, $c) {
         echo $msg . ' ' . $c->firstname . ' ' . $c->lastname . ' [' . $c->id . ']' . '<br>';        
+    }
+
+    public function contactInterestHit(Request $request) {
+        $email = Request::input('email');
+        $idInterest = Request::input('interest');
+
+        dd($email . ' ' . $idInterest);
+
+        if ($email && $idInterest) {
+            $contact = Contact::where('email', $email)->first();
+
+            foreach ($contact->interests as $int) {
+                if ($int->id_interest == $idInterest) {
+                    $int->hits += 1;
+                    $int->save();
+                }
+            }
+        }
     }
     
     /**
