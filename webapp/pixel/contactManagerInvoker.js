@@ -19,15 +19,15 @@ function getEmail() {
     }
 }
 
-function invokeContactManagerInterestHit(interest) {
+function invokeContactManagerInterestHit(interests) {
     var email = getEmail();
 
     if (email) {
-        var queryParameters = 'email=' + email + '&' + 'interest=' + interest;
+        var urlParameters = url + '?email=' + email + '&' + 'interests=' + interests;
         
         invoker = window.XDomainRequest ? new window.XDomainRequest() : new XMLHttpRequest();
-        invoker.open('GET', url, true);
-        invoker.send(queryParameters);
+        invoker.open('GET', urlParameters, true);
+        invoker.send();
     }
 }
 
