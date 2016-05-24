@@ -51,16 +51,26 @@ class ContactsController extends Controller {
 
     public function contactInterestHit(Request $request) {
         $email = Request::input('email');
-        $interests = explode(',', Request::input('interests'));
+        $idInterestsHits = explode(',', Request::input('interests'));
 
-        if ($email && $interests) {
+        if ($email && $idInterestsHits) {
             $contact = Contact::where('email', $email)->first();
 
             foreach ($contact->interests as $int) {
-                if (in_array($int->id_interest, $interests)) {
+                if (in_array($int->id_interest, $idInterestsHits)) {
                     $int->hits += 1;
                     $int->save();
+
+                    $index = array_search($int->id_interest, $idInterestsHits);
+                    unset($idInterestsHits[$index]);
                 }
+            }
+
+            foreach ($idInterestsHits as $id_interest) {
+                $contactInterest = new ContactInterest();
+                $contactInterest->id_interest = $id_interest;
+                $contactInterest->hits = 1;
+                $contact->interests()->save($contactInterest);
             }
         }
     }
