@@ -50,6 +50,9 @@ class ContactsController extends Controller {
     }
 
     public function contactInterestHit(Request $request) {
+        header("Access-Control-Allow-Origin: *");
+        header('Access-Control-Allow-Credentials: true');
+        
         $email = Request::input('email');
         $idInterestsHits = explode(',', Request::input('interests'));
 
